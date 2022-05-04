@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid py-2">
+        <a class="navbar-brand" [routerLink]="['/']">GroupBy</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse me-auto" id="navbarNavAltMarkup">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" [routerLink]="['/']">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/groups']">Groups</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/projects']">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/admin']">Admin</a>
+                </li>
+            </ul>
+          
+            <div class="ms-auto">
+                <div class="btn-group mx-3">
+                    <button class="btn btn-outline-primary" type="button" *ngIf="!isLogged" [routerLink]="['/login']">Sign in</button>
+                    <button class="btn btn-outline-success" type="button" *ngIf="!isLogged" [routerLink]="['/register']">Sign up</button>
+                </div>
+
+                <a class="navbar-text" [routerLink]="['/']" *ngIf="isLogged">Hello {{name}}</a>
+                <button class="btn btn-outline-warning mx-3" type="button" *ngIf="isLogged" (click)="logout()">Sign out</button>
+            </div>
+        </div>
+
+    </div>
+</nav>

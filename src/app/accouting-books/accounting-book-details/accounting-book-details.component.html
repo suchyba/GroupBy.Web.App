@@ -1,0 +1,146 @@
+<div *ngIf="accountingBook">
+    <div class="row">
+        <!-- Accounting book head -->
+        <div class="col-12">
+            <div class="d-flex align-items-center">
+                <!-- accounting book name -->
+                <div class="row">
+                    <div class="col-12">
+                        <h3>{{accountingBook.name}} <span class="badge bg-secondary"
+                                *ngIf="accountingBook.locked">Locked</span><span class="badge bg-success"
+                                *ngIf="!accountingBook.locked">Unocked</span></h3>
+                        <p>Current balance: {{accountingBook.balance.toFixed(2)}}</p>
+                    </div>
+                </div>
+                <!-- Group link -->
+                <div class="row p-1 ms-auto">
+                    <div class="col-12 text-center">
+                        <h5>Group: {{accountingBook.relatedGroup.name}}</h5>
+                        <hr />
+                        <button class="btn btn-primary w-100"
+                            [routerLink]="['/groups', accountingBook.relatedGroup.id]">Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Records -->
+        <div class="mt-3">
+            <div class="row">
+                <div class="col-12 d-flex">
+                    <div class="btn-group">
+                        <button class="btn btn-success" [disabled]="accountingBook.locked" (click)="openFinancialIncomeRecordAddModal()">Add new income <i class="bi bi-box-arrow-in-down"></i></button>
+                        <button class="btn btn-success" [disabled]="accountingBook.locked" (click)="openFinancialOutcomeRecordAddModal()">Add new outcome <i class="bi bi-box-arrow-up"></i></button>
+                    </div>
+                </div>
+            </div>
+            <!-- getting data from api-->
+            <div class="d-flex justify-content-center">
+                <h4 *ngIf="records && records.length <= 0">No records</h4>
+                <div *ngIf="records === undefined" class="spinner-border" role="status"></div>
+            </div>
+            <div *ngIf="records && records.length > 0">
+                <table class="table table-striped table-hover small">
+                    <thead class="text-center">
+                        <tr>
+                            <th scope="colgroup" colspan="4" class="text-center border-0"></th>
+                            <th scope="colgroup" colspan="6" class="text-center">Income</th>
+                            <th scope="colgroup" colspan="2" class="text-center border-0"></th>
+                            <th scope="colgroup" colspan="9" class="text-center">Outcome</th>
+                        </tr>
+                        <tr>
+                            <!-- General -->
+                            <th scope="col">#</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">
+                                Description
+                                <hr class="my-0" />
+                                Document
+                            </th>
+                            <th scope="col">Project</th>
+
+                            <!-- Income -->
+                            <th scope="col">Membership fee</th>
+                            <th scope="col">Program fee</th>
+                            <th scope="col">Dotation</th>
+                            <th scope="col">Earning action</th>
+                            <th scope="col">1%</th>
+                            <th scope="col">Other</th>
+
+                            <th scope="col">Total income</th>
+                            <!-- Outcome -->
+                            <th scope="col">Total outcome</th>
+
+                            <th scope="col">Inventory</th>
+                            <th scope="col">Material</th>
+                            <th scope="col">Service</th>
+                            <th scope="col">Transport</th>
+                            <th scope="col">Insurance</th>
+                            <th scope="col">Accommodation</th>
+                            <th scope="col">Salary</th>
+                            <th scope="col">Food</th>
+                            <th scope="col">Other</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let record of records">
+                            <td>{{records.indexOf(record) + 1}}</td>
+                            <td>{{record.date.toLocaleDateString('en-US')}}</td>
+                            <td>
+                                {{record.description}}
+                                <hr class="my-0" />
+                                <a>{{record.relatedDocumentName}}</a>
+                            </td>
+                            <td><span class="badge bg-secondary"
+                                    *ngIf="record.relatedProjectName"><a>{{record.relatedProjectName}}</a></span></td>
+
+                            <td>{{record.membershipFee?.toFixed(2)}}</td>
+                            <td>{{record.programFee?.toFixed(2)}}</td>
+                            <td>{{record.dotation?.toFixed(2)}}</td>
+                            <td>{{record.earningAction?.toFixed(2)}}</td>
+                            <td>{{record.onePercent?.toFixed(2)}}</td>
+                            <td>{{record.otherIncome?.toFixed(2)}}</td>
+
+                            <td>{{record.otherIncome !== null ? record.total?.toFixed(2) : ''}}</td>
+                            <td>{{record.otherOutcome !== null ? record.total?.toFixed(2) : ''}}</td>
+
+                            <td>{{record.inventory?.toFixed(2)}}</td>
+                            <td>{{record.material?.toFixed(2)}}</td>
+                            <td>{{record.service?.toFixed(2)}}</td>
+                            <td>{{record.transport?.toFixed(2)}}</td>
+                            <td>{{record.insurance?.toFixed(2)}}</td>
+                            <td>{{record.accommodation?.toFixed(2)}}</td>
+                            <td>{{record.salary?.toFixed(2)}}</td>
+                            <td>{{record.food?.toFixed(2)}}</td>
+                            <td>{{record.otherOutcome?.toFixed(2)}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4">Sum</td>
+                            <td>{{membershipFeeTotal?.toFixed(2)}}</td>
+                            <td>{{programFeeTotal?.toFixed(2)}}</td>
+                            <td>{{dotationTotal?.toFixed(2)}}</td>
+                            <td>{{earningActionTotal?.toFixed(2)}}</td>
+                            <td>{{onePercentTotal?.toFixed(2)}}</td>
+                            <td>{{otherIncomeTotal?.toFixed(2)}}</td>
+
+                            <td>{{incomeTotal?.toFixed(2)}}</td>
+                            <td>{{outcomeTotal?.toFixed(2)}}</td>
+
+                            <td>{{inventoryTotal?.toFixed(2)}}</td>
+                            <td>{{materialTotal?.toFixed(2)}}</td>
+                            <td>{{serviceTotal?.toFixed(2)}}</td>
+                            <td>{{transportTotal?.toFixed(2)}}</td>
+                            <td>{{insuranceTotal?.toFixed(2)}}</td>
+                            <td>{{accommodationTotal?.toFixed(2)}}</td>
+                            <td>{{salaryTotal?.toFixed(2)}}</td>
+                            <td>{{foodTotal?.toFixed(2)}}</td>
+                            <td>{{otherOutcomeTotal?.toFixed(2)}}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

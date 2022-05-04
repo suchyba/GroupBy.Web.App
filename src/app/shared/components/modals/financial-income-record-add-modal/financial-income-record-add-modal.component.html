@@ -1,0 +1,183 @@
+<div class="m-2">
+    <div class="modal-header">
+        <div class="row flex-fill">
+            <div class="modal-title col-12">
+                <div class="d-flex">
+                    <h2>Add new financial income record</h2>
+                    <button type="button" class="btn btn-outline-secondary close pull-right ms-auto" aria-label="Close"
+                        (click)="bsModalRef.hide()">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-12">
+                <form [formGroup]="recordAddForm" (ngSubmit)="onSubmit()">
+                    <!-- Description -->
+                    <div class="form-floating mb-3">
+                        <input type="text" formControlName="description" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['description'].errors || error?.Email) }"
+                            placeholder="sample description" />
+                        <label for="description">Description*</label>
+
+                        <div *ngIf="submitted && fields['description'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['description'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Description" class="invalid-feedback">
+                            <div>{{error.Description}}</div>
+                        </div>
+                    </div>
+                    <!-- Date -->
+                    <div class="form-floating mb-3">
+                        <input type="date" formControlName="date" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['date'].errors || error?.Email) }"
+                            placeholder="date" />
+                        <label for="date">Date*</label>
+
+                        <div *ngIf="submitted && fields['date'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['date'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Date" class="invalid-feedback">
+                            <div>{{error.Date}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <!-- MembershipFee -->
+                            <div class="form-floating mb-3">
+                                <input type="number" formControlName="membershipFee" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && (fields['membershipFee'].errors || error?.MembershipFee) }"
+                                    placeholder="membership fee" />
+                                <label for="membershipFee">Membership fee</label>
+
+                                <div *ngIf="submitted && error?.MembershipFee" class="invalid-feedback">
+                                    <div>{{error.MembershipFee}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <!-- ProgramFee -->
+                            <div class="form-floating mb-3">
+                                <input type="number" formControlName="programFee" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && (fields['programFee'].errors || error?.ProgramFee) }"
+                                    placeholder="program fee" />
+                                <label for="programFee">Program fee</label>
+
+                                <div *ngIf="submitted && error?.ProgramFee" class="invalid-feedback">
+                                    <div>{{error.ProgramFee}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <!-- Dotation -->
+                            <div class="form-floating mb-3">
+                                <input type="number" formControlName="dotation" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && (fields['dotation'].errors || error?.Dotation) }"
+                                    placeholder="dotation" />
+                                <label for="dotation">Dotation</label>
+
+                                <div *ngIf="submitted && error?.Dotation" class="invalid-feedback">
+                                    <div>{{error.Dotation}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <!-- Earning action -->
+                            <div class="form-floating mb-3">
+                                <input type="number" formControlName="earningAction" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && (fields['earningAction'].errors || error?.EarningAction) }"
+                                    placeholder="earningAction" />
+                                <label for="earningAction">Earning action</label>
+
+                                <div *ngIf="submitted && error?.EarningAction" class="invalid-feedback">
+                                    <div>{{error.EarningAction}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <!-- 1% -->
+                            <div class="form-floating mb-3">
+                                <input type="number" formControlName="onePercent" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && (fields['onePercent'].errors || error?.OnePercent) }"
+                                    placeholder="onePercent" />
+                                <label for="onePercent">1%</label>
+
+                                <div *ngIf="submitted && error?.OnePercent" class="invalid-feedback">
+                                    <div>{{error.OnePercent}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <!-- Other -->
+                            <div class="form-floating mb-3">
+                                <input type="number" formControlName="other" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && (fields['other'].errors || error?.Other) }"
+                                    placeholder="other" />
+                                <label for="other">Other</label>
+
+                                <div *ngIf="submitted && error?.Other" class="invalid-feedback">
+                                    <div>{{error.Other}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Related project -->
+                    <div class="form-floating mb-3" aria-label="RelatedProject">
+                        <select id="relatedProjectSelect" class="form-select" formControlName="relatedProject"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['relatedProject'].errors || error?.RelatedProject) }">
+                            <option *ngFor="let relatedProject of projectList" [ngValue]="relatedProject.id">
+                                {{relatedProject.name}}</option>
+                            <option [ngValue]="undefined">-</option>
+                        </select>
+                        <label for="projectSelect">Project</label>
+
+                        <div *ngIf="submitted && error?.RelatedProject" class="invalid-feedback">
+                            <div>{{error.RelatedProject}}</div>
+                        </div>
+                    </div>
+                    <!-- Related document -->
+                    <div class="d-flex w-100 mb-3">
+                        <div class="form-floating me-2 flex-fill" aria-label="RelatedDocument">
+                            <select id="relatedDocumentSelect" class="form-select" formControlName="relatedDocument"
+                                [ngClass]="{ 'is-invalid': submitted && (fields['relatedDocument'].errors || error?.RelatedDocument) }"
+                                (change)="onRelatedDocumentChange()">
+                                <option *ngFor="let relatedDocument of documentList" [ngValue]="relatedDocument.id">
+                                    {{relatedDocument.name}}</option>
+                            </select>
+                            <label for="relatedDocumentSelect">Document*</label>
+
+                            <div *ngIf="submitted && fields['relatedDocument'].errors" class="invalid-feedback">
+                                <div *ngIf="fields['relatedDocument'].errors['required']">This field is required</div>
+                            </div>
+                            <div *ngIf="submitted && error?.RelatedDocument" class="invalid-feedback">
+                                <div>{{error.RelatedDocument}}</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-success ms-auto" (click)="openAccountingDocumentAddModal()">New</button>
+                    </div>
+                    <div class="row">
+                        <!-- Cancel button -->
+                        <div class="col-6">
+                            <button type="button" class="btn btn-lg btn-danger w-100" aria-label="Cancel"
+                                (click)="bsModalRef.hide()">
+                                Cancel
+                            </button>
+                        </div>
+                        <!-- Submit button -->
+                        <div class="col-6">
+                            <button [disabled]="loading" class="btn btn-lg btn-primary w-100" type="submit">
+                                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                Create
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Error box -->
+                    <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

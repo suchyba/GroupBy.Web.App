@@ -1,0 +1,27 @@
+<div class="d-flex flex-row p-3 bg-dark text-light rounded">
+  <h3 class="me-auto">
+    Your groups
+  </h3>
+  <button class="btn btn-success align-self-center me-3" (click)="openGroupAddModal()">Create</button>
+  <form class="align-self-center">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Search">
+      <div class="input-group-btn">
+        <button class="btn btn-primary" type="submit">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- No groups displayed -->
+<div class="d-flex justify-content-center mt-4">
+  <h4 *ngIf="groups != undefined && groups.length <= 0">You have no groups</h4>
+  <div *ngIf="groups === undefined" class="spinner-border" role="status"></div>
+</div>
+<!-- List of groups -->
+<div class="row">
+  <div *ngFor="let group of groups" class="col-md-3 my-3 d-flex align-items-stretch">
+    <app-group-thumbnail [group]="group" class="w-100"></app-group-thumbnail>
+  </div>
+</div>

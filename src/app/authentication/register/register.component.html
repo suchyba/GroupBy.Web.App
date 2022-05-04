@@ -1,0 +1,137 @@
+<div class="text-center mt-5">
+    <div class="mx-auto w-50">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <h3 class="h3 mb-3 fw-normal">Register</h3>
+
+            <div class="form-floating mb-3">
+                <input type="email" formControlName="email" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && (fields['email'].errors || error?.Email) }"
+                    placeholder="name@example.com" />
+                <label for="email">Email*</label>
+
+                <div *ngIf="submitted && fields['email'].errors" class="invalid-feedback">
+                    <div *ngIf="fields['email'].errors['required']">This field is required</div>
+                </div>
+                <div *ngIf="submitted && fields['email'].errors" class="invalid-feedback">
+                    <div *ngIf="fields['email'].errors['email']">This must be valid email address</div>
+                </div>
+                <div *ngIf="submitted && error?.Email" class="invalid-feedback">
+                    <div>{{error.Email}}</div>
+                </div>
+            </div>
+            <!-- USER INFORMATION AREA-->
+            <!-- First name -->
+            <div class="form-floating mb-3">
+                <input type="text" formControlName="firstName" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && (fields['firstName'].errors || error?.RelatedVolunteerFirstNames)}"
+                    placeholder="firstName" />
+                <label for="firstName">First name*</label>
+
+                <div *ngIf="submitted && fields['firstName'].errors" class="invalid-feedback">
+                    <div *ngIf="fields['firstName'].errors['required']">This field is required</div>
+                </div>
+                <div *ngIf="submitted && error?.RelatedVolunteerFirstNames" class="invalid-feedback">
+                    <div>{{error.RelatedVolunteerFirstNames}}</div>
+                </div>
+            </div>
+            <!-- Last name -->
+            <div class="form-floating mb-3">
+                <input type="text" formControlName="lastName" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && (fields['firstName'].errors || error?.RelatedVolunteerLastNames) }"
+                    placeholder="lastName" />
+                <label for="lastName">Last name*</label>
+
+                <div *ngIf="submitted && fields['lastName'].errors" class="invalid-feedback">
+                    <div *ngIf="fields['lastName'].errors['required']">This field is required</div>
+                </div>
+            </div>
+            <!-- Phone number -->
+            <div class="form-floating mb-3">
+                <input type="phone" formControlName="phone" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && (fields['phone'].errors || error?.RelatedVolunteerPhoneNumber)}"
+                    placeholder="phone" />
+                <label for="phone">Phone*</label>
+
+                <div *ngIf="submitted && fields['phone'].errors" class="invalid-feedback">
+                    <div *ngIf="fields['phone'].errors['required']">This field is required</div>
+                </div>
+                <div *ngIf="submitted && error?.RelatedVolunteerPhoneNumber" class="invalid-feedback">
+                    <div>{{error.RelatedVolunteerPhoneNumber}}</div>
+                </div>
+            </div>
+            <!-- Address -->
+            <div class="form-floating mb-3">
+                <input type="address" formControlName="address" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && fields['address'].errors }" placeholder="address" />
+                <label for="address">Address</label>
+
+                <div *ngIf="submitted && fields['address'].errors" class="invalid-feedback">
+                    <div *ngIf="fields['address'].errors['required']">This field is required</div>
+                </div>
+            </div>
+            <!-- Birth date -->
+            <div class="form-floating mb-3">
+                <input type="date" formControlName="birthDate" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && (fields['birthDate'].errors || error?.BirthDate) }"
+                    placeholder="birthDate" />
+                <label for="birthDate">Birth date*</label>
+
+                <div *ngIf="submitted && fields['birthDate'].errors" class="invalid-feedback">
+                    <div *ngIf="fields['birthDate'].errors['required']">This field is required</div>
+                </div>
+                <div *ngIf="submitted && error?.BirthDate" class="invalid-feedback">
+                    <div>{{error.BirthDate}}</div>
+                </div>
+            </div>
+            <!-- PASSWORD -->
+            <div class="form-floating mb-3">
+                <input type="password" formControlName="password" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && (fields['password'].errors || error?.Password)}"
+                    placeholder="Password" />
+                <label for="password">Password*</label>
+
+                <div *ngIf="submitted && fields['password'].errors" class="invalid-feedback">
+                    <div *ngIf="fields['password'].errors['required']">This field is required</div>
+                </div>
+                <div *ngIf="submitted && error?.Password" class="invalid-feedback">
+                    <div>{{error.Password}}</div>
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" formControlName="confirmPassword" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && fields['confirmPassword'].errors }"
+                    placeholder="confirmPassword" />
+                <label for="confirmPassword">Repate password*</label>
+
+                <div *ngIf="submitted && fields['confirmPassword'].errors" class="invalid-feedback">
+                    <div *ngIf="fields['confirmPassword'].errors['required']">This field is required</div>
+                </div>
+                <div *ngIf="fields['confirmPassword'].errors" class="invalid-feedback">
+                    <div *ngIf="fields['confirmPassword'].errors['comparation']">Passwords must be same</div>
+                </div>
+            </div>
+            <!-- Registration code -->
+            <h5>This code you should receive from your inviter</h5>
+            <div class="form-floating mb-3">
+                <input type="text" formControlName="registerCode" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && (fields['registerCode'].errors  || error?.RegistrationCode)}"
+                    placeholder="registerCode" />
+                <label for="registerCode">Registration code*</label>
+
+                <div *ngIf="submitted && fields['registerCode'].errors" class="invalid-feedback">
+                    <div *ngIf="fields['registerCode'].errors['required']">This field is required</div>
+                </div>
+                <div *ngIf="submitted && error?.RegistrationCode" class="invalid-feedback">
+                    <div>{{error.RegistrationCode}}</div>
+                </div>
+            </div>
+            <!-- Submit button -->
+            <button [disabled]="loading" class="btn btn-lg btn-primary w-100" type="submit">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Sign up
+            </button>
+            <!-- Error box -->
+            <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
+        </form>
+    </div>
+</div>

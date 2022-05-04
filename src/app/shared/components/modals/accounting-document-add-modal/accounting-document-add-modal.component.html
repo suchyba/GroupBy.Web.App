@@ -1,0 +1,86 @@
+<div class="m-2">
+    <div class="modal-header">
+        <div class="row flex-fill">
+            <div class="modal-title col-12">
+                <div class="d-flex">
+                    <h2>Add new accounting document</h2>
+                    <button type="button" class="btn btn-outline-secondary close pull-right ms-auto" aria-label="Close"
+                        (click)="bsModalRef.hide()">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-12">
+                <form [formGroup]="documentAddForm" (ngSubmit)="onSubmit()">
+                    <!-- Name -->
+                    <div class="form-floating mb-3">
+                        <input type="text" formControlName="name" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['name'].errors || error?.Email) }"
+                            placeholder="sample name" />
+                        <label for="name">Name*</label>
+
+                        <div *ngIf="submitted && fields['name'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['name'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Name" class="invalid-feedback">
+                            <div>{{error.Name}}</div>
+                        </div>
+                    </div>
+                    <!-- Project -->
+                    <div class="form-floating mb-3" aria-label="Project">
+                        <select id="projectSelect" class="form-select" formControlName="project"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['project'].errors || error?.Project) }">
+                            <option *ngFor="let project of projectList" [ngValue]="project.id">
+                                {{project.name}}</option>
+                            <option [ngValue]="undefined">-</option>
+                        </select>
+                        <label for="projectSelect">Project</label>
+
+                        <div *ngIf="submitted && error?.Project" class="invalid-feedback">
+                            <div>{{error.Project}}</div>
+                        </div>
+                    </div>
+                    <!-- Group -->
+                    <div class="form-floating mb-3" aria-label="Group">
+                        <select id="groupSelect" class="form-select" formControlName="group"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['group'].errors || error?.Group) }"
+                            (change)="refreshProjectList()">
+                            <option *ngFor="let group of groupList" [ngValue]="group.id">
+                                {{group.name}}</option>
+                        </select>
+                        <label for="groupSelect">Group*</label>
+
+                        <div *ngIf="submitted && fields['group'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['group'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Group" class="invalid-feedback">
+                            <div>{{error.Group}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Cancel button -->
+                        <div class="col-6">
+                            <button type="button" class="btn btn-lg btn-danger w-100" aria-label="Cancel"
+                                (click)="bsModalRef.hide()">
+                                Cancel
+                            </button>
+                        </div>
+                        <!-- Submit button -->
+                        <div class="col-6">
+                            <button [disabled]="loading" class="btn btn-lg btn-primary w-100" type="submit">
+                                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                Create
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Error box -->
+                    <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,139 @@
+<div class="m-2">
+    <div class="modal-header">
+        <div class="row flex-fill">
+            <div class="modal-title col-12">
+                <div class="d-flex">
+                    <h2>Add new project</h2>
+                    <button type="button" class="btn btn-outline-secondary close pull-right ms-auto" aria-label="Close"
+                        (click)="bsModalRef.hide()">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-12">
+                <form [formGroup]="projectAddForm" (ngSubmit)="onSubmit()">
+                    <!-- Name -->
+                    <div class="form-floating mb-3">
+                        <input type="text" formControlName="name" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['name'].errors || error?.Email) }"
+                            placeholder="sample name" />
+                        <label for="name">Name*</label>
+
+                        <div *ngIf="submitted && fields['name'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['name'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Name" class="invalid-feedback">
+                            <div>{{error.Name}}</div>
+                        </div>
+                    </div>
+                    <!-- Description -->
+                    <div class="form-floating mb-3">
+                        <input type="text" formControlName="description" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['description'].errors || error?.Description) }"
+                            placeholder="sample description" />
+                        <label for="description">Description*</label>
+
+                        <div *ngIf="submitted && fields['description'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['description'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Description" class="invalid-feedback">
+                            <div>{{error.Description}}</div>
+                        </div>
+                    </div>
+                    <!-- Begin date -->
+                    <div class="form-floating mb-3">
+                        <input type="date" formControlName="beginDate" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['beginDate'].errors || error?.BeginDate) }"
+                            placeholder="sample beginDate" />
+                        <label for="beginDate">Begin date</label>
+
+                        <div *ngIf="submitted && error?.BeginDate" class="invalid-feedback">
+                            <div>{{error.BeginDate}}</div>
+                        </div>
+                    </div>
+                    <!-- End date -->
+                    <div class="form-floating mb-3">
+                        <input type="date" formControlName="endDate" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['endDate'].errors || error?.EndDate) }"
+                            placeholder="sample endDate" />
+                        <label for="endDate">End date</label>
+
+                        <div *ngIf="submitted && error?.EndDate" class="invalid-feedback">
+                            <div>{{error.EndDate}}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <div class="form-check">
+                                <input type="checkbox" formControlName="active" class="form-check-input"
+                                    placeholder="sample active" />
+                                <label for="locked" class="form-check-label">Active</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-check">
+                                <input type="checkbox" formControlName="independent" class="form-check-input"
+                                    placeholder="sample independent" />
+                                <label for="locked" class="form-check-label">Independent</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Owner -->
+                    <div class="form-floating mb-3" aria-label="Owner">
+                        <select id="ownerSelect" class="form-select" formControlName="owner"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['owner'].errors || error?.Owner) }">
+                            <option *ngFor="let owner of ownerList" [ngValue]="owner.id">{{owner.firstNames}}
+                                {{owner.lastName}}</option>
+                        </select>
+                        <label for="ownerSelect">Owner*</label>
+
+                        <div *ngIf="submitted && fields['owner'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['owner'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Owner" class="invalid-feedback">
+                            <div>{{error.Owner}}</div>
+                        </div>
+                    </div>
+                    <!-- Parent group -->
+                    <div class="form-floating mb-3" aria-label="ParentGroup">
+                        <select id="parentGroupSelect" class="form-select" formControlName="parentGroup"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['parentGroup'].errors || error?.ParentGroup) }">
+                            <option *ngFor="let project of parentGroupList" [ngValue]="project.id">{{project.name}}
+                            </option>
+                        </select>
+                        <label for="parentGroupSelect">Parent project*</label>
+
+                        <div *ngIf="submitted && fields['parentGroup'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['parentGroup'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.ParentGroup" class="invalid-feedback">
+                            <div>{{error.ParentGroup}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Cancel button -->
+                        <div class="col-6">
+                            <button type="button" class="btn btn-lg btn-danger w-100" aria-label="Cancel"
+                                (click)="bsModalRef.hide()">
+                                Cancel
+                            </button>
+                        </div>
+                        <!-- Submit button -->
+                        <div class="col-6">
+                            <button [disabled]="loading" class="btn btn-lg btn-primary w-100" type="submit">
+                                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                Create
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Error box -->
+                    <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

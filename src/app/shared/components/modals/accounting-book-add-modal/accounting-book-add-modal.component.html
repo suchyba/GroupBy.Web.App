@@ -1,0 +1,103 @@
+<div class="m-2">
+    <div class="modal-header">
+        <div class="row flex-fill">
+            <div class="modal-title col-12">
+                <div class="d-flex">
+                    <h2>Add new accounting book</h2>
+                    <button type="button" class="btn btn-outline-secondary close pull-right ms-auto" aria-label="Close"
+                        (click)="bsModalRef.hide()">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-12">
+                <form [formGroup]="accountingBookAddForm" (ngSubmit)="onSubmit()">
+                    <!-- Book -->
+                    <div class="form-floating mb-3">
+                        <input type="number" formControlName="book" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['book'].errors || error?.Book) }"
+                            placeholder="sample book" />
+                        <label for="description">Book*</label>
+
+                        <div *ngIf="submitted && fields['book'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['book'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Book" class="invalid-feedback">
+                            <div>{{error.Book}}</div>
+                        </div>
+                    </div>
+                    <!-- Book order number -->
+                    <div class="form-floating mb-3">
+                        <input type="number" formControlName="bookOrderNumber" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['bookOrderNumber'].errors || error?.BookOrderNumber) }"
+                            placeholder="sample bookOrderNumber" />
+                        <label for="description">Book order number*</label>
+
+                        <div *ngIf="submitted && fields['bookOrderNumber'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['bookOrderNumber'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.BookOrderNumber" class="invalid-feedback">
+                            <div>{{error.BookOrderNumber}}</div>
+                        </div>
+                    </div>
+                    <!-- Name -->
+                    <div class="form-floating mb-3">
+                        <input type="text" formControlName="name" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['name'].errors || error?.Name) }"
+                            placeholder="sample name" />
+                        <label for="name">Name*</label>
+
+                        <div *ngIf="submitted && fields['name'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['name'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Name" class="invalid-feedback">
+                            <div>{{error.Name}}</div>
+                        </div>
+                    </div>
+                    <!-- Locked -->
+                    <div class="form-check mb-3">
+                        <input type="checkbox" formControlName="locked" class="form-check-input" placeholder="sample locked" />
+                        <label for="locked" class="form-check-label">Locked</label>
+                    </div>
+                    <!-- Related group -->
+                    <div class="form-floating mb-3" aria-label="RelatedGroup">
+                        <select id="relatedGroup" class="form-select" formControlName="relatedGroup"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['relatedGroup'].errors || error?.RelatedGroup) }">
+                            <option *ngFor="let group of groupList" [ngValue]="group.id">{{group.name}}</option>
+                        </select>
+                        <label for="relatedGroup">Related group*</label>
+
+                        <div *ngIf="submitted && fields['relatedGroup'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['relatedGroup'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.RelatedGroup" class="invalid-feedback">
+                            <div>{{error.RelatedGroup}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Cancel button -->
+                        <div class="col-6">
+                            <button type="button" class="btn btn-lg btn-danger w-100" aria-label="Cancel"
+                                (click)="bsModalRef.hide()">
+                                Cancel
+                            </button>
+                        </div>
+                        <!-- Submit button -->
+                        <div class="col-6">
+                            <button [disabled]="loading" class="btn btn-lg btn-primary w-100" type="submit">
+                                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                Create
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Error box -->
+                    <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

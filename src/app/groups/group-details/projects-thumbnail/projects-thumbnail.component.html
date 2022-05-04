@@ -1,0 +1,21 @@
+<div class="card text-light bg-dark p-2 h-100" width>
+    <div class="card-header">
+        <h5>
+            <i class="bi bi-flag-fill"></i>
+            {{project?.name}}
+        </h5>
+        <span *ngIf="project?.active" class="badge bg-success">Active</span>
+        <span *ngIf="project?.independent" class="badge bg-secondary">Independent</span>
+        <span *ngIf="endSoon()" class="badge bg-warning">Ends soon</span>
+        <span *ngIf="ended()" class="badge bg-danger">Ended</span>
+    </div>
+    <div class="card-body">
+        <p class="card-text">{{project?.description}} </p>
+    </div>
+    <div class="card-footer">
+        <div class="d-flex justify-content-between">
+            <a class="btn btn-primary">Details</a>
+            <a class="btn btn-outline-danger" *ngIf="canRemove"><i class="bi bi-trash"></i></a>
+        </div>
+    </div>
+</div>
