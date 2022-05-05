@@ -50,4 +50,4 @@ jobs:
           app-name: 'groupby'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_83CFD96FF1BE43CDBFDC335D01EE8599 }}
-          package: .
+          package: ./dist/group-app.web.app
