@@ -163,6 +163,56 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Accounting book -->
+                    <div class="row">
+                        <!-- BookId -->
+                        <div class="col-4">
+                            <div class="form-floating mb-3" aria-label="BookId">
+                                <select id="bookIdSelect" class="form-select" formControlName="bookId"
+                                    [ngClass]="{ 'is-invalid': submitted && (fields['bookId'].errors || error?.BookId) }"
+                                    (change)="onBookIdChange(fields['bookId'].value)">
+                                    <option *ngFor="let bookId of distinctBookId" [ngValue]="bookId">
+                                        {{bookId}}</option>
+                                </select>
+                                <label for="bookIdSelect">Book id*</label>
+
+                                <div *ngIf="submitted && fields['bookId'].errors" class="invalid-feedback">
+                                    <div *ngIf="fields['bookId'].errors['required']">This field is required</div>
+                                </div>
+                                <div *ngIf="submitted && error?.BookId" class="invalid-feedback">
+                                    <div>{{error.BookId}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- BookOrderNumber -->
+                        <div class="col-4">
+                            <div class="form-floating mb-3" aria-label="BookOrderNumber">
+                                <select id="bookOrderNumberSelect" class="form-select" formControlName="bookOrderNumber"
+                                    [ngClass]="{ 'is-invalid': submitted && (fields['bookOrderNumber'].errors || error?.BookOrderNumber) }">
+                                    <option *ngFor="let bookOrderNumber of distinctBookOrderNumber"
+                                        [ngValue]="bookOrderNumber">
+                                        {{bookOrderNumber}}</option>
+                                </select>
+                                <label for="bookOrderNumberSelect">Book order number*</label>
+
+                                <div *ngIf="submitted && fields['bookOrderNumber'].errors" class="invalid-feedback">
+                                    <div *ngIf="fields['bookOrderNumber'].errors['required']">This field is required
+                                    </div>
+                                </div>
+                                <div *ngIf="submitted && error?.BookOrderNumber" class="invalid-feedback">
+                                    <div>{{error.BookOrderNumber}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Book name -->
+                        <div class="col-4">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" placeholder="other"
+                                    [value]="getCurrAccBookName()" disabled />
+                                <label for="other">Book name</label>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Related project -->
                     <div class="form-floating mb-3" aria-label="RelatedProject">
                         <select id="relatedProjectSelect" class="form-select" formControlName="relatedProject"

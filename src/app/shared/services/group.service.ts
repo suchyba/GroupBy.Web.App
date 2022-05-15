@@ -36,7 +36,14 @@ export class GroupService {
   createGroup(group: ICreateGroup) {
     return this.http.post(`${environment.apiUrl}/api/group/add`, group)
   }
-  getAccountingDocuments(id: number) {
-    return this.http.get<ISimpleAccountingDocument[]>(`${environment.apiUrl}/api/group/${id}/accountingDocuments`)
+  getAccountingDocuments(groupId: number, projectId: number | undefined) {
+    if (projectId)
+      return this.http.get<ISimpleAccountingDocument[]>(`${environment.apiUrl}/api/group/${groupId}/accountingDocuments`, {
+        params: {
+          'project-id': projectId
+        }
+      })
+    else
+      return this.http.get<ISimpleAccountingDocument[]>(`${environment.apiUrl}/api/group/${groupId}/accountingDocuments`)
   }
 }

@@ -25,6 +25,12 @@ export const appRoutes: Routes = [
         canActivate: [AuthGuard]
     },
     {
+        path: 'projects',
+        loadChildren: () => import('./projects/projects.module')
+            .then(m => m.ProjectsModule),
+        canActivate: [AuthGuard]
+    },
+    {
         path: '',
         redirectTo: 'groups',
         pathMatch: 'full'

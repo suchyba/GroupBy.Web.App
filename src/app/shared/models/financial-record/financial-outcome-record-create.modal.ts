@@ -10,8 +10,8 @@ export interface ICreateFinancialOutcomeRecord {
     other: number,
     date: Date,
     description: string,
-    bookId: number,
-    bookOrderNumberId: number,
+    bookId: number | undefined,
+    bookOrderNumberId: number | undefined,
     relatedProjectId: number | undefined,
     relatedDocumentId: number | undefined
 }

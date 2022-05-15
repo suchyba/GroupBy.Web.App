@@ -15,4 +15,7 @@ export class FinancialIncomeRecordService {
   CreateFinancialIncomeRecord(record: ICreateFinancialIncomeRecord): Observable<IFinancialIncomeRecord> {
     return this.http.post<IFinancialIncomeRecord>(`${environment.apiUrl}/api/financialIncomeRecord/add`, record)
   }
+  GetFinancialIncomeRecord(id: number): Observable<IFinancialIncomeRecord> {
+    return this.http.get<IFinancialIncomeRecord>(`${environment.apiUrl}/api/financialIncomeRecord/${id}`)
+  }
 }

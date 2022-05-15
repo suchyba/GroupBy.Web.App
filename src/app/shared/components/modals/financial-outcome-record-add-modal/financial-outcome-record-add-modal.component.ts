@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { first } from 'rxjs/internal/operators/first';
+import { ISimpleAccountingBook } from 'src/app/shared/models/accounting-book/accounting-book-simple.model';
 import { ISimpleAccountingDocument } from 'src/app/shared/models/accounting-document/accounting-document-simple.model';
 import { ICreateFinancialOutcomeRecord } from 'src/app/shared/models/financial-record/financial-outcome-record-create.modal';
 import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
@@ -21,6 +22,10 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
   recordToCreate: ICreateFinancialOutcomeRecord | undefined
   projectList: ISimpleProject[] | undefined
   documentList: ISimpleAccountingDocument[] | undefined
+
+  accountingBookList: ISimpleAccountingBook[] | undefined
+  distinctBookId: number[] | undefined
+  distinctBookOrderNumber: number[] | undefined
   public group: ISimpleGroup | undefined
 
   recordAddForm: FormGroup
@@ -43,6 +48,8 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
     this.bsModalRef.setClass('modal-lg')
 
     this.recordAddForm = this.formBuilder.group({
+      bookId: [this.recordToCreate?.bookId, Validators.required],
+      bookOrderNumber: [this.recordToCreate?.bookOrderNumberId, Validators.required],
       description: ['', Validators.required],
       relatedProject: [this.recordToCreate?.relatedProjectId],
       relatedDocument: [this.recordToCreate?.relatedDocumentId, Validators.required],
@@ -66,19 +73,44 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
           this.projectList = this.projectList.filter(p => p.id === this.recordToCreate?.relatedProjectId)
       })
       this.groupService.getGroup(this.group.id).subscribe(g => {
-        if (g.relatedProject) {
+        // project list
+        if (g.relatedProject)
           this.projectList?.push(g.relatedProject)
 
+        if (g.relatedProject && !this.recordToCreate?.relatedProjectId) {
           // set related project as default
           if (this.recordToCreate)
             this.recordAddForm.controls['relatedProject'].setValue(g.relatedProject.id)
         }
+        else if (this.recordToCreate?.relatedProjectId) {
+          this.recordAddForm.controls['relatedProject'].setValue(this.recordToCreate?.relatedProjectId)
+          this.recordAddForm.controls['relatedProject'].disable()
+        }
         else
           this.recordAddForm.controls['relatedProject'].setValue(undefined)
+
+          // accounting book list
+          this.groupService.getAccountingBooks(g.id).subscribe(books => {
+            // only unlocked books
+            books = books.filter(b => !b.locked)
+  
+            this.accountingBookList = books
+            this.distinctBookId = books.map(b => b.bookId).filter((v, i, s) => s.indexOf(v) === i)
+            this.onBookIdChange(this.recordToCreate?.bookId)
+  
+            if (this.recordToCreate?.bookId) {
+              this.recordAddForm.controls['bookId'].disable()
+              this.recordAddForm.controls['bookId'].setValue(this.recordToCreate.bookId)
+            }
+            if (this.recordToCreate?.bookOrderNumberId) {
+              this.recordAddForm.controls['bookOrderNumber'].setValue(this.recordToCreate.bookOrderNumberId)
+            }
+            this.recordAddForm.controls['bookOrderNumber'].disable()
+          })
       })
 
       // document list
-      this.groupService.getAccountingDocuments(this.group.id).subscribe(d => {
+      this.groupService.getAccountingDocuments(this.group.id, this.recordToCreate.relatedProjectId).subscribe(d => {
         this.documentList = d
       })
     }
@@ -96,6 +128,8 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
     this.loading = true;
 
     if (this.recordToCreate) {
+      this.recordToCreate.bookId = this.fields['bookId'].value
+      this.recordToCreate.bookOrderNumberId = this.fields['bookOrderNumber'].value
       this.recordToCreate.relatedDocumentId = this.fields['relatedDocument'].value
       this.recordToCreate.relatedProjectId = this.fields['relatedProject'].value
       this.recordToCreate.date = this.fields['date'].value
@@ -137,6 +171,18 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
     }
   }
 
+  public onBookIdChange(currBookId: number | undefined): void {
+    if (currBookId) {
+      this.distinctBookOrderNumber = this.accountingBookList
+        ?.filter(b => b.bookId === currBookId)
+        .map(b => b.bookOrderNumberId)
+        .filter((v, i, s) => s.indexOf(v) === i)
+
+      this.fields['bookOrderNumber'].setValue(undefined)
+      this.fields['bookOrderNumber'].enable()
+    }
+  }
+
   get fields() { return this.recordAddForm.controls }
 
   openAccountingDocumentAddModal(): void {
@@ -147,7 +193,7 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
             name: "",
             filePath: "null",
             groupId: this.group?.id,
-            projectId: undefined
+            projectId: this.recordToCreate?.relatedProjectId
           }
         }
       })
@@ -160,5 +206,13 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
           }
         })
     }
+  }
+
+  public getCurrAccBookName(): string {
+    if (this.fields['bookId'].value && this.fields['bookOrderNumber'].value) {
+      return this.accountingBookList?.find(b => b.bookId === this.fields['bookId'].value && b.bookOrderNumberId === this.fields['bookOrderNumber'].value)?.name ?? ''
+    }
+    else
+      return ''
   }
 }
