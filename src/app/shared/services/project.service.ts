@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ISimpleAccountingDocument } from '../models/accounting-document/accounting-document-simple.model';
 import { ISimpleFinancialRecord } from '../models/financial-record/financial-record-simple.model';
 import { ICreateProject } from '../models/project/project-create.model';
 import { IProject } from '../models/project/project.model';
@@ -21,5 +22,8 @@ export class ProjectService {
   }
   getRelatedFinancialRecords(id: number): Observable<ISimpleFinancialRecord[]> {
     return this.http.get<ISimpleFinancialRecord[]>(`${environment.apiUrl}/api/project/${id}/financialRecords`)
+  }
+  getAccountingDocuments(id: number): Observable<ISimpleAccountingDocument[]> {
+    return this.http.get<ISimpleAccountingDocument[]>(`${environment.apiUrl}/api/project/${id}/accountingDocuments`)
   }
 }

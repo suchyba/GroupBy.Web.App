@@ -4,6 +4,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { AuthService } from 'src/app/shared/auth/auth.service';
 import { FinancialIncomeRecordAddModalComponent } from 'src/app/shared/components/modals/financial-income-record-add-modal/financial-income-record-add-modal.component';
 import { FinancialOutcomeRecordAddModalComponent } from 'src/app/shared/components/modals/financial-outcome-record-add-modal/financial-outcome-record-add-modal.component';
+import { ISimpleAccountingDocument } from 'src/app/shared/models/accounting-document/accounting-document-simple.model';
 import { ISimpleFinancialRecord } from 'src/app/shared/models/financial-record/financial-record-simple.model';
 import { IProject } from 'src/app/shared/models/project/project.model';
 import { FinancialIncomeRecordService } from 'src/app/shared/services/financial-income-record.service';
@@ -19,6 +20,9 @@ export class ProjectDetailsComponent implements OnInit {
   project: IProject | undefined
   financialRecords: ISimpleFinancialRecord[] | undefined = []
   volunteerId: number | undefined
+
+  accountingDocuments: ISimpleAccountingDocument[] | undefined | null = null
+  accountingDocumentsHidden: boolean = true
 
   constructor(
     private route: ActivatedRoute,
@@ -114,6 +118,26 @@ export class ProjectDetailsComponent implements OnInit {
         this.refreshFinancialRecords()
       })
     }
+  }
+
+  loadAccountingDocuments() {
+    this.accountingDocuments = undefined
+    if (this.project !== undefined) {
+      this.projectService.getAccountingDocuments(this.project.id).subscribe(apiAccountingDocuments => {
+        this.accountingDocuments = apiAccountingDocuments
+        this.accountingDocumentsHidden = false
+      })
+    }
+  }
+
+  hideAccountingDocuments() {
+    this.accountingDocumentsHidden = true
+  }
+
+  showAccountingDocuments() {
+    if (this.accountingDocuments === null)
+      this.loadAccountingDocuments()
+    this.accountingDocumentsHidden = false
   }
 
   redirectToAccountingBook(record: ISimpleFinancialRecord): void {
