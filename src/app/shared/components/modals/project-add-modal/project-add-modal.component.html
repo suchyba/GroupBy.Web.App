@@ -105,7 +105,7 @@
                             <option *ngFor="let project of parentGroupList" [ngValue]="project.id">{{project.name}}
                             </option>
                         </select>
-                        <label for="parentGroupSelect">Parent project*</label>
+                        <label for="parentGroupSelect">Parent group*</label>
 
                         <div *ngIf="submitted && fields['parentGroup'].errors" class="invalid-feedback">
                             <div *ngIf="fields['parentGroup'].errors['required']">This field is required</div>

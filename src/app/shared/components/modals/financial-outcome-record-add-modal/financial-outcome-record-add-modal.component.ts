@@ -89,24 +89,24 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
         else
           this.recordAddForm.controls['relatedProject'].setValue(undefined)
 
-          // accounting book list
-          this.groupService.getAccountingBooks(g.id).subscribe(books => {
-            // only unlocked books
-            books = books.filter(b => !b.locked)
-  
-            this.accountingBookList = books
-            this.distinctBookId = books.map(b => b.bookId).filter((v, i, s) => s.indexOf(v) === i)
-            this.onBookIdChange(this.recordToCreate?.bookId)
-  
-            if (this.recordToCreate?.bookId) {
-              this.recordAddForm.controls['bookId'].disable()
-              this.recordAddForm.controls['bookId'].setValue(this.recordToCreate.bookId)
-            }
-            if (this.recordToCreate?.bookOrderNumberId) {
-              this.recordAddForm.controls['bookOrderNumber'].setValue(this.recordToCreate.bookOrderNumberId)
-            }
-            this.recordAddForm.controls['bookOrderNumber'].disable()
-          })
+        // accounting book list
+        this.groupService.getAccountingBooks(g.id).subscribe(books => {
+          // only unlocked books
+          books = books.filter(b => !b.locked)
+
+          this.accountingBookList = books
+          this.distinctBookId = books.map(b => b.bookId).filter((v, i, s) => s.indexOf(v) === i)
+          this.onBookIdChange(this.recordToCreate?.bookId)
+
+          if (this.recordToCreate?.bookId) {
+            this.recordAddForm.controls['bookId'].disable()
+            this.recordAddForm.controls['bookId'].setValue(this.recordToCreate.bookId)
+          }
+          if (this.recordToCreate?.bookOrderNumberId) {
+            this.recordAddForm.controls['bookOrderNumber'].setValue(this.recordToCreate.bookOrderNumberId)
+          }
+          this.recordAddForm.controls['bookOrderNumber'].disable()
+        })
       })
 
       // document list
@@ -164,7 +164,7 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
           this.fields['relatedProject'].disable()
           this.fields['relatedProject'].setValue(d.relatedProject.id)
         }
-        else {
+        else if (!this.recordToCreate?.relatedProjectId) {
           this.fields['relatedProject'].enable()
         }
       })

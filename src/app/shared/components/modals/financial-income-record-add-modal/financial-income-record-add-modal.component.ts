@@ -158,7 +158,7 @@ export class FinancialIncomeRecordAddModalComponent implements OnInit {
           this.fields['relatedProject'].disable()
           this.fields['relatedProject'].setValue(d.relatedProject.id)
         }
-        else {
+        else if (!this.recordToCreate?.relatedProjectId) {
           this.fields['relatedProject'].enable()
         }
       })
