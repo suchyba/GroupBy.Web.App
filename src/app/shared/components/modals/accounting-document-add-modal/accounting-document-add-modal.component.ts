@@ -76,8 +76,9 @@ export class AccountingDocumentAddModalComponent implements OnInit {
         if (g.relatedProject) {
           this.projectList?.push(g.relatedProject)
         }
-
-        this.documentAddForm.controls['project'].setValue(undefined)
+        
+        if (!this.blockProject)
+          this.documentAddForm.controls['project'].setValue(undefined)
       })
     }
   }
