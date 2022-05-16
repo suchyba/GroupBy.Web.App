@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { AuthService } from 'src/app/shared/auth/auth.service';
+import { AccountingDocumentAddModalComponent } from 'src/app/shared/components/modals/accounting-document-add-modal/accounting-document-add-modal.component';
 import { FinancialIncomeRecordAddModalComponent } from 'src/app/shared/components/modals/financial-income-record-add-modal/financial-income-record-add-modal.component';
 import { FinancialOutcomeRecordAddModalComponent } from 'src/app/shared/components/modals/financial-outcome-record-add-modal/financial-outcome-record-add-modal.component';
 import { ISimpleAccountingDocument } from 'src/app/shared/models/accounting-document/accounting-document-simple.model';
@@ -19,6 +20,7 @@ import { ProjectService } from 'src/app/shared/services/project.service';
 export class ProjectDetailsComponent implements OnInit {
   project: IProject | undefined
   financialRecords: ISimpleFinancialRecord[] | undefined = []
+  financialRecordsTotal: number | undefined
   volunteerId: number | undefined
 
   accountingDocuments: ISimpleAccountingDocument[] | undefined | null = null
@@ -45,12 +47,20 @@ export class ProjectDetailsComponent implements OnInit {
   private refreshFinancialRecords() {
     if (this.project) {
       this.projectService.getRelatedFinancialRecords(this.project.id).subscribe(r => {
-        this.financialRecords = r;
+        this.financialRecords = r
+        this.financialRecordsTotal = 0
         this.financialRecords.forEach(r => {
-          r.date = new Date(r.date);
+          r.date = new Date(r.date)
+
+          if (this.financialRecordsTotal !== undefined) {
+            if (r.otherIncome !== undefined && r.otherIncome !== null)
+              this.financialRecordsTotal += r.total
+            else
+              this.financialRecordsTotal -= r.total
+          }
         });
         this.financialRecords.sort((r1, r2) => new Date(r1.date).getTime() - new Date(r2.date).getTime()).map(r => {
-          r.date = new Date(r.date);
+          r.date = new Date(r.date)
           return r;
         });
       });
@@ -110,6 +120,30 @@ export class ProjectDetailsComponent implements OnInit {
           relatedDocumentId: undefined,
           relatedProjectId: this.project?.id
         }
+      }
+    })
+    if (modal.onHidden) {
+      modal.onHidden.subscribe(() => {
+        this.accountingDocuments = undefined
+        this.loadAccountingDocuments()
+      })
+    }
+  }
+
+  openAccountingDocumentAddModal(): void {
+    let groupId: number = -1;
+    if (this.project)
+      groupId = this.project.projectGroup?.id ? this.project.projectGroup.id : this.project.parentGroup.id
+
+    let modal = this.modalService.show(AccountingDocumentAddModalComponent, {
+      initialState: {
+        documentToCreate: {
+          groupId: groupId,
+          name: "",
+          projectId: this.project?.id,
+          filePath: ""
+        },
+        blockProject: true
       }
     })
     if (modal.onHidden) {

@@ -103,6 +103,12 @@
                                                 (click)="redirectToAccountingBook(record)">Go to book</button></td>
                                     </tr>
                                 </tbody>
+                                <tfoot>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="fw-bold">Total: </td>
+                                    <td class="fw-bold">{{financialRecordsTotal?.toFixed(2)}}</td>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -127,7 +133,7 @@
                             <button class="btn btn-secondary" *ngIf="accountingDocuments && !accountingDocumentsHidden"
                                 (click)="loadAccountingDocuments()">Refresh</button>
                         </div>
-                        <button class="ms-auto btn btn-success" *ngIf="isOwner()">Add Accounting Document</button>
+                        <button class="ms-auto btn btn-success" *ngIf="isOwner()" (click)="openAccountingDocumentAddModal()">Add Accounting Document</button>
                     </div>
                 </div>
             </div>
@@ -142,9 +148,11 @@
                 <div class="col-12" *ngIf="accountingDocuments && accountingDocuments.length > 0">
                     <table class="table table-striped table-hover">
                         <thead>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Action</th>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let accountingDocument of accountingDocuments">

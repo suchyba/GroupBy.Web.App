@@ -19,6 +19,7 @@ export class AccountingDocumentAddModalComponent implements OnInit {
   projectList: ISimpleProject[] | undefined
   groupList: ISimpleGroup[] | undefined
   group: ISimpleGroup | undefined
+  blockProject: boolean = false;
 
   documentAddForm: FormGroup
   submitted: boolean = false
@@ -62,8 +63,14 @@ export class AccountingDocumentAddModalComponent implements OnInit {
       // project list
       this.groupService.getProjects(this.documentToCreate.groupId).subscribe(p => {
         this.projectList = p;
-        if (this.documentToCreate?.projectId)
+        if (this.documentToCreate?.projectId) {
           this.projectList = this.projectList.filter(p => p.id === this.documentToCreate?.projectId)
+
+          if (this.blockProject) {
+            this.documentAddForm.controls['project'].setValue(this.documentToCreate.projectId)
+            this.documentAddForm.controls['project'].disable()
+          }
+        }
       })
       this.groupService.getGroup(this.documentToCreate.groupId).subscribe(g => {
         if (g.relatedProject) {
@@ -80,7 +87,7 @@ export class AccountingDocumentAddModalComponent implements OnInit {
   onSubmit(): void {
 
     this.submitted = true;
-    
+
     // stop here if form is invalid
     if (this.documentAddForm.invalid) {
       console.log(this.documentAddForm)
@@ -98,7 +105,7 @@ export class AccountingDocumentAddModalComponent implements OnInit {
       this.accountingDocumentService.CreateAccountingDocument(this.documentToCreate)
         .subscribe({
           next: (d) => {
-            this.createdDocument = d 
+            this.createdDocument = d
             this.bsModalRef.hide()
           },
           error: (error) => {
