@@ -15,7 +15,7 @@
     <div class="card-footer">
         <div class="d-flex justify-content-between">
             <a class="btn btn-primary" [routerLink]="['/projects', project?.id]">Details</a>
-            <a class="btn btn-outline-danger" *ngIf="canRemove"><i class="bi bi-trash"></i></a>
+            <button class="btn btn-outline-danger" *ngIf="canRemove" (click)="removeProjectClick()"><i class="bi bi-trash"></i></button>
         </div>
     </div>
 </div>

@@ -20,6 +20,7 @@ import { AccountingDocumentAddModalComponent } from './shared/components/modals/
 import { FinancialOutcomeRecordAddModalComponent } from './shared/components/modals/financial-outcome-record-add-modal/financial-outcome-record-add-modal.component';
 import { AccountingBookAddModalComponent } from './shared/components/modals/accounting-book-add-modal/accounting-book-add-modal.component';
 import { ProjectAddModalComponent } from './shared/components/modals/project-add-modal/project-add-modal.component';
+import { ConfirmationYesNoModalComponent } from './shared/components/modals/confirmation-yes-no-modal/confirmation-yes-no-modal.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ProjectAddModalComponent } from './shared/components/modals/project-add
     AccountingDocumentAddModalComponent,
     FinancialOutcomeRecordAddModalComponent,
     AccountingBookAddModalComponent,
-    ProjectAddModalComponent
+    ProjectAddModalComponent,
+    ConfirmationYesNoModalComponent
   ],
   imports: [
     BrowserModule,

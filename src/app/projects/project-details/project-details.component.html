@@ -23,18 +23,18 @@
         <!-- owner -->
         <div class="col-3">
             <h5 class="text-center">Owner of the project <a class="bi bi-pencil-square" *ngIf="isOwner()"></a></h5>
-            <app-volunteer-thumbnail [volunteer]="project.owner" [canRemove]="false" class="w-100">
-            </app-volunteer-thumbnail>
+            <proj-volunteer-thumbnail [volunteer]="project.owner" [canRemove]="false" class="w-100">
+            </proj-volunteer-thumbnail>
         </div>
         <!-- parent group -->
         <div class="col-3" *ngIf="project.parentGroup">
             <h5 class="text-center">Parent group</h5>
-            <app-group-thumbnail [group]="project.parentGroup" class="w-100"></app-group-thumbnail>
+            <proj-group-thumbnail [group]="project.parentGroup" class="w-100"></proj-group-thumbnail>
         </div>
         <!-- project group -->
         <div class="col-3" *ngIf="project.projectGroup">
             <h5 class="text-center">Project group</h5>
-            <app-group-thumbnail [group]="project.projectGroup" class="w-100"></app-group-thumbnail>
+            <proj-group-thumbnail [group]="project.projectGroup" class="w-100"></proj-group-thumbnail>
         </div>
         <!-- inventory book -->
         <!-- <div class="col-3" *ngIf="isOwner()">

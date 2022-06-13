@@ -1,0 +1,28 @@
+<div class="m-2">
+    <div class="modal-header">
+        <div class="row flex-fill">
+            <div class="modal-title col-12">
+                <div class="d-flex">
+                    <h3>Confirmation</h3>
+                    <button type="button" class="btn btn-outline-secondary close pull-right ms-auto" aria-label="Close"
+                        (click)="bsModalRef.hide()">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-12">
+                <p class="text-center">{{message}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="d-flex w-100 justify-content-around">
+            <button class="btn btn-danger" (click)="cancelClick()">Cancel</button>
+            <button class="btn btn-success" (click)="okClick()">OK</button>
+        </div>
+    </div>
+</div>

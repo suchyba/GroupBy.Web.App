@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { first } from 'rxjs';
@@ -9,20 +9,19 @@ import { GroupService } from 'src/app/shared/services/group.service';
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 
 @Component({
-  selector: 'app-group-add-modal',
   templateUrl: './group-add-modal.component.html',
   styleUrls: ['./group-add-modal.component.css']
 })
 export class GroupAddModalComponent implements OnInit {
-  groupToCreate: ICreateGroup | undefined
-  parentGroupList: ISimpleGroup[] | undefined
-  ownerList: ISimpleVolunteer[] | undefined
+  @Input() groupToCreate: ICreateGroup | undefined
+  public parentGroupList: ISimpleGroup[] | undefined
+  public ownerList: ISimpleVolunteer[] | undefined
 
-  groupAddForm: FormGroup
-  submitted: boolean = false
-  loading: boolean = false
-  error: any
-  errorMessage: string = ''
+  public groupAddForm: FormGroup
+  public submitted: boolean = false
+  public loading: boolean = false
+  public error: any
+  public errorMessage: string = ''
 
   constructor(
     public bsModalRef: BsModalRef,

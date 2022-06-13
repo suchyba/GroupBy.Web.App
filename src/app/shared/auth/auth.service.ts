@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { RegisterDTO } from './register-dto';
-import { IUser } from './user.model';
+import { IRegister } from '../models/auth/register.model';
+import { IUser } from '../models/auth/user.model';
 
 @Injectable()
 export class AuthService {
@@ -21,7 +21,7 @@ export class AuthService {
       }))
   }
 
-  register(registerModel: RegisterDTO){
+  register(registerModel: IRegister){
     return this.http.post(`${environment.apiUrl}/api/authenticate/register`, registerModel);
   }
 

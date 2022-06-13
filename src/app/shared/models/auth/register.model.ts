@@ -1,4 +1,4 @@
-export interface RegisterDTO {
+export interface IRegister {
     Email: string,
     Password: string,
     RelatedVolunteerFirstNames: string,

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ISimpleVolunteer } from 'src/app/shared/models/volunteer/volunteer-simple.model';
 
 @Component({
-  selector: 'app-volunteer-thumbnail',
+  selector: 'group-volunteer-thumbnail',
   templateUrl: './volunteers-thumbnail.component.html',
   styleUrls: ['./volunteers-thumbnail.component.css']
 })

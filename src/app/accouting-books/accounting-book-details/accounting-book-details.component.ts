@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { FinancialIncomeRecordAddModalComponent } from 'src/app/shared/components/modals/financial-income-record-add-modal/financial-income-record-add-modal.component';
@@ -8,12 +8,17 @@ import { ISimpleFinancialRecord } from 'src/app/shared/models/financial-record/f
 import { AccountingBookService } from 'src/app/shared/services/accounting-book.service';
 
 @Component({
-  selector: 'app-accounting-book-details',
   templateUrl: './accounting-book-details.component.html',
   styleUrls: ['./accounting-book-details.component.css']
 })
 export class AccountingBookDetailsComponent implements OnInit {
-  accountingBook: IAccountingBook | undefined
+  private _accountingBook: IAccountingBook | undefined;
+  public get accountingBook(): IAccountingBook | undefined {
+    return this._accountingBook;
+  }
+  private set accountingBook(value: IAccountingBook | undefined) {
+    this._accountingBook = value;
+  }
 
   membershipFeeTotal: number | undefined
   programFeeTotal: number | undefined

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { AuthService } from 'src/app/shared/auth/auth.service';
@@ -18,13 +18,13 @@ import { ProjectService } from 'src/app/shared/services/project.service';
   styleUrls: ['./project-details.component.css']
 })
 export class ProjectDetailsComponent implements OnInit {
-  project: IProject | undefined
-  financialRecords: ISimpleFinancialRecord[] | undefined = []
-  financialRecordsTotal: number | undefined
-  volunteerId: number | undefined
+  @Input() project: IProject | undefined
+  public financialRecords: ISimpleFinancialRecord[] | undefined = []
+  public financialRecordsTotal: number | undefined
+  public volunteerId: number | undefined
 
-  accountingDocuments: ISimpleAccountingDocument[] | undefined | null = null
-  accountingDocumentsHidden: boolean = true
+  public accountingDocuments: ISimpleAccountingDocument[] | undefined | null = null
+  public accountingDocumentsHidden: boolean = true
 
   constructor(
     private route: ActivatedRoute,

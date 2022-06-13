@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { AuthService } from 'src/app/shared/auth/auth.service';
@@ -6,12 +6,11 @@ import { GroupAddModalComponent } from 'src/app/shared/components/modals/group-a
 import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
 
 @Component({
-  selector: 'app-groups-list',
   templateUrl: './groups-list.component.html',
   styleUrls: ['./groups-list.component.css']
 })
 export class GroupsListComponent implements OnInit {
-  groups: ISimpleGroup[] | undefined
+  @Input() groups: ISimpleGroup[] | undefined
   constructor(
     private route: ActivatedRoute,
     private modalService: BsModalService,

@@ -39,26 +39,26 @@
         <!-- owner -->
         <div class="col-3">
             <h5 class="text-center">Owner of the group <a class="bi bi-pencil-square" *ngIf="isOwner()"></a></h5>
-            <app-volunteer-thumbnail [volunteer]="group.owner" [canRemove]="false" class="w-100">
-            </app-volunteer-thumbnail>
+            <group-volunteer-thumbnail [volunteer]="group.owner" [canRemove]="false" class="w-100">
+            </group-volunteer-thumbnail>
         </div>
         <!-- parent group -->
         <div class="col-3" *ngIf="group.parentGroup">
             <h5 class="text-center">Parent group</h5>
-            <app-group-thumbnail [group]="group.parentGroup" class="w-100"></app-group-thumbnail>
+            <group-group-thumbnail [group]="group.parentGroup" class="w-100"></group-group-thumbnail>
         </div>
         <!-- related project -->
         <div class="col-3" *ngIf="group.relatedProject">
             <h5 class="text-center">Group's project</h5>
-            <app-projects-thumbnail [project]="group.relatedProject" [canRemove]="false" class="w-100">
-            </app-projects-thumbnail>
+            <group-projects-thumbnail [project]="group.relatedProject" [canRemove]="false" class="w-100">
+            </group-projects-thumbnail>
         </div>
         <!-- inventory book -->
         <div class="col-3" *ngIf="isOwner()">
             <h5 class="text-center">Group's inventory book</h5>
-            <app-inventory-book-thumbnail [inventoryBook]="group.inventoryBook" class="w-100"
+            <group-inventory-book-thumbnail [inventoryBook]="group.inventoryBook" class="w-100"
                 *ngIf="group.inventoryBook">
-            </app-inventory-book-thumbnail>
+            </group-inventory-book-thumbnail>
             <button class="btn btn-outline-success h-100 w-100" [routerLink]="" *ngIf="!group.inventoryBook">
                 <div class="row h-100">
                     <div class="col-12 d-flex justify-content-center">
@@ -89,8 +89,8 @@
                     <!-- List of groups -->
                     <div class="row">
                         <div *ngFor="let group of childGroups" class="col-md-3 my-3 d-flex align-items-stretch">
-                            <app-group-thumbnail [group]="group" [canRemove]="isOwner()" class="w-100">
-                            </app-group-thumbnail>
+                            <group-group-thumbnail [group]="group" [canRemove]="isOwner()" class="w-100">
+                            </group-group-thumbnail>
                         </div>
                     </div>
                 </div>
@@ -127,8 +127,8 @@
                 <div class="col-12">
                     <div class="row" *ngIf="members && members.length > 0">
                         <div *ngFor="let member of members" class="col-md-3 my-3 d-flex align-items-stretch">
-                            <app-volunteer-thumbnail [volunteer]="member" [canRemove]="isOwner()" class="w-100">
-                            </app-volunteer-thumbnail>
+                            <group-volunteer-thumbnail [volunteer]="member" [canRemove]="isOwner()" class="w-100">
+                            </group-volunteer-thumbnail>
                         </div>
                     </div>
                 </div>
@@ -163,8 +163,8 @@
                 <div class="col-12" *ngIf="!projectsHidden">
                     <div class="row" *ngIf="projects && projects.length > 0">
                         <div *ngFor="let project of projects" class="col-md-3 my-3 d-flex align-items-stretch">
-                            <app-projects-thumbnail [project]="project" [canRemove]="isOwner()" class="w-100">
-                            </app-projects-thumbnail>
+                            <group-projects-thumbnail [project]="project" [canRemove]="isOwner()" class="w-100">
+                            </group-projects-thumbnail>
                         </div>
                     </div>
                 </div>

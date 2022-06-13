@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { first } from 'rxjs/internal/operators/first';
@@ -10,20 +10,19 @@ import { ProjectService } from 'src/app/shared/services/project.service';
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 
 @Component({
-  selector: 'app-project-add-modal',
   templateUrl: './project-add-modal.component.html',
   styleUrls: ['./project-add-modal.component.css']
 })
 export class ProjectAddModalComponent implements OnInit {
-  projectToCreate: ICreateProject | undefined
-  parentGroupList: ISimpleGroup[] | undefined
-  ownerList: ISimpleVolunteer[] | undefined
+  @Input() projectToCreate: ICreateProject | undefined
+  public parentGroupList: ISimpleGroup[] | undefined
+  public ownerList: ISimpleVolunteer[] | undefined
 
-  projectAddForm: FormGroup
-  submitted: boolean = false
-  loading: boolean = false
-  error: any
-  errorMessage: string = ''
+  public projectAddForm: FormGroup
+  public submitted: boolean = false
+  public loading: boolean = false
+  public error: any
+  public errorMessage: string = ''
 
   constructor(
     public bsModalRef: BsModalRef,

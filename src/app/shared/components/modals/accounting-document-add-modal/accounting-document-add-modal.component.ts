@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { first } from 'rxjs/internal/operators/first';
@@ -10,24 +10,23 @@ import { AccountingDocumentService } from 'src/app/shared/services/accounting-do
 import { GroupService } from 'src/app/shared/services/group.service';
 
 @Component({
-  selector: 'app-accounting-document-add-modal',
   templateUrl: './accounting-document-add-modal.component.html',
   styleUrls: ['./accounting-document-add-modal.component.css']
 })
 export class AccountingDocumentAddModalComponent implements OnInit {
-  documentToCreate: ICreateAccountingDocument | undefined
-  projectList: ISimpleProject[] | undefined
-  groupList: ISimpleGroup[] | undefined
-  group: ISimpleGroup | undefined
-  blockProject: boolean = false;
+  @Input() documentToCreate: ICreateAccountingDocument | undefined
+  @Output() createdDocument: IAccountingDocument | undefined
+  
+  public projectList: ISimpleProject[] | undefined
+  public groupList: ISimpleGroup[] | undefined
+  public group: ISimpleGroup | undefined
+  public blockProject: boolean = false;
 
-  documentAddForm: FormGroup
-  submitted: boolean = false
-  loading: boolean = false
-  error: any
-  errorMessage: string = ''
-
-  createdDocument: IAccountingDocument | undefined
+  public documentAddForm: FormGroup
+  public submitted: boolean = false
+  public loading: boolean = false
+  public error: any
+  public errorMessage: string = ''
 
   constructor(
     public bsModalRef: BsModalRef,

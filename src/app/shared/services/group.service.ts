@@ -46,4 +46,7 @@ export class GroupService {
     else
       return this.http.get<ISimpleAccountingDocument[]>(`${environment.apiUrl}/api/group/${groupId}/accountingDocuments`)
   }
+  deleteGroup(id: number): Observable<Object> {
+    return this.http.delete(`${environment.apiUrl}/api/group/delete/${id}`)
+  }
 }

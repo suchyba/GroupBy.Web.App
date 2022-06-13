@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { AuthService } from 'src/app/shared/auth/auth.service';
@@ -15,21 +15,20 @@ import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 import { AccountingBooksListComponentModal } from '../group-details/accounting-books-list-modal/accounting-books-list-modal.component';
 
 @Component({
-  selector: 'app-group-details',
   templateUrl: './group-details.component.html',
   styleUrls: ['./group-details.component.css']
 })
 export class GroupDetailsComponent implements OnInit {
-  group: IGroup | undefined
-  childGroups: ISimpleGroup[] | undefined
-  volunteerId: number | undefined
-  accountingBooks: ISimpleAccountingBook[] | undefined
+  @Input() group: IGroup | undefined
+  @Input() childGroups: ISimpleGroup[] | undefined
+  @Input() volunteerId: number | undefined
+  @Input() accountingBooks: ISimpleAccountingBook[] | undefined
 
-  members: ISimpleVolunteer[] | undefined | null = null
-  membersHidden: boolean = true;
+  @Input() members: ISimpleVolunteer[] | undefined | null = null
+  public membersHidden: boolean = true;
 
-  projects: ISimpleProject[] | undefined | null = null
-  projectsHidden: boolean = true;
+  @Input() projects: ISimpleProject[] | undefined | null = null
+  public projectsHidden: boolean = true;
 
   constructor(
     private route: ActivatedRoute,

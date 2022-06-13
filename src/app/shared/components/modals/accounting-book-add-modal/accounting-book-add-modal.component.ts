@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { first } from 'rxjs';
@@ -10,19 +10,18 @@ import { GroupService } from 'src/app/shared/services/group.service';
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 
 @Component({
-  selector: 'app-accounting-book-add-modal',
   templateUrl: './accounting-book-add-modal.component.html',
   styleUrls: ['./accounting-book-add-modal.component.css']
 })
 export class AccountingBookAddModalComponent implements OnInit {
-  bookToCreate: ICreateAccountingBook | undefined
-  groupList: ISimpleGroup[] | undefined
+  @Input() bookToCreate: ICreateAccountingBook | undefined
+  public groupList: ISimpleGroup[] | undefined
 
-  accountingBookAddForm: FormGroup
-  submitted: boolean = false
-  loading: boolean = false
-  error: any
-  errorMessage: string = ''
+  public accountingBookAddForm: FormGroup
+  public submitted: boolean = false
+  public loading: boolean = false
+  public error: any
+  public errorMessage: string = ''
 
   constructor(
     public bsModalRef: BsModalRef,

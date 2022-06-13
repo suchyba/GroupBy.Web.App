@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { first } from 'rxjs/internal/operators/first';
@@ -19,20 +19,20 @@ import { AccountingDocumentAddModalComponent } from '../accounting-document-add-
   styleUrls: ['./financial-income-record-add-modal.component.css']
 })
 export class FinancialIncomeRecordAddModalComponent implements OnInit {
-  recordToCreate: ICreateFinancialIncomeRecord | undefined
-  projectList: ISimpleProject[] | undefined
-  documentList: ISimpleAccountingDocument[] | undefined
+  @Input() recordToCreate: ICreateFinancialIncomeRecord | undefined
+  public projectList: ISimpleProject[] | undefined
+  public documentList: ISimpleAccountingDocument[] | undefined
 
-  accountingBookList: ISimpleAccountingBook[] | undefined
-  distinctBookId: number[] | undefined
-  distinctBookOrderNumber: number[] | undefined
+  public accountingBookList: ISimpleAccountingBook[] | undefined
+  public distinctBookId: number[] | undefined
+  public distinctBookOrderNumber: number[] | undefined
   public group: ISimpleGroup | undefined
 
-  recordAddForm: FormGroup
-  submitted: boolean = false
-  loading: boolean = false
-  error: any
-  errorMessage: string = ''
+  public recordAddForm: FormGroup
+  public submitted: boolean = false
+  public loading: boolean = false
+  public error: any
+  public errorMessage: string = ''
 
   constructor(
     public bsModalRef: BsModalRef,

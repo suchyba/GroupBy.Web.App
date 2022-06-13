@@ -11,7 +11,7 @@
     <div class="card-footer">
         <div class="d-flex justify-content-between mt-2">
             <a class="btn btn-primary" [routerLink]="['/groups', group?.id]">Details</a>
-            <a class="btn btn-outline-danger" *ngIf="canRemove"><i class="bi bi-trash"></i></a>
+            <a class="btn btn-outline-danger" *ngIf="canRemove" (click)="removeGroupClick()"><i class="bi bi-trash"></i></a>
         </div>
     </div>
 </div>

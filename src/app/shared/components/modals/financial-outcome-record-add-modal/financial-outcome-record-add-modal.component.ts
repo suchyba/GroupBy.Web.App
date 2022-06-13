@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { first } from 'rxjs/internal/operators/first';
@@ -14,25 +14,24 @@ import { GroupService } from 'src/app/shared/services/group.service';
 import { AccountingDocumentAddModalComponent } from '../accounting-document-add-modal/accounting-document-add-modal.component';
 
 @Component({
-  selector: 'app-financial-outcome-record-add-modal',
   templateUrl: './financial-outcome-record-add-modal.component.html',
   styleUrls: ['./financial-outcome-record-add-modal.component.css']
 })
 export class FinancialOutcomeRecordAddModalComponent implements OnInit {
-  recordToCreate: ICreateFinancialOutcomeRecord | undefined
-  projectList: ISimpleProject[] | undefined
-  documentList: ISimpleAccountingDocument[] | undefined
+  @Input() recordToCreate: ICreateFinancialOutcomeRecord | undefined
+  public projectList: ISimpleProject[] | undefined
+  public documentList: ISimpleAccountingDocument[] | undefined
 
-  accountingBookList: ISimpleAccountingBook[] | undefined
-  distinctBookId: number[] | undefined
-  distinctBookOrderNumber: number[] | undefined
+  public accountingBookList: ISimpleAccountingBook[] | undefined
+  public distinctBookId: number[] | undefined
+  public distinctBookOrderNumber: number[] | undefined
   public group: ISimpleGroup | undefined
 
-  recordAddForm: FormGroup
-  submitted: boolean = false
-  loading: boolean = false
-  error: any
-  errorMessage: string = ''
+  public recordAddForm: FormGroup
+  public submitted: boolean = false
+  public loading: boolean = false
+  public error: any
+  public errorMessage: string = ''
 
   constructor(
     public bsModalRef: BsModalRef,

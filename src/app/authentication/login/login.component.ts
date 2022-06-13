@@ -1,20 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../shared/auth/auth.service';
 import { first } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  returnUrl: string = '/'
-  loginForm: FormGroup
-  submitted: boolean = false
-  loading: boolean = false
-  error: string = ''
+  @Input() returnUrl: string = '/'
+  public loginForm: FormGroup
+  public submitted: boolean = false
+  public loading: boolean = false
+  public error: string = ''
 
   constructor(
     private formBuilder: FormBuilder,

@@ -20,8 +20,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     ModalModule.forRoot()
   ],
   providers: [
-    AccountingBookDetailsResolver,
-
+    AccountingBookDetailsResolver
   ]
 })
 export class AccountingBooksModule { }

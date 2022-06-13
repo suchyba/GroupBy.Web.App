@@ -5,16 +5,15 @@ import { first } from 'rxjs';
 import { AuthService } from 'src/app/shared/auth/auth.service';
 
 @Component({
-  selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  registerForm: FormGroup
-  submitted: boolean = false
-  loading: boolean = false
-  error: any
-  errorMessage: string = ''
+  public registerForm: FormGroup
+  public submitted: boolean = false
+  public loading: boolean = false
+  public error: any
+  public errorMessage: string = ''
 
   constructor(
     private formBuilder: FormBuilder,
