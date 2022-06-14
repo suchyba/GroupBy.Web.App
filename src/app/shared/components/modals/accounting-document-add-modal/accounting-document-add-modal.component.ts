@@ -90,7 +90,6 @@ export class AccountingDocumentAddModalComponent implements OnInit {
 
     // stop here if form is invalid
     if (this.documentAddForm.invalid) {
-      console.log(this.documentAddForm)
       return;
     }
 

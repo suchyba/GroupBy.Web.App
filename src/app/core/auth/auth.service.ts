@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { IRegister } from '../models/auth/register.model';
-import { IUser } from '../models/auth/user.model';
+import { IRegister } from '../../shared/models/auth/register.model';
+import { IUser } from '../../shared/models/auth/user.model';
 
 @Injectable()
 export class AuthService {

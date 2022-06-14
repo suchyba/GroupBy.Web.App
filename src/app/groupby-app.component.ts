@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'groupby-app',
+  selector: 'app-groupby',
   templateUrl: './groupby-app.component.html',
   styleUrls: ['./groupby-app.component.css']
 })

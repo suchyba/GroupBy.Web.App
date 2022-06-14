@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthService } from 'src/app/shared/auth/auth.service';
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { IGroup } from '../models/group/group.model';
 import { ISimpleGroup } from '../models/group/group-simple.model';

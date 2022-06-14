@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs';
-import { AuthService } from 'src/app/shared/auth/auth.service';
+import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Component({
   templateUrl: './register.component.html',

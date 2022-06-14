@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { first } from 'rxjs';
-import { AuthService } from 'src/app/shared/auth/auth.service';
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { ICreateAccountingBook } from 'src/app/shared/models/accounting-book/accounting-book-create.model';
 import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
 import { AccountingBookService } from 'src/app/shared/services/accounting-book.service';
@@ -89,7 +89,6 @@ export class AccountingBookAddModalComponent implements OnInit {
         error: (error) => {
           this.error = error;
           if (error) {
-            console.log(error[""])
             this.errorMessage = error[""]
           }
           this.loading = false;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../shared/auth/auth.service';
-import { VolunteerService } from '../shared/services/volunteer.service';
+import { AuthService } from '../auth/auth.service';
+import { VolunteerService } from '../../shared/services/volunteer.service';
 
 @Component({
   selector: 'app-nav',

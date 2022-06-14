@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { AuthService } from 'src/app/shared/auth/auth.service';
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { AccountingBookAddModalComponent } from 'src/app/shared/components/modals/accounting-book-add-modal/accounting-book-add-modal.component';
 import { GroupAddModalComponent } from 'src/app/shared/components/modals/group-add-modal/group-add-modal.component';
 import { ProjectAddModalComponent } from 'src/app/shared/components/modals/project-add-modal/project-add-modal.component';
