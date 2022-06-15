@@ -10,7 +10,7 @@ import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 
 @Injectable()
-export class GroupsListResolver implements Resolve<ISimpleGroup[] | undefined> {
+export class GroupListResolver implements Resolve<ISimpleGroup[] | undefined> {
 
   constructor(private volunteerService: VolunteerService, private authService: AuthService) {
 

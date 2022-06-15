@@ -5,11 +5,11 @@ import { ISimpleProject } from 'src/app/shared/models/project/project-simple.mod
 import { ProjectService } from 'src/app/shared/services/project.service';
 
 @Component({
-  selector: 'group-projects-thumbnail',
-  templateUrl: './projects-thumbnail.component.html',
-  styleUrls: ['./projects-thumbnail.component.css']
+  selector: 'group-project-thumbnail',
+  templateUrl: './project-thumbnail.component.html',
+  styleUrls: ['./project-thumbnail.component.css']
 })
-export class ProjectsThumbnailComponent implements OnInit {
+export class ProjectThumbnailComponent implements OnInit {
   @Input() project: ISimpleProject | undefined
   @Input() canRemove: boolean | undefined
 
@@ -63,7 +63,7 @@ export class ProjectsThumbnailComponent implements OnInit {
       this.openConfirmation(this.removeProject)
   }
 
-  removeProject(object: ProjectsThumbnailComponent): void {
+  removeProject(object: ProjectThumbnailComponent): void {
     if (object.project?.id)
       object.projectService.deleteProject(object.project.id).subscribe(result => {
         

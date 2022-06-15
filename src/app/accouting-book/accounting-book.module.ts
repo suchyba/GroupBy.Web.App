@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { AccountingBooksRoutes } from './accounting-books.routes';
+import { AccountingBooksRoutes } from './accounting-book.routes';
 import { AccountingBookDetailsComponent } from './accounting-book-details/accounting-book-details.component';
 import { AccountingBookDetailsResolver } from './accounting-book-details/accounting-book-details.resolver';
 import { CollapseModule } from 'ngx-bootstrap/collapse';

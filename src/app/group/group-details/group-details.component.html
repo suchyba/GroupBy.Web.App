@@ -50,8 +50,8 @@
         <!-- related project -->
         <div class="col-3" *ngIf="group.relatedProject">
             <h5 class="text-center">Group's project</h5>
-            <group-projects-thumbnail [project]="group.relatedProject" [canRemove]="false" class="w-100">
-            </group-projects-thumbnail>
+            <group-project-thumbnail [project]="group.relatedProject" [canRemove]="false" class="w-100">
+            </group-project-thumbnail>
         </div>
         <!-- inventory book -->
         <div class="col-3" *ngIf="isOwner()">
@@ -163,8 +163,8 @@
                 <div class="col-12" *ngIf="!projectsHidden">
                     <div class="row" *ngIf="projects && projects.length > 0">
                         <div *ngFor="let project of projects" class="col-md-3 my-3 d-flex align-items-stretch">
-                            <group-projects-thumbnail [project]="project" [canRemove]="isOwner()" class="w-100">
-                            </group-projects-thumbnail>
+                            <group-project-thumbnail [project]="project" [canRemove]="isOwner()" class="w-100">
+                            </group-project-thumbnail>
                         </div>
                     </div>
                 </div>

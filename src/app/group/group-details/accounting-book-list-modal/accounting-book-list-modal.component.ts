@@ -5,10 +5,10 @@ import { ISimpleAccountingBook } from 'src/app/shared/models/accounting-book/acc
 import { GroupService } from 'src/app/shared/services/group.service';
 
 @Component({
-  templateUrl: './accounting-books-list-modal.component.html',
-  styleUrls: ['./accounting-books-list-modal.component.css']
+  templateUrl: './accounting-book-list-modal.component.html',
+  styleUrls: ['./accounting-book-list-modal.component.css']
 })
-export class AccountingBooksListComponentModal implements OnInit {
+export class AccountingBookListComponentModal implements OnInit {
   @Input() accountingBooks: ISimpleAccountingBook[] | undefined
   @Input() groupId: number | undefined
   public bookIds: number[] | undefined

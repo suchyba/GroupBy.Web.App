@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { GroupRoutes } from './groups.routes';
+import { GroupRoutes } from './group.routes';
 import { GroupDetailsComponent } from './group-details/group-details.component';
-import { GroupsListComponent as GroupListComponent } from './groups-list/groups-list.component';
-import { GroupsListResolver as GroupListResolver } from './groups-list/groups-list.resolver';
+import { GroupListComponent as GroupListComponent } from './group-list/group-list.component';
+import { GroupListResolver as GroupListResolver } from './group-list/group-list.resolver';
 import { GroupDetailsResolver } from './group-details/group-details.resolver';
-import { ProjectsThumbnailComponent as ProjectThumbnailComponent } from './group-details/projects-thumbnail/projects-thumbnail.component';
+import { ProjectThumbnailComponent } from './group-details/project-thumbnail/project-thumbnail.component';
 import { InventoryBookThumbnailComponent } from './group-details/inventory-book-thumbnail/inventory-book-thumbnail.component';
-import { VolunteerThumbnailComponent } from './group-details/volunteers-thumbnail/volunteers-thumbnail.component';
+import { VolunteerThumbnailComponent } from './group-details/volunteer-thumbnail/volunteer-thumbnail.component';
 import { ChildGroupsResolver } from './group-details/child-groups.resolver';
-import { AccountingBooksListComponentModal as AccountingBookListComponentModal } from './group-details/accounting-books-list-modal/accounting-books-list-modal.component';
+import { AccountingBookListComponentModal as AccountingBookListComponentModal } from './group-details/accounting-book-list-modal/accounting-book-list-modal.component';
 
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { GroupThumbnailComponent } from './groups-list/group-thumbnail/group-thumbnail.component';
+import { GroupThumbnailComponent } from './group-list/group-thumbnail/group-thumbnail.component';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({

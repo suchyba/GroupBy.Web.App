@@ -12,7 +12,7 @@ import { ISimpleProject } from 'src/app/shared/models/project/project-simple.mod
 import { ISimpleVolunteer } from 'src/app/shared/models/volunteer/volunteer-simple.model';
 import { GroupService } from 'src/app/shared/services/group.service';
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
-import { AccountingBooksListComponentModal } from '../group-details/accounting-books-list-modal/accounting-books-list-modal.component';
+import { AccountingBookListComponentModal } from '../group-details/accounting-book-list-modal/accounting-book-list-modal.component';
 
 @Component({
   templateUrl: './group-details.component.html',
@@ -107,7 +107,7 @@ export class GroupDetailsComponent implements OnInit {
   }
 
   openAccountingBooksModal(): void {
-    this.modalService.show(AccountingBooksListComponentModal, { initialState: { groupId: this.group?.id } })
+    this.modalService.show(AccountingBookListComponentModal, { initialState: { groupId: this.group?.id } })
   }
   openAddGroupModal(): void {
     if (this.volunteerId) {

@@ -14,19 +14,19 @@ export const appRoutes: Routes = [
     },
     {
         path: 'groups',
-        loadChildren: () => import('./groups/groups.module')
+        loadChildren: () => import('./group/group.module')
             .then(m => m.GroupModule),
         canActivate: [AuthGuard]
     },
     {
         path: 'accountingBooks',
-        loadChildren: () => import('./accouting-books/accounting-books.module')
+        loadChildren: () => import('./accouting-book/accounting-book.module')
             .then(m => m.AccountingBooksModule),
         canActivate: [AuthGuard]
     },
     {
         path: 'projects',
-        loadChildren: () => import('./projects/projects.module')
+        loadChildren: () => import('./project/project.module')
             .then(m => m.ProjectsModule),
         canActivate: [AuthGuard]
     },
