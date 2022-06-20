@@ -176,4 +176,15 @@ export class GroupDetailsComponent implements OnInit {
       })
     }
   }
+
+  onProjectDeleted(): void {
+    this.loadProjects()
+  }
+
+  onChildGroupDeleted(): void {
+    if (this.group)
+    this.groupService.getChaildGroups(this.group.id).subscribe(apiGroups => {
+      this.childGroups = apiGroups
+    })
+  }
 }

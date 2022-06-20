@@ -6,6 +6,7 @@ import { AccountingBookDetailsComponent } from './accounting-book-details/accoun
 import { AccountingBookDetailsResolver } from './accounting-book-details/accounting-book-details.resolver';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -14,13 +15,13 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     AccountingBookDetailsComponent
   ],
   imports: [
-    CommonModule,
     RouterModule.forChild(AccountingBooksRoutes),
     CollapseModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    SharedModule
   ],
   providers: [
     AccountingBookDetailsResolver
   ]
 })
-export class AccountingBooksModule { }
+export class AccountingBookModule { }

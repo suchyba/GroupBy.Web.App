@@ -49,4 +49,7 @@ export class GroupService {
   deleteGroup(id: number): Observable<Object> {
     return this.http.delete(`${environment.apiUrl}/api/group/delete/${id}`)
   }
+  removeMember(groupId: number, volunteerId: number): Observable<Object> {
+    return this.http.post(`${environment.apiUrl}/api/group/members/remove/${groupId}/${volunteerId}`, null)
+  }
 }

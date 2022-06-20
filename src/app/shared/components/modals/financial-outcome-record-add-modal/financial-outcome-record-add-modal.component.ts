@@ -2,6 +2,7 @@ import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/internal/operators/first';
 import { ISimpleAccountingBook } from 'src/app/shared/models/accounting-book/accounting-book-simple.model';
 import { ISimpleAccountingDocument } from 'src/app/shared/models/accounting-document/accounting-document-simple.model';
@@ -39,7 +40,8 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private groupService: GroupService,
     private accountingDocumentService: AccountingDocumentService,
-    private financialOutcomeRecordService: FinancialOutcomeRecordService) {
+    private financialOutcomeRecordService: FinancialOutcomeRecordService,
+    private toastrService: ToastrService) {
     this.recordAddForm = this.formBuilder.group({})
   }
 
@@ -145,7 +147,10 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
 
       this.financialOutcomeRecordService.CreateFinancialIncomeRecord(this.recordToCreate).pipe(first())
         .subscribe({
-          complete: () => this.bsModalRef.hide(),
+          complete: () => {
+            this.toastrService.success('Successfully created financial outcome record')
+            this.bsModalRef.hide()
+          },
           error: (error) => {
             this.error = error;
             if (error?.id)

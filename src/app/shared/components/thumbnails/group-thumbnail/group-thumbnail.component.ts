@@ -1,20 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 import { ConfirmationYesNoModalComponent } from 'src/app/shared/components/modals/confirmation-yes-no-modal/confirmation-yes-no-modal.component';
 import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
 import { GroupService } from 'src/app/shared/services/group.service';
 
 @Component({
-  selector: 'group-group-thumbnail',
+  selector: 'shr-group-thumbnail',
   templateUrl: './group-thumbnail.component.html',
   styleUrls: ['./group-thumbnail.component.css']
 })
 export class GroupThumbnailComponent implements OnInit {
   @Input() group: ISimpleGroup | undefined
   @Input() canRemove: boolean | undefined
+  @Output() deletedEvent: EventEmitter<void> = new EventEmitter<void>()
   constructor(
     private modalService: BsModalService,
-    private groupService: GroupService) { }
+    private groupService: GroupService,
+    private toastrService: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -38,7 +41,8 @@ export class GroupThumbnailComponent implements OnInit {
     if (object.group?.id)
       object.groupService.deleteGroup(object.group.id).subscribe(result => {
         if (result === null) {
-          window.location.reload();
+          object.toastrService.success(`Group ${object.group?.name} has been deleted`)
+          object.deletedEvent.emit()
         }
       })
   }

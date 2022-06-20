@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/internal/operators/first';
 import { ICreateAccountingDocument } from 'src/app/shared/models/accounting-document/accounting-document-create.model';
 import { IAccountingDocument } from 'src/app/shared/models/accounting-document/accounting-document.model';
@@ -32,7 +33,8 @@ export class AccountingDocumentAddModalComponent implements OnInit {
     public bsModalRef: BsModalRef,
     private formBuilder: FormBuilder,
     private groupService: GroupService,
-    private accountingDocumentService: AccountingDocumentService) {
+    private accountingDocumentService: AccountingDocumentService,
+    private toastrService: ToastrService) {
     this.documentAddForm = this.formBuilder.group({})
   }
 
@@ -105,6 +107,7 @@ export class AccountingDocumentAddModalComponent implements OnInit {
         .subscribe({
           next: (d) => {
             this.createdDocument = d
+            this.toastrService.success(`Successfully created ${d.name} accounting document`)
             this.bsModalRef.hide()
           },
           error: (error) => {

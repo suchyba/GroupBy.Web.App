@@ -5,14 +5,6 @@ import { AuthGuard } from "./shared/auth/auth.guard";
 
 export const appRoutes: Routes = [
     {
-        path: 'login',
-        component: LoginComponent
-    },
-    {
-        path: 'register',
-        component: RegisterComponent
-    },
-    {
         path: 'groups',
         loadChildren: () => import('./group/group.module')
             .then(m => m.GroupModule),
@@ -21,7 +13,7 @@ export const appRoutes: Routes = [
     {
         path: 'accountingBooks',
         loadChildren: () => import('./accouting-book/accounting-book.module')
-            .then(m => m.AccountingBooksModule),
+            .then(m => m.AccountingBookModule),
         canActivate: [AuthGuard]
     },
     {
@@ -29,6 +21,11 @@ export const appRoutes: Routes = [
         loadChildren: () => import('./project/project.module')
             .then(m => m.ProjectsModule),
         canActivate: [AuthGuard]
+    },
+    {
+        path: 'auth',
+        loadChildren: () => import('./authentication/authentication.module')
+            .then(m => m.AuthenticationModule)
     },
     {
         path: '',

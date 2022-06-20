@@ -26,7 +26,7 @@ export class ProjectService {
   getAccountingDocuments(id: number): Observable<ISimpleAccountingDocument[]> {
     return this.http.get<ISimpleAccountingDocument[]>(`${environment.apiUrl}/api/project/${id}/accountingDocuments`)
   }
-  deleteProject(id: number): Observable<boolean> {
-    return this.http.delete<boolean>(`${environment.apiUrl}/api/project/delete/${id}`)
+  deleteProject(id: number): Observable<Object> {
+    return this.http.delete(`${environment.apiUrl}/api/project/delete/${id}`)
   }
 }

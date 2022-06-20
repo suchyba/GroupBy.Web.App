@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IInventoryBookSimple } from '../../../shared/models/inventory-book/inventory-book-simple.model';
+import { IInventoryBookSimple } from '../../../models/inventory-book/inventory-book-simple.model';
 
 @Component({
-  selector: 'group-inventory-book-thumbnail',
+  selector: 'shr-inventory-book-thumbnail',
   templateUrl: './inventory-book-thumbnail.component.html',
   styleUrls: ['./inventory-book-thumbnail.component.css']
 })

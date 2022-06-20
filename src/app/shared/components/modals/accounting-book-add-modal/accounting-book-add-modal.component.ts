@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { ICreateAccountingBook } from 'src/app/shared/models/accounting-book/accounting-book-create.model';
@@ -29,7 +30,8 @@ export class AccountingBookAddModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private groupService: GroupService,
     private authService: AuthService,
-    private volunteerService: VolunteerService) {
+    private volunteerService: VolunteerService,
+    private toastrService: ToastrService) {
 
     this.accountingBookAddForm = this.formBuilder.group({})
   }
@@ -85,7 +87,10 @@ export class AccountingBookAddModalComponent implements OnInit {
       relatedGroupId: this.accountingBookAddForm.controls['relatedGroup'].value
     }).pipe(first())
       .subscribe({
-        complete: () => this.bsModalRef.hide(),
+        complete: () => {
+          this.toastrService.success(`Successfully created ${this.accountingBookAddForm.get('name')?.value} accounting book`)
+          this.bsModalRef.hide()
+        },
         error: (error) => {
           this.error = error;
           if (error) {

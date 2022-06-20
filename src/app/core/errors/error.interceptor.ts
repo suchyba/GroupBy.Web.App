@@ -8,11 +8,14 @@ import {
 import { catchError, Observable, throwError } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { environment } from 'src/environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private toasrService: ToastrService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(catchError(err => {
@@ -20,6 +23,9 @@ export class ErrorInterceptor implements HttpInterceptor {
       if (err.status === 401) {
         this.authService.logout()
         location.reload()
+      }
+      else if (typeof err.error === 'string') {
+        this.toasrService.error(err.error)
       }
       if (!environment.production)
         console.log(err)

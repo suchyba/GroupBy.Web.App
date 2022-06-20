@@ -1,21 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 import { ConfirmationYesNoModalComponent } from 'src/app/shared/components/modals/confirmation-yes-no-modal/confirmation-yes-no-modal.component';
 import { ISimpleProject } from 'src/app/shared/models/project/project-simple.model';
 import { ProjectService } from 'src/app/shared/services/project.service';
 
 @Component({
-  selector: 'group-project-thumbnail',
+  selector: 'shr-project-thumbnail',
   templateUrl: './project-thumbnail.component.html',
   styleUrls: ['./project-thumbnail.component.css']
 })
 export class ProjectThumbnailComponent implements OnInit {
   @Input() project: ISimpleProject | undefined
   @Input() canRemove: boolean | undefined
+  @Output() deletedEvent: EventEmitter<void> = new EventEmitter<void>()
 
   constructor(
     private modalService: BsModalService,
-    private projectService: ProjectService) { }
+    private projectService: ProjectService,
+    private toastrService: ToastrService) { }
 
   ngOnInit(): void {
 
@@ -66,7 +69,10 @@ export class ProjectThumbnailComponent implements OnInit {
   removeProject(object: ProjectThumbnailComponent): void {
     if (object.project?.id)
       object.projectService.deleteProject(object.project.id).subscribe(result => {
-        
+        if (!result) {
+          object.toastrService.success(`Project ${object.project?.name} has been deleted`)
+          object.deletedEvent.emit()
+        }
       })
   }
 }

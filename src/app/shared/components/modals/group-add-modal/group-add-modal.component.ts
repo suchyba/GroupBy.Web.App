@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs';
 import { ICreateGroup } from 'src/app/shared/models/group/group-create.model';
 import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
@@ -27,7 +28,8 @@ export class GroupAddModalComponent implements OnInit {
     public bsModalRef: BsModalRef,
     private volunteerService: VolunteerService,
     private groupService: GroupService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private toastrService: ToastrService) {
 
     this.groupAddForm = this.formBuilder.group({})
   }
@@ -88,7 +90,10 @@ export class GroupAddModalComponent implements OnInit {
       parentGroupId: parseInt(this.groupAddForm.controls['parentGroup'].value)
     }).pipe(first())
       .subscribe({
-        complete: () => this.bsModalRef.hide(),
+        complete: () => {
+          this.toastrService.success(`Successfully created ${this.groupAddForm.get('name')?.value} group`)
+          this.bsModalRef.hide()
+        },
         error: (error) => {
           this.error = error;
           if (error?.id)

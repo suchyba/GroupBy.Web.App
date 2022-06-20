@@ -7,10 +7,16 @@ import { ErrorInterceptor } from "./errors/error.interceptor";
 import { NavComponent } from "./nav/nav.component";
 import { RouterModule } from "@angular/router";
 import { AuthInterceptor } from "./auth/auth.interceptor";
+import { ToastrModule, ToastrService } from "ngx-toastr";
 
 @NgModule({
-    imports: [CommonModule, RouterModule],
-    exports: [NavComponent],
+    imports: [
+        CommonModule, 
+        RouterModule,
+        ToastrModule.forRoot()],
+    exports: [
+        NavComponent,
+        ToastrModule],
     declarations: [
         NavComponent
     ],
@@ -18,6 +24,7 @@ import { AuthInterceptor } from "./auth/auth.interceptor";
         AuthService,
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        ToastrService
     ]
 })
 export class CoreModule { };

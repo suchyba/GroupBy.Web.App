@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/internal/operators/first';
 import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
 import { ICreateProject } from 'src/app/shared/models/project/project-create.model';
@@ -29,7 +30,8 @@ export class ProjectAddModalComponent implements OnInit {
     private volunteerService: VolunteerService,
     private groupService: GroupService,
     private projectService: ProjectService,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private toastrService: ToastrService) {
 
     this.projectAddForm = this.formBuilder.group({})
   }
@@ -106,7 +108,10 @@ export class ProjectAddModalComponent implements OnInit {
 
     this.projectService.createProject(project).pipe(first())
       .subscribe({
-        complete: () => this.bsModalRef.hide(),
+        complete: () => {
+          this.toastrService.success(`Successfully created ${this.projectAddForm.get('name')?.value} project`)
+          this.bsModalRef.hide()
+        },
         error: (error) => {
           this.error = error;
           if (error?.id)

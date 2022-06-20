@@ -23,8 +23,8 @@
           
             <div class="ms-auto">
                 <div class="btn-group mx-3">
-                    <button class="btn btn-outline-primary" type="button" *ngIf="!isLogged" [routerLink]="['/login']">Sign in</button>
-                    <button class="btn btn-outline-success" type="button" *ngIf="!isLogged" [routerLink]="['/register']">Sign up</button>
+                    <button class="btn btn-outline-primary" type="button" *ngIf="!isLogged" [routerLink]="['/auth/login']">Sign in</button>
+                    <button class="btn btn-outline-success" type="button" *ngIf="!isLogged" [routerLink]="['/auth/register']">Sign up</button>
                 </div>
 
                 <a class="navbar-text" [routerLink]="['/']" *ngIf="isLogged">Hello {{name}}</a>

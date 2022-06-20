@@ -23,7 +23,7 @@
                 </button>
                 <div id="{{id}}" class="row ps-5" [collapse]="booksIdHidden[id]" [isAnimated]="true">
                     <div class="col-12 my-2 border-bottom border-dark p-2" *ngFor="let book of getBooksWithId(id)">
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-top">
                             <div class="d-flex me-2">
                                 <h5>{{id}}.{{book.bookOrderNumberId}}</h5>
                                 <h5 class="ms-2 fw-bold">{{book.name}}</h5>
