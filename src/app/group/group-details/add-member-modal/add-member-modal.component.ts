@@ -20,6 +20,7 @@ export class AddMemberModalComponent implements OnInit {
   public filteredVolunteerList: Observable<ISimpleVolunteer[]> = new Observable<ISimpleVolunteer[]>()
   public selectedVolunteerList: ISimpleVolunteer[] = []
   public selectedVolunteer: string | undefined
+  public noResults: boolean = false
 
   public volunteerAddedEvent: EventEmitter<number> = new EventEmitter<number>()
   constructor(
@@ -83,5 +84,9 @@ export class AddMemberModalComponent implements OnInit {
   }
   cancelClick(): void {
     this.bsModalRef.hide()
+  }
+
+  noResultsEvent(isNoResults: boolean): void {
+   this.noResults = isNoResults 
   }
 }

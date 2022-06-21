@@ -13,7 +13,7 @@
         <p class="card-text">{{project?.description}} </p>
     </div>
     <div class="card-footer">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between mt-2">
             <a class="btn btn-primary" [routerLink]="['/projects', project?.id]">Details</a>
             <button class="btn btn-outline-danger" *ngIf="canRemove" (click)="removeProjectClick()"><i class="bi bi-trash"></i></button>
         </div>
