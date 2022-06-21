@@ -9,9 +9,11 @@ import { ChildGroupsResolver } from './group-details/child-groups.resolver';
 
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { SharedModule } from '../shared/shared.module';
 import { AccountingBookListComponentModal } from './group-details/accounting-book-list-modal/accounting-book-list-modal.component';
 import { AddMemberModalComponent } from './group-details/add-member-modal/add-member-modal.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { AddMemberModalComponent } from './group-details/add-member-modal/add-me
     SharedModule,
     RouterModule.forChild(GroupRoutes),
     CollapseModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    TypeaheadModule.forRoot(),
+    FormsModule
   ],
   providers: [
     GroupListResolver,

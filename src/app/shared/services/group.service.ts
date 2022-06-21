@@ -52,4 +52,7 @@ export class GroupService {
   removeMember(groupId: number, volunteerId: number): Observable<Object> {
     return this.http.post(`${environment.apiUrl}/api/group/members/remove/${groupId}/${volunteerId}`, null)
   }
+  addMember(groupId: number, volunteerId: number): Observable<Object> {
+    return this.http.post(`${environment.apiUrl}/api/group/members/add/${groupId}/${volunteerId}`, null)
+  }
 }

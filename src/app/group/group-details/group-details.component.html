@@ -112,7 +112,7 @@
                             <button class="btn btn-secondary" *ngIf="members && !membersHidden"
                                 (click)="loadMembers()">Refresh</button>
                         </div>
-                        <button class="ms-auto btn btn-success" *ngIf="isOwner()">Add member</button>
+                        <button class="ms-auto btn btn-success" *ngIf="isOwner()" (click)="openAddMemebersModal()">Add members</button>
                     </div>
                 </div>
             </div>

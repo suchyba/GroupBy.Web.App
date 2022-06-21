@@ -13,6 +13,7 @@ import { ISimpleVolunteer } from 'src/app/shared/models/volunteer/volunteer-simp
 import { GroupService } from 'src/app/shared/services/group.service';
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 import { AccountingBookListComponentModal } from '../group-details/accounting-book-list-modal/accounting-book-list-modal.component';
+import { AddMemberModalComponent } from './add-member-modal/add-member-modal.component';
 
 @Component({
   templateUrl: './group-details.component.html',
@@ -173,6 +174,19 @@ export class GroupDetailsComponent implements OnInit {
       modalRef.onHidden?.subscribe(() => {
         if (this.group?.id)
           this.loadProjects()
+      })
+    }
+  }
+
+  openAddMemebersModal(): void {
+    if (this.group) {
+      const modalRef = this.modalService.show(AddMemberModalComponent, {
+        initialState: {
+          groupId: this.group.id
+        }
+      })
+      modalRef.content?.volunteerAddedEvent.subscribe(vid => {
+        this.loadMembers()
       })
     }
   }
