@@ -16,6 +16,7 @@ export class AccountingBookListComponentModal implements OnInit {
   @Input() groupId: number | undefined
   public bookIds: number[] | undefined
   public booksIdHidden: { [key: string]: boolean} = {}
+  public booksStausChanging: { [key: string]: boolean} = {}
 
   constructor(
     public bsModalRef: BsModalRef,
@@ -40,6 +41,8 @@ export class AccountingBookListComponentModal implements OnInit {
             this.bookIds?.push(b.bookId)
           if (this.booksIdHidden && this.booksIdHidden[b.bookId] === undefined)
             this.booksIdHidden[b.bookId] = true
+          if (this.booksStausChanging && this.booksStausChanging[`${b.bookId},${b.bookOrderNumberId}`] === undefined)
+            this.booksStausChanging[`${b.bookId},${b.bookOrderNumberId}`] = false
         })
       })
   }
@@ -65,6 +68,7 @@ export class AccountingBookListComponentModal implements OnInit {
   }
 
   lockClick(book: ISimpleAccountingBook): void {
+    this.booksStausChanging[`${book.bookId},${book.bookOrderNumberId}`] = true
     this.accountingBookService.updateAccountingBook({
       bookId: book.bookId,
       bookOrderNumberId: book.bookOrderNumberId,
@@ -73,9 +77,16 @@ export class AccountingBookListComponentModal implements OnInit {
     }).subscribe(book => {
       this.refreshBookList()
       this.toastrService.success(`Successfully locked ${book.name} accounting book`)
+      this.booksStausChanging[`${book.bookId},${book.bookOrderNumberId}`] = false
     })
   }
+
+  isBookStatusChanging(bookId: number, bookOrderNumber: number): boolean {
+    return this.booksStausChanging[`${bookId},${bookOrderNumber}`]
+  }
+
   unlockClick(book: ISimpleAccountingBook): void {
+    this.booksStausChanging[`${book.bookId},${book.bookOrderNumberId}`] = true
     this.accountingBookService.updateAccountingBook({
       bookId: book.bookId,
       bookOrderNumberId: book.bookOrderNumberId,
@@ -84,6 +95,7 @@ export class AccountingBookListComponentModal implements OnInit {
     }).subscribe(book => {
       this.refreshBookList()
       this.toastrService.success(`Successfully unlocked ${book.name} accounting book`)
+      this.booksStausChanging[`${book.bookId},${book.bookOrderNumberId}`] = false
     })
   }
 

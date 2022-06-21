@@ -43,6 +43,8 @@ export class AccountingBookDetailsComponent implements OnInit {
   otherOutcomeTotal: number | undefined
 
   records: ISimpleFinancialRecord[] | undefined | null = null
+
+  bookStatusChanging: boolean = false
   constructor(
     private route: ActivatedRoute,
     private accountingBookService: AccountingBookService,
@@ -259,6 +261,7 @@ export class AccountingBookDetailsComponent implements OnInit {
   }
   unlockBookClick(): void {
     if (this.accountingBook) {
+      this.bookStatusChanging = true
       this.accountingBookService.updateAccountingBook({
         bookId: this.accountingBook.bookId,
         bookOrderNumberId: this.accountingBook.bookOrderNumberId,
@@ -268,12 +271,14 @@ export class AccountingBookDetailsComponent implements OnInit {
         this.accountingBook = book
         this.refreshFinancialRecords()
         this.toastrService.success(`Successfully unlocked ${book.name} accounting book`)
+        this.bookStatusChanging = false
       })
     }
   }
 
   lockBookClick(): void {
     if (this.accountingBook) {
+      this.bookStatusChanging = true
       this.accountingBookService.updateAccountingBook({
         bookId: this.accountingBook.bookId,
         bookOrderNumberId: this.accountingBook.bookOrderNumberId,
@@ -283,6 +288,7 @@ export class AccountingBookDetailsComponent implements OnInit {
         this.accountingBook = book
         this.refreshFinancialRecords()
         this.toastrService.success(`Successfully locked ${book.name} accounting book`)
+        this.bookStatusChanging = false
       })
     }
   }
