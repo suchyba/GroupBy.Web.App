@@ -7,8 +7,8 @@
                 <div class="row">
                     <div class="col-12">
                         <h3>{{accountingBook.name}} <span class="badge bg-secondary"
-                                *ngIf="accountingBook.locked">Locked</span><span class="badge bg-success"
-                                *ngIf="!accountingBook.locked">Unlocked</span></h3>
+                                *ngIf="accountingBook.locked">Locked <i class="bi bi-lock-fill"></i></span><span class="badge bg-success"
+                                *ngIf="!accountingBook.locked">Unlocked <i class="bi bi-unlock-fill"></i></span></h3>
                         <p>Current balance: {{accountingBook.balance.toFixed(2)}}</p>
                     </div>
                 </div>
@@ -30,6 +30,11 @@
                     <div class="btn-group">
                         <button class="btn btn-success" [disabled]="accountingBook.locked" (click)="openFinancialIncomeRecordAddModal()">Add new income <i class="bi bi-box-arrow-in-down"></i></button>
                         <button class="btn btn-success" [disabled]="accountingBook.locked" (click)="openFinancialOutcomeRecordAddModal()">Add new outcome <i class="bi bi-box-arrow-up"></i></button>
+                        <button class="btn btn-secondary" *ngIf="accountingBook.locked" (click)="unlockBookClick()">Unlock <i class="bi bi-unlock"></i></button>
+                        <button class="btn btn-secondary" *ngIf="!accountingBook.locked" (click)="lockBookClick()">Lock <i class="bi bi-lock"></i></button>
+                    </div>
+                    <div class="btn-group ms-auto">
+                        <button class="btn btn-danger" (click)="deleteAccountingBookClick()">Delete accounting book <i class="bi bi-trash"></i></button>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmationYesNoModalComponent } from 'src/app/shared/components/modals/confirmation-yes-no-modal/confirmation-yes-no-modal.component';
 import { FinancialIncomeRecordAddModalComponent } from 'src/app/shared/components/modals/financial-income-record-add-modal/financial-income-record-add-modal.component';
 import { FinancialOutcomeRecordAddModalComponent } from 'src/app/shared/components/modals/financial-outcome-record-add-modal/financial-outcome-record-add-modal.component';
 import { IAccountingBook } from 'src/app/shared/models/accounting-book/accounting-book.model';
@@ -44,7 +46,9 @@ export class AccountingBookDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private accountingBookService: AccountingBookService,
-    private modalService: BsModalService) { }
+    private modalService: BsModalService,
+    private router: Router,
+    public toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.accountingBook = this.route.snapshot.data['accountingBook']
@@ -53,7 +57,7 @@ export class AccountingBookDetailsComponent implements OnInit {
 
   refreshFinancialRecords(): void {
     if (this.accountingBook)
-      this.accountingBookService.GetFinancialRecords(this.accountingBook?.bookId, this.accountingBook?.bookOrderNumberId).subscribe(r => {
+      this.accountingBookService.getFinancialRecords(this.accountingBook?.bookId, this.accountingBook?.bookOrderNumberId).subscribe(r => {
         this.records = r.sort((r1, r2) => new Date(r1.date).getTime() - new Date(r2.date).getTime()).map(r => {
           r.date = new Date(r.date)
           return r
@@ -253,5 +257,58 @@ export class AccountingBookDetailsComponent implements OnInit {
       }
     }
   }
+  unlockBookClick(): void {
+    if (this.accountingBook) {
+      this.accountingBookService.updateAccountingBook({
+        bookId: this.accountingBook.bookId,
+        bookOrderNumberId: this.accountingBook.bookOrderNumberId,
+        name: this.accountingBook.name,
+        locked: false
+      }).subscribe(book => {
+        this.accountingBook = book
+        this.refreshFinancialRecords()
+        this.toastrService.success(`Successfully unlocked ${book.name} accounting book`)
+      })
+    }
+  }
 
+  lockBookClick(): void {
+    if (this.accountingBook) {
+      this.accountingBookService.updateAccountingBook({
+        bookId: this.accountingBook.bookId,
+        bookOrderNumberId: this.accountingBook.bookOrderNumberId,
+        name: this.accountingBook.name,
+        locked: true
+      }).subscribe(book => {
+        this.accountingBook = book
+        this.refreshFinancialRecords()
+        this.toastrService.success(`Successfully locked ${book.name} accounting book`)
+      })
+    }
+  }
+
+  deleteAccountingBookClick(): void {
+    if (this.accountingBook)
+      this.openConfirmation(this.removeAccountingBook)
+  }
+
+  openConfirmation(action: (object: any) => void): boolean {
+    const modalRef = this.modalService.show(ConfirmationYesNoModalComponent, { initialState: { message: 'You are sure you want to delete this accounting book?' } })
+    modalRef.onHidden?.subscribe(() => {
+      if (modalRef.content?.result) {
+        action(this)
+      }
+    })
+    return false
+  }
+
+  removeAccountingBook(object: AccountingBookDetailsComponent): void {
+    if (object.accountingBook)
+      object.accountingBookService.deleteAccountingBook(object.accountingBook).subscribe(result => {
+        if (result === null) {
+          object.toastrService.success(`Accounting book ${object.accountingBook?.name} has been deleted`)
+          object.router.navigate(['/groups', object.accountingBook?.relatedGroup.id])
+        }
+      })
+  }
 }

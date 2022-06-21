@@ -29,11 +29,19 @@
                                 <h5 class="ms-2 fw-bold">{{book.name}}</h5>
                             </div>
                             <div>
-                                <div class="badge bg-secondary" *ngIf="book.locked">Locked</div>
-                                <div class="badge bg-success" *ngIf="!book.locked">Unlocked</div>
+                                <div class="badge bg-secondary" *ngIf="book.locked">Locked <i class="bi bi-lock-fill"></i>
+                                </div>
+                                <div class="badge bg-success" *ngIf="!book.locked">Unlocked <i class="bi bi-unlock-fill"></i>
+                                </div>
                             </div>
-                            <button class="btn btn-primary ms-auto"
-                                [routerLink]="['/accountingBooks', book.bookId, book.bookOrderNumberId]" (click)="bsModalRef.hide()">Details</button>
+                            <div class="ms-auto btn-group">
+                                <button class="btn btn-secondary" *ngIf="book.locked" (click)="unlockClick(book)">Unlock <i class="bi bi-unlock"></i></button>
+                                <button class="btn btn-secondary" *ngIf="!book.locked" (click)="lockClick(book)">Lock <i class="bi bi-lock"></i></button>
+                                <button class="btn btn-danger" (click)="deleteAccountingBookClick(book)">Delete <i class="bi bi-trash"></i></button>
+                                <button class="btn btn-primary"
+                                    [routerLink]="['/accountingBooks', book.bookId, book.bookOrderNumberId]"
+                                    (click)="bsModalRef.hide()">Details</button>
+                            </div>
                         </div>
                     </div>
                 </div>

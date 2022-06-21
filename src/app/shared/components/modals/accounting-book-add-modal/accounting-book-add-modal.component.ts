@@ -79,7 +79,7 @@ export class AccountingBookAddModalComponent implements OnInit {
 
     this.loading = true;
 
-    this.accountingBookService.CreateAccountingBook({
+    this.accountingBookService.createAccountingBook({
       name: this.accountingBookAddForm.controls['name'].value,
       bookId: this.accountingBookAddForm.controls['book'].value,
       bookOrderNumberId: this.accountingBookAddForm.controls['bookOrderNumber'].value,
