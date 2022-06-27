@@ -1,10 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 
 import { AccountingBookAddModalComponent } from "./components/modals/accounting-book-add-modal/accounting-book-add-modal.component";
-import { AccountingDocumentAddModalComponent } from "./components/modals/accounting-document-add-modal/accounting-document-add-modal.component";
+import { DocumentAddModalComponent } from "./components/modals/document-add-modal/document-add-modal.component";
 import { ConfirmationYesNoModalComponent } from "./components/modals/confirmation-yes-no-modal/confirmation-yes-no-modal.component";
 import { FinancialIncomeRecordAddModalComponent } from "./components/modals/financial-income-record-add-modal/financial-income-record-add-modal.component";
 import { FinancialOutcomeRecordAddModalComponent } from "./components/modals/financial-outcome-record-add-modal/financial-outcome-record-add-modal.component";
@@ -21,26 +21,39 @@ import { FinancialOutcomeRecordService } from "./services/financial-outcome-reco
 import { GroupService } from "./services/group.service";
 import { ProjectService } from "./services/project.service";
 import { VolunteerService } from "./services/volunteer.service";
+import { InventoryBookAddModalComponent } from './components/modals/inventory-book-add-modal/inventory-book-add-modal.component';
+import { InventoryBookRecordAddModalComponent } from './components/modals/inventory-book-record-add-modal/inventory-book-record-add-modal.component';
+import { TypeaheadModule } from "ngx-bootstrap/typeahead";
+import { InventoryItemLiquidateComponent } from './components/modals/inventory-item-liquidate/inventory-item-liquidate.component';
+import { InventoryItemAddModalComponent } from './components/modals/inventory-item-add-modal/inventory-item-add-modal.component';
+import { InventoryBookRecordTransferModalComponent } from './components/modals/inventory-book-record-transfer-modal/inventory-book-record-transfer-modal.component';
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        RouterModule],
+        RouterModule,
+        TypeaheadModule,
+        FormsModule],
     declarations: [
         // modals
         GroupAddModalComponent,
         FinancialIncomeRecordAddModalComponent,
-        AccountingDocumentAddModalComponent,
+        DocumentAddModalComponent,
         FinancialOutcomeRecordAddModalComponent,
         AccountingBookAddModalComponent,
         ProjectAddModalComponent,
         ConfirmationYesNoModalComponent,
+        InventoryBookAddModalComponent,
+        InventoryBookRecordAddModalComponent,
+        InventoryItemLiquidateComponent,
         // thumbnails
         ProjectThumbnailComponent,
         GroupThumbnailComponent,
         InventoryBookThumbnailComponent,
-        VolunteerThumbnailComponent
+        VolunteerThumbnailComponent,
+        InventoryItemAddModalComponent,
+        InventoryBookRecordTransferModalComponent,
     ],
     exports: [
         CommonModule,
@@ -48,7 +61,7 @@ import { VolunteerService } from "./services/volunteer.service";
         // modals
         GroupAddModalComponent,
         FinancialIncomeRecordAddModalComponent,
-        AccountingDocumentAddModalComponent,
+        DocumentAddModalComponent,
         FinancialOutcomeRecordAddModalComponent,
         AccountingBookAddModalComponent,
         ProjectAddModalComponent,

@@ -10,6 +10,7 @@ import { ISimpleVolunteer } from '../models/volunteer/volunteer-simple.model';
 import { ISimpleAccountingBook } from '../models/accounting-book/accounting-book-simple.model';
 import { ICreateGroup } from '../models/group/group-create.model';
 import { ISimpleAccountingDocument } from '../models/accounting-document/accounting-document-simple.model';
+import { ISimpleDocument } from '../models/document/document-simple.model';
 
 @Injectable()
 export class GroupService {
@@ -54,5 +55,15 @@ export class GroupService {
   }
   addMember(groupId: number, volunteerId: number): Observable<Object> {
     return this.http.post(`${environment.apiUrl}/api/group/members/add/${groupId}/${volunteerId}`, null)
+  }
+  getDocuments(groupId: number, projectId: number | undefined = undefined): Observable<ISimpleDocument[]> {
+    if (projectId)
+      return this.http.get<ISimpleDocument[]>(`${environment.apiUrl}/api/group/${groupId}/Documents`, {
+        params: {
+          'project-id': projectId
+        }
+      })
+    else
+      return this.http.get<ISimpleDocument[]>(`${environment.apiUrl}/api/group/${groupId}/Documents`)
   }
 }

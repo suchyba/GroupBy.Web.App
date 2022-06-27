@@ -13,7 +13,7 @@ import { GroupService } from 'src/app/shared/services/group.service';
 })
 export class GroupDetailsResolver implements Resolve<IGroup> {
   constructor(private groupService: GroupService) {
-    
+
   }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IGroup> {
     return this.groupService.getGroup(route.params['id'])

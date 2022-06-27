@@ -9,8 +9,8 @@
     </div>
     <div class="card-footer">
         <div class="d-flex justify-content-between mt-2">
-            <a class="btn btn-primary">Details</a>
-            <a class="btn btn-outline-danger"><i class="bi bi-trash"></i></a>
+            <button class="btn btn-primary" [routerLink]="['/inventoryBooks', inventoryBook?.id]">Details</button>
+            <button class="btn btn-outline-danger" *ngIf="canRemove" (click)="onDeleteClick()"><i class="bi bi-trash"></i></button>
         </div>
     </div>
 </div>

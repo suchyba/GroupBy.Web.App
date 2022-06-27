@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { ToastrService } from 'ngx-toastr';
@@ -15,6 +14,7 @@ import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 })
 export class AddMemberModalComponent implements OnInit {
   @Input() groupId: number | undefined
+  @Output() volunteerAddedEvent: EventEmitter<number> = new EventEmitter<number>()
 
   public allVolunteerList: ISimpleVolunteer[] = []
   public filteredVolunteerList: Observable<ISimpleVolunteer[]> = new Observable<ISimpleVolunteer[]>()
@@ -22,7 +22,6 @@ export class AddMemberModalComponent implements OnInit {
   public selectedVolunteer: string | undefined
   public noResults: boolean = false
 
-  public volunteerAddedEvent: EventEmitter<number> = new EventEmitter<number>()
   constructor(
     private groupService: GroupService,
     private volunteerService: VolunteerService,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs';
 import { AuthService } from 'src/app/core/auth/auth.service';
 
@@ -18,7 +19,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router) {
+    private router: Router,
+    private toastrService: ToastrService) {
 
     if (authService.isLoggedIn())
       this.router.navigate(['/'])
@@ -65,7 +67,10 @@ export class RegisterComponent implements OnInit {
       RelatedVolunteerAddress: this.registerForm.controls['address'].value
     }).pipe(first())
       .subscribe({
-        complete: () => this.router.navigate(['login']),
+        complete: () => {
+          this.toastrService.success('Successfully signed up, you can sign in now')
+          this.router.navigate(['/auth/login'])
+        },
         error: (error) => {
           this.error = error;
           if (error?.id)

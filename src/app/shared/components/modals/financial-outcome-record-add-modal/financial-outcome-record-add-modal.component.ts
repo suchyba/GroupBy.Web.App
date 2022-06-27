@@ -12,7 +12,7 @@ import { ISimpleProject } from 'src/app/shared/models/project/project-simple.mod
 import { AccountingDocumentService } from 'src/app/shared/services/accounting-document.service';
 import { FinancialOutcomeRecordService } from 'src/app/shared/services/financial-outcome-record.service';
 import { GroupService } from 'src/app/shared/services/group.service';
-import { AccountingDocumentAddModalComponent } from '../accounting-document-add-modal/accounting-document-add-modal.component';
+import { DocumentAddModalComponent } from '../document-add-modal/document-add-modal.component';
 
 @Component({
   templateUrl: './financial-outcome-record-add-modal.component.html',
@@ -191,14 +191,15 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
 
   openAccountingDocumentAddModal(): void {
     if (this.group) {
-      let modal = this.modalService.show(AccountingDocumentAddModalComponent, {
+      let modal = this.modalService.show(DocumentAddModalComponent, {
         initialState: {
           documentToCreate: {
             name: "",
             filePath: "null",
-            groupId: this.group?.id,
+            groupId: this.group.id,
             projectId: this.recordToCreate?.relatedProjectId
-          }
+          },
+          isAccountingDocument: true
         }
       })
       if (modal.onHidden)

@@ -23,6 +23,12 @@ export const appRoutes: Routes = [
         canActivate: [AuthGuard]
     },
     {
+        path: 'inventoryBooks',
+        loadChildren: () => import(`./inventory-book/inventory-book.module`)
+            .then(m => m.InventoryBookModule),
+        canActivate: [AuthGuard]
+    },
+    {
         path: 'auth',
         loadChildren: () => import('./authentication/authentication.module')
             .then(m => m.AuthenticationModule)

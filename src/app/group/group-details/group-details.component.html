@@ -57,9 +57,9 @@
         <div class="col-3" *ngIf="isOwner()">
             <h5 class="text-center">Group's inventory book</h5>
             <shr-inventory-book-thumbnail [inventoryBook]="group.inventoryBook" class="w-100"
-                *ngIf="group.inventoryBook">
+                *ngIf="group.inventoryBook" [canRemove]="isOwner()" (deletedEvent)="onInventoryBookDeleted()">
             </shr-inventory-book-thumbnail>
-            <button class="btn btn-outline-success h-100 w-100" [routerLink]="" *ngIf="!group.inventoryBook">
+            <button class="btn btn-outline-success h-100 w-100" (click)="openAddInventoryBookModal()" *ngIf="!group.inventoryBook">
                 <div class="row h-100">
                     <div class="col-12 d-flex justify-content-center">
                         <div class="align-self-center">

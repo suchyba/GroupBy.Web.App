@@ -1,0 +1,101 @@
+<div class="m-2">
+    <div class="modal-header">
+        <div class="row flex-fill">
+            <div class="modal-title col-12">
+                <div class="d-flex">
+                    <h2>Add new inventory item</h2>
+                    <button type="button" class="btn btn-outline-secondary close pull-right ms-auto" aria-label="Close"
+                        (click)="onCancel">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-12">
+                <form [formGroup]="itemAddForm" (ngSubmit)="onSubmit()">
+                    <!-- Name -->
+                    <div class="form-floating mb-3">
+                        <input type="text" formControlName="name" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['name'].errors || error?.Name) }"
+                            placeholder="sample name" />
+                        <label for="name">Name*</label>
+
+                        <div *ngIf="submitted && fields['name'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['name'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Name" class="invalid-feedback">
+                            <div>{{error.Name}}</div>
+                        </div>
+                    </div>
+
+                    <!-- Symbol -->
+                    <div class="form-floating mb-3">
+                        <input type="text" formControlName="symbol" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['symbol'].errors || error?.Symbol) }"
+                            placeholder="sample symbol" />
+                        <label for="symbol">Symbol*</label>
+
+                        <div *ngIf="submitted && fields['symbol'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['symbol'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Symbol" class="invalid-feedback">
+                            <div>{{error.Symbol}}</div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-floating mb-3">
+                        <input type="text" formControlName="description" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['description'].errors || error?.Description) }"
+                            placeholder="sample description" />
+                        <label for="description">Description*</label>
+
+                        <div *ngIf="submitted && fields['description'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['description'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Description" class="invalid-feedback">
+                            <div>{{error.Description}}</div>
+                        </div>
+                    </div>
+
+                    <!-- Value -->
+                    <div class="form-floating mb-3">
+                        <input type="number" formControlName="value" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['value'].errors || error?.Value) }"
+                            placeholder="sample value" />
+                        <label for="value">Value*</label>
+
+                        <div *ngIf="submitted && fields['value'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['value'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Value" class="invalid-feedback">
+                            <div>{{error.Value}}</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Cancel button -->
+                        <div class="col-6">
+                            <button type="button" class="btn btn-lg btn-danger w-100" aria-label="Cancel"
+                                (click)="onCancel()">
+                                Cancel
+                            </button>
+                        </div>
+                        <!-- Submit button -->
+                        <div class="col-6">
+                            <button [disabled]="loading" class="btn btn-lg btn-primary w-100" type="submit">
+                                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                Create
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Error box -->
+                    <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

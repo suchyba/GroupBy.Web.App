@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { AuthService } from 'src/app/core/auth/auth.service';
-import { AccountingDocumentAddModalComponent } from 'src/app/shared/components/modals/accounting-document-add-modal/accounting-document-add-modal.component';
+import { DocumentAddModalComponent } from 'src/app/shared/components/modals/document-add-modal/document-add-modal.component';
 import { FinancialIncomeRecordAddModalComponent } from 'src/app/shared/components/modals/financial-income-record-add-modal/financial-income-record-add-modal.component';
 import { FinancialOutcomeRecordAddModalComponent } from 'src/app/shared/components/modals/financial-outcome-record-add-modal/financial-outcome-record-add-modal.component';
 import { ISimpleAccountingDocument } from 'src/app/shared/models/accounting-document/accounting-document-simple.model';
@@ -135,7 +135,7 @@ export class ProjectDetailsComponent implements OnInit {
     if (this.project)
       groupId = this.project.projectGroup?.id ? this.project.projectGroup.id : this.project.parentGroup.id
 
-    let modal = this.modalService.show(AccountingDocumentAddModalComponent, {
+    let modal = this.modalService.show(DocumentAddModalComponent, {
       initialState: {
         documentToCreate: {
           groupId: groupId,

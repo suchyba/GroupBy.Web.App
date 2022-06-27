@@ -5,18 +5,23 @@ import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/internal/operators/first';
 import { ICreateAccountingDocument } from 'src/app/shared/models/accounting-document/accounting-document-create.model';
 import { IAccountingDocument } from 'src/app/shared/models/accounting-document/accounting-document.model';
+import { ICreateDocument } from 'src/app/shared/models/document/document-create.model';
+import { IDocument } from 'src/app/shared/models/document/document.model';
 import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
 import { ISimpleProject } from 'src/app/shared/models/project/project-simple.model';
 import { AccountingDocumentService } from 'src/app/shared/services/accounting-document.service';
+import { DocumentService } from 'src/app/shared/services/document.service';
 import { GroupService } from 'src/app/shared/services/group.service';
 
 @Component({
-  templateUrl: './accounting-document-add-modal.component.html',
-  styleUrls: ['./accounting-document-add-modal.component.css']
+  templateUrl: './document-add-modal.component.html',
+  styleUrls: ['./document-add-modal.component.css']
 })
-export class AccountingDocumentAddModalComponent implements OnInit {
-  @Input() documentToCreate: ICreateAccountingDocument | undefined
-  @Output() createdDocument: IAccountingDocument | undefined
+export class DocumentAddModalComponent implements OnInit {
+  @Input() documentToCreate: ICreateDocument | undefined
+  @Input() isAccountingDocument: boolean | undefined
+
+  @Output() createdDocument: IAccountingDocument | IDocument | undefined
   
   public projectList: ISimpleProject[] | undefined
   public groupList: ISimpleGroup[] | undefined
@@ -29,11 +34,16 @@ export class AccountingDocumentAddModalComponent implements OnInit {
   public error: any
   public errorMessage: string = ''
 
+  get blockAccountingDocument() {
+    return this.isAccountingDocument !== undefined
+  }
+
   constructor(
     public bsModalRef: BsModalRef,
     private formBuilder: FormBuilder,
     private groupService: GroupService,
     private accountingDocumentService: AccountingDocumentService,
+    private documentService: DocumentService,
     private toastrService: ToastrService) {
     this.documentAddForm = this.formBuilder.group({})
   }
@@ -45,7 +55,8 @@ export class AccountingDocumentAddModalComponent implements OnInit {
       name: ['', Validators.required],
       filePath: ['empty', Validators.required],
       project: [this.documentToCreate?.projectId],
-      group: [this.documentToCreate?.groupId, Validators.required]
+      group: [this.documentToCreate?.groupId, Validators.required],
+      accountingDocument: [{value: this.isAccountingDocument, disabled: this.blockAccountingDocument}]
     })
 
     if (this.documentToCreate && this.documentToCreate.groupId) {
@@ -103,20 +114,38 @@ export class AccountingDocumentAddModalComponent implements OnInit {
       this.documentToCreate.groupId = this.fields['group'].value
       this.documentToCreate.projectId = this.fields['project'].value
 
-      this.accountingDocumentService.CreateAccountingDocument(this.documentToCreate)
-        .subscribe({
-          next: (d) => {
-            this.createdDocument = d
-            this.toastrService.success(`Successfully created ${d.name} accounting document`)
-            this.bsModalRef.hide()
-          },
-          error: (error) => {
-            this.error = error;
-            if (error?.id)
-              this.errorMessage = error.message
-            this.loading = false;
-          }
-        })
+      if (this.isAccountingDocument) {
+        this.accountingDocumentService.CreateAccountingDocument(this.documentToCreate)
+          .subscribe({
+            next: (d) => {
+              this.createdDocument = d
+              this.toastrService.success(`Successfully created ${d.name} accounting document`)
+              this.bsModalRef.hide()
+            },
+            error: (error) => {
+              this.error = error;
+              if (error?.id)
+                this.errorMessage = error.message
+              this.loading = false;
+            }
+          })
+      }
+      else {
+        this.documentService.createDocument(this.documentToCreate)
+          .subscribe({
+            next: (d) => {
+              this.createdDocument = d
+              this.toastrService.success(`Successfully created ${d.name} document`)
+              this.bsModalRef.hide()
+            },
+            error: (error) => {
+              this.error = error;
+              if (error?.id)
+                this.errorMessage = error.message
+              this.loading = false;
+            }
+          })
+      }
     }
   }
 

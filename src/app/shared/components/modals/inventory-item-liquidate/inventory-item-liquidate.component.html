@@ -1,0 +1,129 @@
+<div class="m-2">
+    <div class="modal-header">
+        <div class="row flex-fill">
+            <div class="modal-title col-12">
+                <div class="d-flex">
+                    <h2>Add inventory item liquidation</h2>
+                    <button type="button" class="btn btn-outline-secondary close pull-right ms-auto" aria-label="Close"
+                        (click)="onCancel()">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-12">
+                <form [formGroup]="recordAddForm" (ngSubmit)="onSubmit()">
+                    <!-- Inventory book -->
+                    <div class="form-floating mb-3" aria-label="InventoryBookId">
+                        <select id="inventoryBookSelect" class="form-select" formControlName="inventoryBookId"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['inventoryBookId'].errors || error?.InventoryBookId) }">
+                            <option *ngFor="let book of inventoryBookList" [ngValue]="book.id">{{book.name}}
+                            </option>
+                        </select>
+                        <label for="inventoryBookSelect">Inventory book*</label>
+
+                        <div *ngIf="submitted && fields['inventoryBookId'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['inventoryBookId'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.InventoryBookId" class="invalid-feedback">
+                            <div>{{error.InventoryBookId}}</div>
+                        </div>
+                    </div>
+
+                    <!-- Inventory item -->
+                    <div class="form-floating mb-3" aria-label="ItemId">
+                        <select id="itemSelect" class="form-select" formControlName="itemId"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['itemId'].errors || error?.ItemId) }">
+                            <option *ngFor="let item of itemList" [ngValue]="item.id">{{item.name}}
+                                ({{item.symbol}})
+                            </option>
+                        </select>
+                        <label for="itemSelect">Inventory item*</label>
+
+                        <div *ngIf="submitted && fields['itemId'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['itemId'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.ItemId" class="invalid-feedback">
+                            <div>{{error.ItemId}}</div>
+                        </div>
+                    </div>
+
+                    <!-- Source -->
+                    <div class="form-floating mb-3" aria-label="SourceId">
+                        <select id="sourceSelect" class="form-select" formControlName="sourceId"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['sourceId'].errors || error?.SourceId) }">
+                            <option *ngFor="let source of sourceList" [ngValue]="source.id">{{source.name}}
+                            </option>
+                        </select>
+                        <label for="sourceSelect">Inventory item source*</label>
+
+                        <div *ngIf="submitted && fields['sourceId'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['sourceId'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.SourceId" class="invalid-feedback">
+                            <div>{{error.SourceId}}</div>
+                        </div>
+                    </div>
+
+                    <!-- Document -->
+                    <div class="d-flex mb-3 w-100">
+                        <div class="form-floating me-2 flex-fill" aria-label="DocumentId">
+                            <select id="documentSelect" class="form-select" formControlName="documentId"
+                                [ngClass]="{ 'is-invalid': submitted && (fields['documentId'].errors || error?.DocumentId) }">
+                                <option *ngFor="let document of documentList" [ngValue]="document.id">{{document.name}}
+                                </option>
+                            </select>
+                            <label for="sourceSelect">Document*</label>
+
+                            <div *ngIf="submitted && fields['documentId'].errors" class="invalid-feedback">
+                                <div *ngIf="fields['documentId'].errors['required']">This field is required</div>
+                            </div>
+                            <div *ngIf="submitted && error?.DocumentId" class="invalid-feedback">
+                                <div>{{error.DocumentId}}</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-success ms-auto" type="button"
+                            (click)="openAddDocumentModal()">New</button>
+                    </div>
+
+                    <!-- Date -->
+                    <div class="form-floating mb-3">
+                        <input type="date" formControlName="date" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['date'].errors || error?.Email) }"
+                            placeholder="date" />
+                        <label for="date">Date*</label>
+
+                        <div *ngIf="submitted && fields['date'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['date'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Date" class="invalid-feedback">
+                            <div>{{error.Date}}</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Cancel button -->
+                        <div class="col-6">
+                            <button type="button" class="btn btn-lg btn-danger w-100" aria-label="Cancel"
+                                (click)="onCancel()">
+                                Cancel
+                            </button>
+                        </div>
+                        <!-- Submit button -->
+                        <div class="col-6">
+                            <button [disabled]="loading" class="btn btn-lg btn-primary w-100" type="submit">
+                                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                Create
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Error box -->
+                    <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

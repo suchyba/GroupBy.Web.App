@@ -1,4 +1,4 @@
-export interface IInventoryBookSimple {
+export interface ISimpleInventoryBook {
     id: number
     name: string
 }

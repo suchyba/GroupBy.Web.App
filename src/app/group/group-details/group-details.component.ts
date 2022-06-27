@@ -4,6 +4,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { AccountingBookAddModalComponent } from 'src/app/shared/components/modals/accounting-book-add-modal/accounting-book-add-modal.component';
 import { GroupAddModalComponent } from 'src/app/shared/components/modals/group-add-modal/group-add-modal.component';
+import { InventoryBookAddModalComponent } from 'src/app/shared/components/modals/inventory-book-add-modal/inventory-book-add-modal.component';
 import { ProjectAddModalComponent } from 'src/app/shared/components/modals/project-add-modal/project-add-modal.component';
 import { ISimpleAccountingBook } from 'src/app/shared/models/accounting-book/accounting-book-simple.model';
 import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
@@ -33,24 +34,28 @@ export class GroupDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private groupService: GroupService,
     private modalService: BsModalService,
     private authService: AuthService,
     private volunteerService: VolunteerService) { }
 
   ngOnInit(): void {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.group = this.route.snapshot.data['group']
-    this.childGroups = this.route.snapshot.data['childGroups']
+    this.route.data.subscribe(data => {
+      this.group = data['group']
+      this.childGroups = data['childGroups']
+      this.reloadAccountingBooks();
+    })
 
     this.volunteerId = this.authService.getUserId()
+  }
 
+  private reloadAccountingBooks() {
     if (this.group)
       this.groupService.getAccountingBooks(this.group.id).subscribe(apiAccountingBooks => {
-        this.accountingBooks = apiAccountingBooks
-      })
+        this.accountingBooks = apiAccountingBooks;
+      });
   }
+
   isOwner(): boolean {
     return this.group?.owner.id === this.volunteerId
   }
@@ -108,7 +113,9 @@ export class GroupDetailsComponent implements OnInit {
   }
 
   openAccountingBooksModal(): void {
-    this.modalService.show(AccountingBookListComponentModal, { initialState: { groupId: this.group?.id } })
+    const modalRef = this.modalService.show(AccountingBookListComponentModal, { initialState: { groupId: this.group?.id } })
+
+    modalRef.onHidden?.subscribe(() => this.reloadAccountingBooks())
   }
   openAddGroupModal(): void {
     if (this.volunteerId) {
@@ -145,12 +152,7 @@ export class GroupDetailsComponent implements OnInit {
           }
         }
       })
-      modalRef.onHidden?.subscribe(() => {
-        if (this.group)
-          this.groupService.getAccountingBooks(this.group.id).subscribe(apiAccountingBooks => {
-            this.accountingBooks = apiAccountingBooks
-          })
-      })
+      modalRef.onHidden?.subscribe(() => this.reloadAccountingBooks())
     }
   }
 
@@ -191,14 +193,41 @@ export class GroupDetailsComponent implements OnInit {
     }
   }
 
+  openAddInventoryBookModal(): void {
+    if (this.group) {
+      const modalRef = this.modalService.show(InventoryBookAddModalComponent, {
+        initialState: {
+          bookToCreate: {
+            name: '',
+            relatedGroupId: this.group.id
+          },
+          group: this.group
+        }
+      })
+
+      modalRef.content?.bookCreatedEvent.subscribe(createdBook => {
+        if (this.group)
+          this.group.inventoryBook = createdBook
+          
+        modalRef.content?.bookCreatedEvent.unsubscribe()
+      })
+    }
+  }
+
   onProjectDeleted(): void {
     this.loadProjects()
   }
 
   onChildGroupDeleted(): void {
     if (this.group)
-    this.groupService.getChaildGroups(this.group.id).subscribe(apiGroups => {
-      this.childGroups = apiGroups
-    })
+      this.groupService.getChaildGroups(this.group.id).subscribe(apiGroups => {
+        this.childGroups = apiGroups
+      })
+  }
+
+  onInventoryBookDeleted(): void {
+    if (this.group) {
+      this.group.inventoryBook = undefined
+    }
   }
 }

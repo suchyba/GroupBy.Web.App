@@ -36,13 +36,19 @@
                     <div class="alert alert-danger" *ngIf="noResults">No results found</div>
                     <input autofocus placeholder="Volunteer" [(ngModel)]="selectedVolunteer"
                         [typeahead]="filteredVolunteerList" [typeaheadItemTemplate]="customItemTemplate"
-                        (typeaheadOnSelect)="onSelect($event)" (typeaheadNoResults)="noResultsEvent($event)" class="form-control">
+                        (typeaheadOnSelect)="onSelect($event)" (typeaheadNoResults)="noResultsEvent($event)"
+                        [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="5"
+                        class="form-control">
                 </div>
             </div>
             <div class="col-12 mt-3">
-                <div class="d-flex justify-content-around">
-                    <button class="btn btn-danger px-4" (click)="cancelClick()">Cancel</button>
-                    <button class="btn btn-success px-4" (click)="confirmClick()">Confirm</button>
+                <div class="row">
+                    <div class="col-6">
+                        <button class="btn btn-lg btn-danger w-100" (click)="cancelClick()">Cancel</button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-lg btn-primary w-100" (click)="confirmClick()">Confirm</button>
+                    </div>
                 </div>
             </div>
         </div>

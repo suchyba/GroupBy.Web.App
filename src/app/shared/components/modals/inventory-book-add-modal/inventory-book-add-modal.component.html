@@ -3,9 +3,9 @@
         <div class="row flex-fill">
             <div class="modal-title col-12">
                 <div class="d-flex">
-                    <h2>Add new accounting document</h2>
+                    <h2>Add new inventory book</h2>
                     <button type="button" class="btn btn-outline-secondary close pull-right ms-auto" aria-label="Close"
-                        (click)="bsModalRef.hide()">
+                        (click)="modalRef.hide()">
                         <i class="bi bi-x-lg"></i>
                     </button>
                 </div>
@@ -15,7 +15,7 @@
     <div class="modal-body">
         <div class="row">
             <div class="col-12">
-                <form [formGroup]="documentAddForm" (ngSubmit)="onSubmit()">
+                <form [formGroup]="bookAddForm" (ngSubmit)="onSubmit()">
                     <!-- Name -->
                     <div class="form-floating mb-3">
                         <input type="text" formControlName="name" class="form-control"
@@ -30,42 +30,29 @@
                             <div>{{error.Name}}</div>
                         </div>
                     </div>
-                    <!-- Project -->
-                    <div class="form-floating mb-3" aria-label="Project">
-                        <select id="projectSelect" class="form-select" formControlName="project"
-                            [ngClass]="{ 'is-invalid': submitted && (fields['project'].errors || error?.Project) }">
-                            <option *ngFor="let project of projectList" [ngValue]="project.id">
-                                {{project.name}}</option>
-                            <option [ngValue]="undefined">-</option>
-                        </select>
-                        <label for="projectSelect">Project</label>
 
-                        <div *ngIf="submitted && error?.Project" class="invalid-feedback">
-                            <div>{{error.Project}}</div>
+                    <!-- Related group -->
+                    <div class="form-floating mb-3" aria-label="RelatedGroupId">
+                        <select id="relatedGroupSelect" class="form-select" formControlName="relatedGroupId"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['relatedGroupId'].errors || error?.RelatedGroupId) }">
+                            <option *ngFor="let group of groupList" [ngValue]="group.id">{{group.name}}
+                            </option>
+                        </select>
+                        <label for="relatedGroupSelect">Related group*</label>
+
+                        <div *ngIf="submitted && fields['relatedGroupId'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['relatedGroupId'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.RelatedGroupId" class="invalid-feedback">
+                            <div>{{error.RelatedGroupId}}</div>
                         </div>
                     </div>
-                    <!-- Group -->
-                    <div class="form-floating mb-3" aria-label="Group">
-                        <select id="groupSelect" class="form-select" formControlName="group"
-                            [ngClass]="{ 'is-invalid': submitted && (fields['group'].errors || error?.Group) }"
-                            (change)="refreshProjectList()">
-                            <option *ngFor="let group of groupList" [ngValue]="group.id">
-                                {{group.name}}</option>
-                        </select>
-                        <label for="groupSelect">Group*</label>
 
-                        <div *ngIf="submitted && fields['group'].errors" class="invalid-feedback">
-                            <div *ngIf="fields['group'].errors['required']">This field is required</div>
-                        </div>
-                        <div *ngIf="submitted && error?.Group" class="invalid-feedback">
-                            <div>{{error.Group}}</div>
-                        </div>
-                    </div>
                     <div class="row">
                         <!-- Cancel button -->
                         <div class="col-6">
                             <button type="button" class="btn btn-lg btn-danger w-100" aria-label="Cancel"
-                                (click)="bsModalRef.hide()">
+                                (click)="modalRef.hide()">
                                 Cancel
                             </button>
                         </div>

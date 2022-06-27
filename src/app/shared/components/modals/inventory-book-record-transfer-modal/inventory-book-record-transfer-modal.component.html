@@ -1,0 +1,170 @@
+<div class="m-2">
+    <div class="modal-header">
+        <div class="row flex-fill">
+            <div class="modal-title col-12">
+                <div class="d-flex">
+                    <h2>Transfer inventory item</h2>
+                    <button type="button" class="btn btn-outline-secondary close pull-right ms-auto" aria-label="Close"
+                        (click)="onCancel()">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-12">
+                <form [formGroup]="recordAddForm" (ngSubmit)="onSubmit()">
+                    <!-- From inventory book -->
+                    <div class="form-floating mb-3" aria-label="InventoryBookFromId">
+                        <select id="inventoryBookFromSelect" class="form-select" formControlName="inventoryBookFromId"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['inventoryBookFromId'].errors || error?.InventoryBookFromId) }">
+                            <option *ngFor="let book of inventoryBookFromList" [ngValue]="book.id">{{book.name}}
+                            </option>
+                        </select>
+                        <label for="inventoryBookFromSelect">Inventory book from*</label>
+
+                        <div *ngIf="submitted && fields['inventoryBookFromId'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['inventoryBookFromId'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.InventoryBookFromId" class="invalid-feedback">
+                            <div>{{error.InventoryBookFromId}}</div>
+                        </div>
+                    </div>
+
+                    <!-- To group -->
+                    <div class="d-flex flex-column w-100">
+                        <div class="alert alert-danger" *ngIf="noGroupResults">No results found</div>
+                        <input autofocus placeholder="Volunteer" formControlName="groupToId"
+                            [typeahead]="filteredGroupsList" [typeaheadOptionField]="name"
+                            (typeaheadNoResults)="noResultsEvent($event)" [typeaheadMinLength]="0"
+                            [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="5" class="form-control">
+                    </div>
+
+                    <!-- Inventory item -->
+                    <div class="form-floating mb-3" aria-label="ItemId">
+                        <select id="itemSelect" class="form-select" formControlName="itemId"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['itemId'].errors || error?.ItemId) }">
+                            <option *ngFor="let item of itemList" [ngValue]="item.id">{{item.name}}
+                                ({{item.symbol}})
+                            </option>
+                        </select>
+                        <label for="itemSelect">Inventory item*</label>
+
+                        <div *ngIf="submitted && fields['itemId'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['itemId'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.ItemId" class="invalid-feedback">
+                            <div>{{error.ItemId}}</div>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3 d-flex">
+                        <div class="flex-fill">
+                            <div class="d-flex flex-column">
+                                <!-- Source from -->
+                                <div class="form-floating mb-3" aria-label="SourceFromId">
+                                    <select id="sourceFromSelect" class="form-select" formControlName="sourceFromId"
+                                        [ngClass]="{ 'is-invalid': submitted && (fields['sourceFromId'].errors || error?.SourceFromId) }">
+                                        <option *ngFor="let source of sourceList" [ngValue]="source.id">{{source.name}}
+                                        </option>
+                                    </select>
+                                    <label for="sourceSelect">Inventory item source from*</label>
+
+                                    <div *ngIf="submitted && fields['sourceFromId'].errors" class="invalid-feedback">
+                                        <div *ngIf="fields['sourceFromId'].errors['required']">This field is required
+                                        </div>
+                                    </div>
+                                    <div *ngIf="submitted && error?.SourceFromId" class="invalid-feedback">
+                                        <div>{{error.SourceFromId}}</div>
+                                    </div>
+                                </div>
+
+                                <!-- Source to -->
+                                <div class="form-floating" aria-label="SourceToId">
+                                    <select id="sourceToSelect" class="form-select" formControlName="sourceToId"
+                                        [ngClass]="{ 'is-invalid': submitted && (fields['sourceToId'].errors || error?.SourceToId) }">
+                                        <option *ngFor="let source of sourceList" [ngValue]="source.id">{{source.name}}
+                                        </option>
+                                    </select>
+                                    <label for="sourceSelect">Inventory item source to*</label>
+
+                                    <div *ngIf="submitted && fields['sourceToId'].errors" class="invalid-feedback">
+                                        <div *ngIf="fields['sourceToId'].errors['required']">This field is required
+                                        </div>
+                                    </div>
+                                    <div *ngIf="submitted && error?.SourceToId" class="invalid-feedback">
+                                        <div>{{error.SourceToId}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group-text ms-auto">
+                            <input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off"
+                                [checked]="sourcesLinked" (click)="onSourceLinkClick()"
+                                [disabled]="linkingSourcesDisabled">
+                            <label class="btn btn-outline-secondary" for="btn-check-outlined"><i
+                                    class="bi bi-link"></i></label>
+                        </div>
+                    </div>
+
+                    <!-- Document -->
+                    <div class="d-flex mb-3 w-100">
+                        <div class="form-floating me-2 flex-fill" aria-label="DocumentId">
+                            <select id="documentSelect" class="form-select" formControlName="documentId"
+                                [ngClass]="{ 'is-invalid': submitted && (fields['documentId'].errors || error?.DocumentId) }">
+                                <option *ngFor="let document of documentList" [ngValue]="document.id">{{document.name}}
+                                </option>
+                            </select>
+                            <label for="sourceSelect">Document*</label>
+
+                            <div *ngIf="submitted && fields['documentId'].errors" class="invalid-feedback">
+                                <div *ngIf="fields['documentId'].errors['required']">This field is required</div>
+                            </div>
+                            <div *ngIf="submitted && error?.DocumentId" class="invalid-feedback">
+                                <div>{{error.DocumentId}}</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-success ms-auto" type="button"
+                            (click)="openAddDocumentModal()">New</button>
+                    </div>
+
+                    <!-- Date -->
+                    <div class="form-floating mb-3">
+                        <input type="date" formControlName="date" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['date'].errors || error?.Email) }"
+                            placeholder="date" />
+                        <label for="date">Date*</label>
+
+                        <div *ngIf="submitted && fields['date'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['date'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Date" class="invalid-feedback">
+                            <div>{{error.Date}}</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Cancel button -->
+                        <div class="col-6">
+                            <button type="button" class="btn btn-lg btn-danger w-100" aria-label="Cancel"
+                                (click)="onCancel()">
+                                Cancel
+                            </button>
+                        </div>
+                        <!-- Submit button -->
+                        <div class="col-6">
+                            <button [disabled]="loading" class="btn btn-lg btn-primary w-100" type="submit">
+                                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                Create
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Error box -->
+                    <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
