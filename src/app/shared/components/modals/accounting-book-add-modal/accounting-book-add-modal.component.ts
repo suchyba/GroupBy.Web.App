@@ -52,7 +52,12 @@ export class AccountingBookAddModalComponent implements OnInit {
       // group preset - blocking control
       if (this.bookToCreate.relatedGroupId) {
         this.groupService.getGroup(this.bookToCreate.relatedGroupId).subscribe(g => {
-          this.groupList = [g]
+          this.groupList = [{
+            description: g.description,
+            id: g.id,
+            name: g.name,
+            hasInventoryBook: g.inventoryBook !== null
+          }]
           this.accountingBookAddForm.controls['relatedGroup'].disable()
         })
       }

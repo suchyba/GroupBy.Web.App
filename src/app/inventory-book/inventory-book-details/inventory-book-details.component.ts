@@ -84,7 +84,7 @@ export class InventoryBookDetailsComponent implements OnInit {
           recordToCreate: {
             inventoryBookFromId: this.inventoryBook.id,
             date: undefined,
-            documentId: undefined,
+            documentName: undefined,
             itemId: undefined,
             inventoryBookToId: undefined,
             sourceFromId: undefined,

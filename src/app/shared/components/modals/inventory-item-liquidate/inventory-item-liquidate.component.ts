@@ -222,7 +222,7 @@ export class InventoryItemLiquidateComponent implements OnInit {
           documentToCreate: {
             name: "",
             filePath: "null",
-            groupId: this.group.id,
+            groupsId: [this.group.id],
             projectId: undefined
           }
         }

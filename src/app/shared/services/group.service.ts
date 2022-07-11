@@ -22,7 +22,7 @@ export class GroupService {
   getGroup(id: number): Observable<IGroup> {
     return this.http.get<IGroup>(`${environment.apiUrl}/api/group/${id}`)
   }
-  getChaildGroups(id: number): Observable<ISimpleGroup[]> {
+  getChildGroups(id: number): Observable<ISimpleGroup[]> {
     return this.http.get<ISimpleGroup[]>(`${environment.apiUrl}/api/group/${id}/subgroups`)
   }
   getMembers(id: number): Observable<ISimpleVolunteer[]> {
@@ -65,5 +65,8 @@ export class GroupService {
       })
     else
       return this.http.get<ISimpleDocument[]>(`${environment.apiUrl}/api/group/${groupId}/Documents`)
+  }
+  getAllGroups(): Observable<ISimpleGroup[]> {
+    return this.http.get<ISimpleGroup[]>(`${environment.apiUrl}/api/group`)
   }
 }

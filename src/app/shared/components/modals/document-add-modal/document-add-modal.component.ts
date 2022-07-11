@@ -55,13 +55,18 @@ export class DocumentAddModalComponent implements OnInit {
       name: ['', Validators.required],
       filePath: ['empty', Validators.required],
       project: [this.documentToCreate?.projectId],
-      group: [this.documentToCreate?.groupId, Validators.required],
+      group: [this.documentToCreate?.groupsId[0], Validators.required],
       accountingDocument: [{value: this.isAccountingDocument, disabled: this.blockAccountingDocument}]
     })
 
-    if (this.documentToCreate && this.documentToCreate.groupId) {
-      this.groupService.getGroup(this.documentToCreate.groupId).subscribe(g => {
-        this.groupList = [g]
+    if (this.documentToCreate && this.documentToCreate.groupsId[0]) {
+      this.groupService.getGroup(this.documentToCreate.groupsId[0]).subscribe(g => {
+        this.groupList = [{
+          description: g.description,
+          id: g.id,
+          name: g.name,
+          hasInventoryBook: g.inventoryBook !== null
+        }]
         this.documentAddForm.controls['group'].setValue(g.id)
         this.documentAddForm.controls['group'].disable()
       })
@@ -71,9 +76,9 @@ export class DocumentAddModalComponent implements OnInit {
   }
 
   refreshProjectList(): void {
-    if (this.documentToCreate && this.documentToCreate.groupId) {
+    if (this.documentToCreate && this.documentToCreate.groupsId) {
       // project list
-      this.groupService.getProjects(this.documentToCreate.groupId).subscribe(p => {
+      this.groupService.getProjects(this.documentToCreate.groupsId[0]).subscribe(p => {
         this.projectList = p;
         if (this.documentToCreate?.projectId) {
           this.projectList = this.projectList.filter(p => p.id === this.documentToCreate?.projectId)
@@ -84,7 +89,7 @@ export class DocumentAddModalComponent implements OnInit {
           }
         }
       })
-      this.groupService.getGroup(this.documentToCreate.groupId).subscribe(g => {
+      this.groupService.getGroup(this.documentToCreate.groupsId[0]).subscribe(g => {
         if (g.relatedProject) {
           this.projectList?.push(g.relatedProject)
         }
@@ -111,7 +116,7 @@ export class DocumentAddModalComponent implements OnInit {
     if (this.documentToCreate) {
       this.documentToCreate.name = this.fields['name'].value
       this.documentToCreate.filePath = this.fields['filePath'].value
-      this.documentToCreate.groupId = this.fields['group'].value
+      this.documentToCreate.groupsId = [this.fields['group'].value]
       this.documentToCreate.projectId = this.fields['project'].value
 
       if (this.isAccountingDocument) {

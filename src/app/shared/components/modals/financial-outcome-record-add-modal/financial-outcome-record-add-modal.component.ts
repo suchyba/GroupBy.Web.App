@@ -196,7 +196,7 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
           documentToCreate: {
             name: "",
             filePath: "null",
-            groupId: this.group.id,
+            groupsId: [this.group.id],
             projectId: this.recordToCreate?.relatedProjectId
           },
           isAccountingDocument: true

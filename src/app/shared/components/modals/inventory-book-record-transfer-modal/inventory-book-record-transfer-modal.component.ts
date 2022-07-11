@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-import { ISimpleDocument } from 'src/app/shared/models/document/document-simple.model';
+import { startWith } from 'rxjs/operators';
 import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
 import { ITransferInventoryBookRecord } from 'src/app/shared/models/inventory-book-record/inventory-book-record-transfer.model';
 import { ISimpleInventoryBook } from 'src/app/shared/models/inventory-book/inventory-book-simple.model';
@@ -15,7 +15,6 @@ import { InventoryBookRecordService } from 'src/app/shared/services/inventory-bo
 import { InventoryBookService } from 'src/app/shared/services/inventory-book.service';
 import { InventoryItemSourceService } from 'src/app/shared/services/inventory-item-source.service';
 import { InventoryItemService } from 'src/app/shared/services/inventory-item.service';
-import { DocumentAddModalComponent } from '../document-add-modal/document-add-modal.component';
 
 @Component({
   selector: 'app-inventory-book-record-transfer-modal',
@@ -31,10 +30,13 @@ export class InventoryBookRecordTransferModalComponent implements OnInit {
   public inventoryBookToList: ISimpleInventoryBook[] = []
   public itemList: ISimpleInventoryItem[] = []
   public sourceList: ISimpleInventoryItemSource[] = []
-  public documentList: ISimpleDocument[] = []
 
   public sourcesLinked: boolean = true
   public linkingSourcesDisabled = false
+
+  public filteredGroupList: ISimpleGroup[] = []
+  public groupList: ISimpleGroup[] = []
+  public selectedGroup: ISimpleGroup | undefined
   public noGroupResults = false
 
   public recordAddForm: FormGroup
@@ -59,18 +61,33 @@ export class InventoryBookRecordTransferModalComponent implements OnInit {
 
   get fields() { return this.recordAddForm.controls }
 
+  private filterGroup(value: string): ISimpleGroup[] {
+    return this.groupList
+      .filter((g: ISimpleGroup) => g.name.toLowerCase().includes(value.toLowerCase()));
+  }
+
+  onSelectGroup(group: ISimpleGroup) {
+    this.selectedGroup = group
+  }
+
   ngOnInit(): void {
     this.modalRef.setClass('modal-lg')
 
     this.recordAddForm = this.formBuilder.group({
       inventoryBookFromId: [this.recordToCreate?.inventoryBookFromId, Validators.required],
-      inventoryBookToId: [this.recordToCreate?.inventoryBookToId, Validators.required],
-      documentId: [this.recordToCreate?.documentId, Validators.required],
+      groupToId: ['', Validators.required],
+      document: [this.recordToCreate?.documentName, Validators.required],
       itemId: [this.recordToCreate?.itemId, Validators.required],
       sourceFromId: [this.recordToCreate?.sourceFromId, Validators.required],
       sourceToId: [this.recordToCreate?.sourceToId, Validators.required],
       date: [formatDate(this.recordToCreate?.date ?? new Date(), 'yyyy-MM-dd', 'en'), Validators.required]
     })
+
+    // typeahead filtering
+    this.recordAddForm.controls['groupToId'].valueChanges.pipe(startWith(''))
+      .subscribe((value: string) => {
+        this.filteredGroupList = this.filterGroup(value)
+      })
 
     this.recordAddForm.controls['sourceFromId'].valueChanges.subscribe(value => {
       if (this.sourcesLinked) {
@@ -145,50 +162,53 @@ export class InventoryBookRecordTransferModalComponent implements OnInit {
         }
 
       });
-
-      // Document
-      if (this.recordToCreate.documentId) {
-      }
-      else {
-        if (this.groupFrom) {
-          this.groupService.getDocuments(this.groupFrom.id).subscribe(docs => {
-            this.documentList = [...docs];
-          })
-        }
-        else {
-        }
-      }
     }
+    // destination group list
+    this.groupService.getAllGroups().subscribe(allGroups => {
+      this.groupList = allGroups.filter(g => g.hasInventoryBook && g.id !== this.groupFrom?.id)
+      this.filteredGroupList = this.groupList
+    })
+
   }
 
   onSubmit(): void {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.recordAddForm.invalid) {
+      return;
+    }
+
+    this.loading = true;
+    if (this.selectedGroup) {
+      this.groupService.getGroup(this.selectedGroup?.id).subscribe(g => {
+        this.inventoryBookRecordService.transferItem({
+          inventoryBookFromId: this.recordAddForm.controls['inventoryBookFromId'].value,
+          date: this.recordAddForm.controls['date'].value,
+          documentName: this.recordAddForm.controls['document'].value,
+          sourceFromId: this.recordAddForm.controls['sourceFromId'].value,
+          sourceToId: this.recordAddForm.controls['sourceToId'].value,
+          itemId: this.recordAddForm.controls['itemId'].value,
+          inventoryBookToId: g.inventoryBook?.id
+        }).subscribe({
+          complete: () => {
+            this.toastrService.success(`Successfully transfered item`)
+            this.modalRef.hide()
+          },
+          error: (error) => {
+            this.error = error;
+            if (error?.id)
+              this.errorMessage = error.message
+            this.loading = false;
+          }
+        })
+      })
+    }
 
   }
 
   onCancel(): void {
     this.modalRef.hide()
-  }
-
-  openAddDocumentModal(): void {
-    if (this.groupFrom) {
-      let modal = this.modalService.show(DocumentAddModalComponent, {
-        initialState: {
-          documentToCreate: {
-            name: "",
-            filePath: "null",
-            groupId: this.groupFrom.id,
-            projectId: undefined
-          }
-        }
-      })
-      if (modal.onHidden)
-        modal.onHidden.subscribe(() => {
-          if (modal.content?.createdDocument && this.documentList) {
-            this.documentList.push(modal.content.createdDocument)
-            this.fields['documentId'].setValue(modal.content.createdDocument.id)
-          }
-        })
-    }
   }
 
   onSourceLinkClick(): void {
@@ -204,6 +224,6 @@ export class InventoryBookRecordTransferModalComponent implements OnInit {
   }
 
   noResultsEvent(isNoResults: boolean): void {
-    this.noGroupResults = isNoResults 
-   }
+    this.noGroupResults = isNoResults
+  }
 }

@@ -34,12 +34,22 @@
                     </div>
 
                     <!-- To group -->
-                    <div class="d-flex flex-column w-100">
-                        <div class="alert alert-danger" *ngIf="noGroupResults">No results found</div>
+                    <div class="form-floating d-flex flex-column w-100 mb-3">
                         <input autofocus placeholder="Volunteer" formControlName="groupToId"
-                            [typeahead]="filteredGroupsList" [typeaheadOptionField]="name"
+                            [typeahead]="filteredGroupList" typeaheadOptionField="name"
                             (typeaheadNoResults)="noResultsEvent($event)" [typeaheadMinLength]="0"
-                            [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="5" class="form-control">
+                            [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="5"
+                            (typeaheadOnSelect)="onSelectGroup($event.item)" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['groupToId'].errors || error?.GroupToId) }">
+                        <label for="groupToId">Destination group*</label>
+                        <div class="alert alert-danger mt-1 mb-0" *ngIf="noGroupResults">No results found</div>
+
+                        <div *ngIf="submitted && fields['groupToId'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['groupToId'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.GroupToId" class="invalid-feedback">
+                            <div>{{error.GroupToId}}</div>
+                        </div>
                     </div>
 
                     <!-- Inventory item -->
@@ -110,24 +120,18 @@
                     </div>
 
                     <!-- Document -->
-                    <div class="d-flex mb-3 w-100">
-                        <div class="form-floating me-2 flex-fill" aria-label="DocumentId">
-                            <select id="documentSelect" class="form-select" formControlName="documentId"
-                                [ngClass]="{ 'is-invalid': submitted && (fields['documentId'].errors || error?.DocumentId) }">
-                                <option *ngFor="let document of documentList" [ngValue]="document.id">{{document.name}}
-                                </option>
-                            </select>
-                            <label for="sourceSelect">Document*</label>
+                    <div class="form-floating mb-3">
+                        <input type="text" formControlName="document" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['document'].errors || error?.Email) }"
+                            placeholder="document" />
+                        <label for="document">Document name*</label>
 
-                            <div *ngIf="submitted && fields['documentId'].errors" class="invalid-feedback">
-                                <div *ngIf="fields['documentId'].errors['required']">This field is required</div>
-                            </div>
-                            <div *ngIf="submitted && error?.DocumentId" class="invalid-feedback">
-                                <div>{{error.DocumentId}}</div>
-                            </div>
+                        <div *ngIf="submitted && fields['document'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['document'].errors['required']">This field is required</div>
                         </div>
-                        <button class="btn btn-success ms-auto" type="button"
-                            (click)="openAddDocumentModal()">New</button>
+                        <div *ngIf="submitted && error?.Document" class="invalid-feedback">
+                            <div>{{error.Document}}</div>
+                        </div>
                     </div>
 
                     <!-- Date -->

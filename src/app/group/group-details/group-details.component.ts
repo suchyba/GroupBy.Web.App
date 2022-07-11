@@ -132,7 +132,7 @@ export class GroupDetailsComponent implements OnInit {
 
       modalRef.onHidden?.subscribe(() => {
         if (this.group?.id)
-          this.groupService.getChaildGroups(this.group?.id).subscribe(groups => {
+          this.groupService.getChildGroups(this.group?.id).subscribe(groups => {
             this.childGroups = groups
           })
       })
@@ -201,7 +201,12 @@ export class GroupDetailsComponent implements OnInit {
             name: '',
             relatedGroupId: this.group.id
           },
-          group: this.group
+          group: {
+            id: this.group.id,
+            name: this.group.name,
+            description: this.group.description,
+            hasInventoryBook: this.group.inventoryBook !== null
+          }
         }
       })
 
@@ -220,7 +225,7 @@ export class GroupDetailsComponent implements OnInit {
 
   onChildGroupDeleted(): void {
     if (this.group)
-      this.groupService.getChaildGroups(this.group.id).subscribe(apiGroups => {
+      this.groupService.getChildGroups(this.group.id).subscribe(apiGroups => {
         this.childGroups = apiGroups
       })
   }

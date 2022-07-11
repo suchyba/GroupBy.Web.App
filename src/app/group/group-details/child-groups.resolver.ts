@@ -16,6 +16,6 @@ export class ChildGroupsResolver implements Resolve<ISimpleGroup[]> {
    
   }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ISimpleGroup[]> {
-    return this.groupService.getChaildGroups(route.params['id'])
+    return this.groupService.getChildGroups(route.params['id'])
   }
 }

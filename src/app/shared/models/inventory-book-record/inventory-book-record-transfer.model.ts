@@ -3,7 +3,7 @@ export interface ITransferInventoryBookRecord {
     inventoryBookToId: number | undefined,
     itemId: number | undefined,
     date: Date | undefined,
-    documentId: number | undefined
+    documentName: string | undefined
     sourceFromId: number | undefined
     sourceToId: number | undefined
 }

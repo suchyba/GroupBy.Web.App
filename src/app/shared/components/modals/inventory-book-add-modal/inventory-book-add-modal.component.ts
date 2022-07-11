@@ -58,7 +58,8 @@ export class InventoryBookAddModalComponent implements OnInit {
           this.groupList = [{
             id: apiGroup.id,
             name: apiGroup.name,
-            description: apiGroup.description
+            description: apiGroup.description,
+            hasInventoryBook: apiGroup.inventoryBook !== null
           }]
         })
       }

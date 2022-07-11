@@ -1,6 +1,6 @@
 export interface ICreateAccountingDocument {
     name: string,
     filePath: string,
-    groupId: number,
+    groupsId: number[],
     projectId: number | undefined
 }

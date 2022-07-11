@@ -138,7 +138,7 @@ export class ProjectDetailsComponent implements OnInit {
     let modal = this.modalService.show(DocumentAddModalComponent, {
       initialState: {
         documentToCreate: {
-          groupId: groupId,
+          groupsId: [groupId],
           name: "",
           projectId: this.project?.id,
           filePath: ""
