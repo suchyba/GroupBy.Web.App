@@ -38,9 +38,30 @@
     <div class="mt-5 row">
         <!-- owner -->
         <div class="col-3">
-            <h5 class="text-center">Owner of the group <a class="bi bi-pencil-square" *ngIf="isOwner()"></a></h5>
-            <shr-volunteer-thumbnail [volunteer]="group.owner" [canRemove]="false" class="w-100">
+            <h5 class="text-center">Owner of the group <a class="bi bi-pencil-square" *ngIf="isOwner()"
+                    (click)="editOwnerClick()"></a></h5>
+            <shr-volunteer-thumbnail [volunteer]="group.owner" [canRemove]="false" class="w-100" *ngIf="!editOwner">
             </shr-volunteer-thumbnail>
+            <div class="w-100 h-100 d-flex" *ngIf="editOwner">
+
+                <div class="row h-100 w-100" *ngIf="!members">
+                    <div class="col-12 d-flex justify-content-center">
+                            <span class="spinner-border align-self-center"></span>
+                    </div>
+                </div>
+                <div class="row" *ngIf="members">
+                    <div class="col-12">
+                        <div class="btn-group">
+                            <select id="relatedGroup" class="form-select" [(ngModel)]="newOwner">
+                                <option *ngFor="let volunteer of members" [ngValue]="volunteer.id">{{volunteer.firstNames}}
+                                    {{volunteer.lastName}}</option>
+                            </select>
+        
+                            <button class="btn btn-success" (click)="confirmEditOwnerClick()">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- parent group -->
         <div class="col-3" *ngIf="group.parentGroup">
@@ -59,7 +80,8 @@
             <shr-inventory-book-thumbnail [inventoryBook]="group.inventoryBook" class="w-100"
                 *ngIf="group.inventoryBook" [canRemove]="isOwner()" (deletedEvent)="onInventoryBookDeleted()">
             </shr-inventory-book-thumbnail>
-            <button class="btn btn-outline-success h-100 w-100" (click)="openAddInventoryBookModal()" *ngIf="!group.inventoryBook">
+            <button class="btn btn-outline-success h-100 w-100" (click)="openAddInventoryBookModal()"
+                *ngIf="!group.inventoryBook">
                 <div class="row h-100">
                     <div class="col-12 d-flex justify-content-center">
                         <div class="align-self-center">
@@ -89,7 +111,8 @@
                     <!-- List of groups -->
                     <div class="row">
                         <div *ngFor="let group of childGroups" class="col-md-3 my-3 d-flex align-items-stretch">
-                            <shr-group-thumbnail [group]="group" [canRemove]="isOwner()" (deletedEvent)="onChildGroupDeleted()" class="w-100">
+                            <shr-group-thumbnail [group]="group" [canRemove]="isOwner()"
+                                (deletedEvent)="onChildGroupDeleted()" class="w-100">
                             </shr-group-thumbnail>
                         </div>
                     </div>
@@ -112,7 +135,8 @@
                             <button class="btn btn-secondary" *ngIf="members && !membersHidden"
                                 (click)="loadMembers()">Refresh</button>
                         </div>
-                        <button class="ms-auto btn btn-success" *ngIf="isOwner()" (click)="openAddMemebersModal()">Add members</button>
+                        <button class="ms-auto btn btn-success" *ngIf="isOwner()" (click)="openAddMemebersModal()">Add
+                            members</button>
                     </div>
                 </div>
             </div>
@@ -127,7 +151,8 @@
                 <div class="col-12">
                     <div class="row" *ngIf="members && members.length > 0">
                         <div *ngFor="let member of members" class="col-md-3 my-3 d-flex align-items-stretch">
-                            <shr-volunteer-thumbnail [volunteer]="member" [canRemove]="isOwner()" [groupId]="group.id" (onRemovedFromGroupEvent)="loadMembers()" class="w-100">
+                            <shr-volunteer-thumbnail [volunteer]="member" [canRemove]="isOwner()" [groupId]="group.id"
+                                (onRemovedFromGroupEvent)="loadMembers()" class="w-100">
                             </shr-volunteer-thumbnail>
                         </div>
                     </div>
@@ -149,7 +174,8 @@
                         <button class="btn btn-secondary" *ngIf="projects && !projectsHidden"
                             (click)="loadProjects()">Refresh</button>
                     </div>
-                    <button class="ms-auto btn btn-success" *ngIf="isOwner()" (click)="openAddProjectModal()">Add new project</button>
+                    <button class="ms-auto btn btn-success" *ngIf="isOwner()" (click)="openAddProjectModal()">Add new
+                        project</button>
                 </div>
             </div>
             <div id="projectsCollapse" class="row" [collapse]="projectsHidden" [isAnimated]="true">
@@ -163,7 +189,8 @@
                 <div class="col-12" *ngIf="!projectsHidden">
                     <div class="row" *ngIf="projects && projects.length > 0">
                         <div *ngFor="let project of projects" class="col-md-3 my-3 d-flex align-items-stretch">
-                            <shr-project-thumbnail [project]="project" [canRemove]="isOwner()" (deletedEvent)="onProjectDeleted()" class="w-100">
+                            <shr-project-thumbnail [project]="project" [canRemove]="isOwner()"
+                                (deletedEvent)="onProjectDeleted()" class="w-100">
                             </shr-project-thumbnail>
                         </div>
                     </div>

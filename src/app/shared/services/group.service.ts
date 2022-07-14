@@ -11,6 +11,7 @@ import { ISimpleAccountingBook } from '../models/accounting-book/accounting-book
 import { ICreateGroup } from '../models/group/group-create.model';
 import { ISimpleAccountingDocument } from '../models/accounting-document/accounting-document-simple.model';
 import { ISimpleDocument } from '../models/document/document-simple.model';
+import { IUpdateGroup } from '../models/group/group-update.model';
 
 @Injectable()
 export class GroupService {
@@ -68,5 +69,9 @@ export class GroupService {
   }
   getAllGroups(): Observable<ISimpleGroup[]> {
     return this.http.get<ISimpleGroup[]>(`${environment.apiUrl}/api/group`)
+  }
+
+  updateGroup(group: IUpdateGroup): Observable<IGroup> {
+    return this.http.put<IGroup>(`${environment.apiUrl}/api/group/update`, group);
   }
 }

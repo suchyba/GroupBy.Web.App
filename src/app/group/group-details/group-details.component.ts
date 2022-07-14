@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { AccountingBookAddModalComponent } from 'src/app/shared/components/modals/accounting-book-add-modal/accounting-book-add-modal.component';
 import { GroupAddModalComponent } from 'src/app/shared/components/modals/group-add-modal/group-add-modal.component';
@@ -32,12 +33,16 @@ export class GroupDetailsComponent implements OnInit {
   @Input() projects: ISimpleProject[] | undefined | null = null
   public projectsHidden: boolean = true;
 
+  public editOwner = false
+  public newOwner?: number
+
   constructor(
     private route: ActivatedRoute,
     private groupService: GroupService,
     private modalService: BsModalService,
     private authService: AuthService,
-    private volunteerService: VolunteerService) { }
+    private volunteerService: VolunteerService,
+    private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
@@ -59,6 +64,7 @@ export class GroupDetailsComponent implements OnInit {
   isOwner(): boolean {
     return this.group?.owner.id === this.volunteerId
   }
+
   loadMembers() {
     this.members = undefined
     if (this.group !== undefined) {
@@ -68,9 +74,11 @@ export class GroupDetailsComponent implements OnInit {
       })
     }
   }
+  
   hideMembers() {
     this.membersHidden = true
   }
+
   showMembers() {
     if (this.members === null)
       this.loadMembers()
@@ -86,9 +94,11 @@ export class GroupDetailsComponent implements OnInit {
       })
     }
   }
+
   hideProjects() {
     this.projectsHidden = true
   }
+
   showProjects() {
     if (this.projects === null)
       this.loadProjects()
@@ -117,6 +127,7 @@ export class GroupDetailsComponent implements OnInit {
 
     modalRef.onHidden?.subscribe(() => this.reloadAccountingBooks())
   }
+
   openAddGroupModal(): void {
     if (this.volunteerId) {
       const modalRef = this.modalService.show(GroupAddModalComponent, {
@@ -213,7 +224,7 @@ export class GroupDetailsComponent implements OnInit {
       modalRef.content?.bookCreatedEvent.subscribe(createdBook => {
         if (this.group)
           this.group.inventoryBook = createdBook
-          
+
         modalRef.content?.bookCreatedEvent.unsubscribe()
       })
     }
@@ -234,5 +245,28 @@ export class GroupDetailsComponent implements OnInit {
     if (this.group) {
       this.group.inventoryBook = undefined
     }
+  }
+
+  editOwnerClick() {
+    this.editOwner = !this.editOwner
+    this.loadMembers()
+  }
+
+  confirmEditOwnerClick() {
+    if (this.group && this.newOwner) {
+
+      this.groupService.updateGroup({
+        id: this.group.id,
+        name: this.group.name,
+        description: this.group.description,
+        ownerId: this.newOwner
+      }).subscribe(g => {
+        this.group = g
+
+        window.location.reload()
+        this.toastrService.success("Successfully changed owner of the group")
+      })
+    }
+
   }
 }
