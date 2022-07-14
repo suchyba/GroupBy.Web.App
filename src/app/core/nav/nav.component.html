@@ -27,7 +27,7 @@
                     <button class="btn btn-outline-success" type="button" *ngIf="!isLogged" [routerLink]="['/auth/register']">Sign up</button>
                 </div>
 
-                <a class="navbar-text" [routerLink]="['/']" *ngIf="isLogged">Hello {{name}}</a>
+                <a class="navbar-text" [routerLink]="['/account/manage']" *ngIf="isLogged">Hello {{nameObs | async}}</a>
                 <button class="btn btn-outline-warning mx-3" type="button" *ngIf="isLogged" (click)="logout()">Sign out</button>
             </div>
         </div>

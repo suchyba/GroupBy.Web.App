@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { VolunteerService } from '../../shared/services/volunteer.service';
+import { map, Observable, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-nav',
@@ -9,20 +10,26 @@ import { VolunteerService } from '../../shared/services/volunteer.service';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-  name: string | undefined
+  nameObs: Observable<string> = new Observable()
 
   constructor(
     private authService: AuthService,
     private volunteerService: VolunteerService,
     private router: Router) {
-    if (this.isLogged) {
-      const volunteerId = authService.getUserId()
-      if (volunteerId) {
-        volunteerService.getVolunteer(volunteerId).subscribe(v => {
-          this.name = v.firstNames + ' ' + v.lastName
-        })
-      }
-    }
+
+    this.nameObs = authService.voluneerId$.pipe(
+      switchMap(v => {
+        if (v) {
+          return this.volunteerService.getVolunteer(v)
+        }
+        return of(undefined)
+      }),
+      map(v => {
+        if (v) {
+          return v.firstNames + ' ' + v.lastName
+        }
+        return ''
+      }))
   }
 
   get isLogged() { return this.authService.isLoggedIn() }

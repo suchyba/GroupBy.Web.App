@@ -6,5 +6,6 @@ export interface IRegister {
     RelatedVolunteerBirthDate: Date,
     RelatedVolunteerPhoneNumber: string,
     RelatedVolunteerAddress: string | undefined
-    RegistrationCode: string
+    RegistrationCode: string,
+    UrlToVerifyEmail: string
 }

@@ -1,5 +1,7 @@
+import { IVolunteer } from "../volunteer/volunteer.model";
+
 export interface IUser {
+    relatedVolunteer: IVolunteer
     email: string,
-    token: string,
-    volunteerId: string
+    emailConfirmed: boolean
 }

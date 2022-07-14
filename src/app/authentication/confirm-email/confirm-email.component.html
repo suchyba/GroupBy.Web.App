@@ -1,0 +1,13 @@
+<div class="text-center mt-5 row">
+    <div class="col-12" *ngIf="!confirmed">
+        <div class="alert alert-secondary fs-2" role="alert">
+            <span *ngIf="loading" class="spinner-border mr-1"></span>
+            Please wait for confirmation
+        </div>
+    </div>
+    <div class="col-12" *ngIf="confirmed && confirmed">
+        <div class="alert alert-success fs-5" role="alert">
+            <i class="bi bi-check-lg"></i> Successfully confirmed email address, you will be redirected to login page in 5 seconds (if you didn't <a [routerLink]="['/', 'auth', 'login']">click here</a>)...
+        </div>
+    </div>
+</div>

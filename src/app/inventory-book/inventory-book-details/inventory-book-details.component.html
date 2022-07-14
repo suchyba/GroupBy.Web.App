@@ -114,6 +114,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Description</th>
                             <th scope="col">Value</th>
+                            <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -123,6 +124,12 @@
                             <td>{{item.name}}</td>
                             <td>{{item.description}}</td>
                             <td>{{item.value.toFixed(2)}}</td>
+                            <td class="d-flex justify-content-center">
+                                <div class="btn-group">
+                                    <button class="btn btn-primary" (click)="transferItem(item)" tooltip="Transfer this item"><i class="bi bi-journal-arrow-up"></i></button>
+                                    <button class="btn btn-danger" (click)="liquidateItem(item)" tooltip="Liquidate this item"><i class="bi bi-journal-minus"></i></button>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

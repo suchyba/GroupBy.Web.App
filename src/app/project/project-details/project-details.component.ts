@@ -143,7 +143,8 @@ export class ProjectDetailsComponent implements OnInit {
           projectId: this.project?.id,
           filePath: ""
         },
-        blockProject: true
+        blockProject: true,
+        isAccountingDocument: true
       }
     })
     if (modal.onHidden) {

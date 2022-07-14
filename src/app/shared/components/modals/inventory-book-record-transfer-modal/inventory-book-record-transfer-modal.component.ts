@@ -130,6 +130,12 @@ export class InventoryBookRecordTransferModalComponent implements OnInit {
 
       // Item
       if (this.recordToCreate.itemId) {
+        if (this.recordToCreate.inventoryBookFromId) {
+          this.inventoryBookService.getItems(this.recordToCreate.inventoryBookFromId).subscribe(items => {
+            this.itemList = items.filter(i => i.id === this.recordToCreate?.itemId);
+            this.recordAddForm.controls['itemId'].disable()
+          });
+        }
       }
       else {
         if (this.recordToCreate.inventoryBookFromId) {
@@ -138,6 +144,7 @@ export class InventoryBookRecordTransferModalComponent implements OnInit {
           });
         }
         else {
+
         }
       }
 

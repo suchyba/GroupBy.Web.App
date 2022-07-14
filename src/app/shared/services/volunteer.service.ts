@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ISimpleGroup } from '../models/group/group-simple.model';
 import { ISimpleVolunteer } from '../models/volunteer/volunteer-simple.model';
+import { IUpdateVolunteer } from '../models/volunteer/volunteer-update.model';
 import { IVolunteer } from '../models/volunteer/volunteer.model';
 
 @Injectable({
@@ -24,5 +25,8 @@ export class VolunteerService {
   }
   getAllVolunteers(): Observable<ISimpleVolunteer[]> {
     return this.http.get<ISimpleVolunteer[]>(`${environment.apiUrl}/api/volunteer`)
+  }
+  updateVolunteer(volunteer: IUpdateVolunteer): Observable<IVolunteer>{
+    return this.http.put<IVolunteer>(`${environment.apiUrl}/api/volunteer/update`, volunteer)
   }
 }

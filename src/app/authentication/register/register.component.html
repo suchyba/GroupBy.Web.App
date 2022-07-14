@@ -72,15 +72,15 @@
             <!-- Birth date -->
             <div class="form-floating mb-3">
                 <input type="date" formControlName="birthDate" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && (fields['birthDate'].errors || error?.BirthDate) }"
+                    [ngClass]="{ 'is-invalid': submitted && (fields['birthDate'].errors || error?.RelatedVolunteerBirthDate) }"
                     placeholder="birthDate" />
                 <label for="birthDate">Birth date*</label>
 
                 <div *ngIf="submitted && fields['birthDate'].errors" class="invalid-feedback">
                     <div *ngIf="fields['birthDate'].errors['required']">This field is required</div>
                 </div>
-                <div *ngIf="submitted && error?.BirthDate" class="invalid-feedback">
-                    <div>{{error.BirthDate}}</div>
+                <div *ngIf="submitted && error?.RelatedVolunteerBirthDate" class="invalid-feedback">
+                    <div>{{error.RelatedVolunteerBirthDate}}</div>
                 </div>
             </div>
             <!-- PASSWORD -->
@@ -130,6 +130,11 @@
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 Sign up
             </button>
+            <div class="mt-3">
+                <span class="">By creating an account, you agree to GroupBy's <a href="" class="fw-bold">Terms of
+                        Use</a> and <a href="" class="fw-bold">Privacy Policy</a></span>
+
+            </div>
             <!-- Error box -->
             <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
         </form>

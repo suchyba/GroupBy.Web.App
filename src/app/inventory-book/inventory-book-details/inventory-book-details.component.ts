@@ -7,6 +7,7 @@ import { InventoryItemLiquidateComponent } from 'src/app/shared/components/modal
 import { IListInventoryBookRecord } from 'src/app/shared/models/inventory-book-record/inventory-book-record-list.model';
 import { IInventoryBook } from 'src/app/shared/models/inventory-book/inventory-book.model';
 import { ISimpleInventoryItem } from 'src/app/shared/models/inventory-item/inventory-item-simple.model';
+import { IInventoryItem } from 'src/app/shared/models/inventory-item/inventory-item.model';
 import { InventoryBookService } from 'src/app/shared/services/inventory-book.service';
 
 @Component({
@@ -27,6 +28,10 @@ export class InventoryBookDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.inventoryBook = this.route.snapshot.data['inventoryBook']
+    this.reloadLists()
+  }
+
+  private reloadLists(): void {
     if (this.inventoryBook)
     {
       this.inventoryBookService.getRecords(this.inventoryBook.id).subscribe(rec => {
@@ -43,7 +48,7 @@ export class InventoryBookDetailsComponent implements OnInit {
 
   openInventoryBookRecordAddModal(): void {
     if (this.inventoryBook) {
-      this.modalService.show(InventoryBookRecordAddModalComponent, {
+      let modalRef = this.modalService.show(InventoryBookRecordAddModalComponent, {
         initialState: {
           recordToCreate: {
             inventoryBookId: this.inventoryBook.id,
@@ -56,12 +61,17 @@ export class InventoryBookDetailsComponent implements OnInit {
           inventoryBook: this.inventoryBook
         }
       })
+      modalRef.onHidden?.subscribe(() => {
+        this.records = undefined
+        this.items = undefined
+        this.reloadLists();
+      })
     }
   }
 
   openLiquidateItemModal(): void {
     if (this.inventoryBook) {
-      this.modalService.show(InventoryItemLiquidateComponent, {
+      let modalRef = this.modalService.show(InventoryItemLiquidateComponent, {
         initialState: {
           recordToCreate: {
             inventoryBookId: this.inventoryBook.id,
@@ -74,12 +84,17 @@ export class InventoryBookDetailsComponent implements OnInit {
           inventoryBook: this.inventoryBook
         }
       })
+      modalRef.onHidden?.subscribe(() => {
+        this.records = undefined
+        this.items = undefined
+        this.reloadLists();
+      })
     }
   }
 
   openInventoryBookRecordTransferModal(): void {
     if (this.inventoryBook) {
-      this.modalService.show(InventoryBookRecordTransferModalComponent, {
+      let modalRef = this.modalService.show(InventoryBookRecordTransferModalComponent, {
         initialState: {
           recordToCreate: {
             inventoryBookFromId: this.inventoryBook.id,
@@ -93,10 +108,64 @@ export class InventoryBookDetailsComponent implements OnInit {
           inventoryBookFrom: this.inventoryBook
         }
       })
+      modalRef.onHidden?.subscribe(() => {
+        this.records = undefined
+        this.items = undefined
+        this.reloadLists();
+      })
     }
   }
 
   deleteInventoryBookClick(): void {
 
+  }
+
+  liquidateItem(item: IInventoryItem) {
+    if (this.inventoryBook) {
+      let modalRef = this.modalService.show(InventoryItemLiquidateComponent, {
+        initialState: {
+          recordToCreate: {
+            inventoryBookId: this.inventoryBook.id,
+            date: undefined,
+            documentId: undefined,
+            income: false,
+            itemId: item.id,
+            sourceId: undefined
+          },
+          inventoryBook: this.inventoryBook,
+          item: item
+        }
+      })
+      modalRef.onHidden?.subscribe(() => {
+        this.records = undefined
+        this.items = undefined
+        this.reloadLists();
+      })
+    }
+  }
+
+  transferItem(item: IInventoryItem) {
+    if (this.inventoryBook) {
+      let modalRef = this.modalService.show(InventoryBookRecordTransferModalComponent, {
+        initialState: {
+          recordToCreate: {
+            inventoryBookFromId: this.inventoryBook.id,
+            date: undefined,
+            documentName: undefined,
+            itemId: item.id,
+            inventoryBookToId: undefined,
+            sourceFromId: undefined,
+            sourceToId: undefined
+          },
+          inventoryBookFrom: this.inventoryBook,
+          itemList: [item]
+        }
+      })
+      modalRef.onHidden?.subscribe(() => {
+        this.records = undefined
+        this.items = undefined
+        this.reloadLists();
+      })
+    }
   }
 }

@@ -64,7 +64,8 @@ export class RegisterComponent implements OnInit {
       Password: this.registerForm.controls['password'].value,
       RelatedVolunteerPhoneNumber: this.registerForm.controls['phone'].value,
       RegistrationCode: this.registerForm.controls['registerCode'].value,
-      RelatedVolunteerAddress: this.registerForm.controls['address'].value
+      RelatedVolunteerAddress: this.registerForm.controls['address'].value,
+      UrlToVerifyEmail: document.location.origin + '/auth/confirmEmail'
     }).pipe(first())
       .subscribe({
         complete: () => {

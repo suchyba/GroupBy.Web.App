@@ -119,7 +119,7 @@ export class DocumentAddModalComponent implements OnInit {
       this.documentToCreate.groupsId = [this.fields['group'].value]
       this.documentToCreate.projectId = this.fields['project'].value
 
-      if (this.isAccountingDocument) {
+      if (this.documentAddForm.controls['accountingDocument'].value) {
         this.accountingDocumentService.CreateAccountingDocument(this.documentToCreate)
           .subscribe({
             next: (d) => {
