@@ -46,18 +46,22 @@
 
                 <div class="row h-100 w-100" *ngIf="!members">
                     <div class="col-12 d-flex justify-content-center">
-                            <span class="spinner-border align-self-center"></span>
+                        <span class="spinner-border align-self-center"></span>
                     </div>
                 </div>
                 <div class="row" *ngIf="members">
                     <div class="col-12">
                         <div class="btn-group">
                             <select id="relatedGroup" class="form-select" [(ngModel)]="newOwner">
-                                <option *ngFor="let volunteer of members" [ngValue]="volunteer.id">{{volunteer.firstNames}}
+                                <option *ngFor="let volunteer of members" [ngValue]="volunteer.id">
+                                    {{volunteer.firstNames}}
                                     {{volunteer.lastName}}</option>
                             </select>
-        
-                            <button class="btn btn-success" (click)="confirmEditOwnerClick()">Confirm</button>
+
+                            <button class="btn btn-success" (click)="confirmEditOwnerClick()">
+                                <span *ngIf="newOwnerLoading" class="spinner-border spinner-border-sm mr-1"></span>
+                                Confirm
+                            </button>
                         </div>
                     </div>
                 </div>

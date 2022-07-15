@@ -1,4 +1,4 @@
-import { IRankSimple } from "../rank/rank-simple.model";
+import { ISimpleRank } from "../rank/rank-simple.model";
 import { ISimpleVolunteer as IVolunteerSimple } from "./volunteer-simple.model";
 
 export interface IVolunteer extends IVolunteerSimple {
@@ -6,5 +6,5 @@ export interface IVolunteer extends IVolunteerSimple {
     phoneNumber: string,
     address: string,
     confirmed: boolean,
-    rank: IRankSimple
+    rank: ISimpleRank
 }

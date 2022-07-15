@@ -2,8 +2,12 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
+import { Observable, tap } from 'rxjs';
+import { RegistrationCodeAddModalComponent } from 'src/app/shared/components/modals/registration-code-add-modal/registration-code-add-modal.component';
 import { IUser } from 'src/app/shared/models/auth/user.model';
+import { IListRegistrationCode } from 'src/app/shared/models/registration-code/registration-code-list.model';
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 
 @Component({
@@ -20,6 +24,8 @@ export class ManageAccountComponent implements OnInit {
 
   public volunteerForm: FormGroup = new FormGroup({})
 
+  public registrationCodes: IListRegistrationCode[] | null = null
+
   public get fields() {
     return this.volunteerForm.controls
   }
@@ -28,7 +34,8 @@ export class ManageAccountComponent implements OnInit {
     private volunteerService: VolunteerService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private modalService: BsModalService
   ) {
     this.user = route.snapshot.data['user']
 
@@ -50,7 +57,10 @@ export class ManageAccountComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    if (this.user?.relatedVolunteer)
+      this.volunteerService.getRegistrationCodes(this.user.relatedVolunteer.id).subscribe(cList => {
+        this.registrationCodes = cList
+      })
   }
 
   onSubmit() {
@@ -86,6 +96,19 @@ export class ManageAccountComponent implements OnInit {
                 this.user.relatedVolunteer = v
               this.resetForm()
             })
+        }
+      })
+    }
+  }
+
+  openAddRegistrationCodeModal() {
+    if (this.user) {
+      this.modalService.show(RegistrationCodeAddModalComponent, {
+        initialState: {
+          registrationCodeToCreate: {
+            ownerId: this.user?.relatedVolunteer.id
+          },
+          ownerList: [this.user?.relatedVolunteer]
         }
       })
     }

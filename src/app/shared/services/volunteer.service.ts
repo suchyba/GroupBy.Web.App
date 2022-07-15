@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ISimpleGroup } from '../models/group/group-simple.model';
+import { IListRegistrationCode } from '../models/registration-code/registration-code-list.model';
 import { ISimpleVolunteer } from '../models/volunteer/volunteer-simple.model';
 import { IUpdateVolunteer } from '../models/volunteer/volunteer-update.model';
 import { IVolunteer } from '../models/volunteer/volunteer.model';
@@ -28,5 +29,8 @@ export class VolunteerService {
   }
   updateVolunteer(volunteer: IUpdateVolunteer): Observable<IVolunteer>{
     return this.http.put<IVolunteer>(`${environment.apiUrl}/api/volunteer/update`, volunteer)
+  }
+  getRegistrationCodes(volunteerId: number) :Observable<IListRegistrationCode[]> {
+    return this.http.get<IListRegistrationCode[]>(`${environment.apiUrl}/api/volunteer/${volunteerId}/registrationcodes`)
   }
 }

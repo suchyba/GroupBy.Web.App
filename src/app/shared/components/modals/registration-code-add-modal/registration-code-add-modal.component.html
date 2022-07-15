@@ -1,0 +1,99 @@
+<div class="m-2">
+    <div class="modal-header">
+        <div class="row flex-fill">
+            <div class="modal-title col-12">
+                <div class="d-flex">
+                    <h2>Add registration code</h2>
+                    <button type="button" class="btn btn-outline-secondary close pull-right ms-auto" aria-label="Close"
+                        (click)="closeModal()">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-12">
+                <form [formGroup]="registrationCodeAddForm" (ngSubmit)="onSubmit()">
+                    <!-- Name -->
+                    <div class="form-floating mb-3">
+                        <input type="text" formControlName="name" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['name'].errors || error?.Name) }"
+                            placeholder="sample name" />
+                        <label for="name">Name*</label>
+
+                        <div *ngIf="submitted && fields['name'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['name'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Name" class="invalid-feedback">
+                            <div>{{error.Name}}</div>
+                        </div>
+                    </div>
+                    <!-- Owner -->
+                    <div class="form-floating mb-3" aria-label="Owner">
+                        <select id="ownerSelect" class="form-select" formControlName="owner"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['owner'].errors || error?.Owner) }">
+                            <option *ngFor="let owner of ownerList" [ngValue]="owner.id">{{owner.firstNames}}
+                                {{owner.lastName}}</option>
+                        </select>
+                        <label for="ownerSelect">Owner*</label>
+
+                        <div *ngIf="submitted && fields['owner'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['owner'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.Owner" class="invalid-feedback">
+                            <div>{{error.Owner}}</div>
+                        </div>
+                    </div>
+                    <!-- Target group -->
+                    <div class="form-floating mb-3" aria-label="TargetGroup">
+                        <select id="targetGroupSelect" class="form-select" formControlName="targetGroup"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['targetGroup'].errors || error?.TargetGroup) }">
+                            <option *ngFor="let group of targetGroupList" [ngValue]="group.id">{{group.name}}</option>
+                        </select>
+                        <label for="targetGroupSelect">Target group*</label>
+
+                        <div *ngIf="submitted && fields['targetGroup'].errors" class="invalid-feedback">
+                            <div *ngIf="fields['targetGroup'].errors['required']">This field is required</div>
+                        </div>
+                        <div *ngIf="submitted && error?.TargetGroup" class="invalid-feedback">
+                            <div>{{error.TargetGroup}}</div>
+                        </div>
+                    </div>
+                    <!-- Target rank -->
+                    <div class="form-floating mb-3" aria-label="TargetRank">
+                        <select id="targetRankSelect" class="form-select" formControlName="targetRank"
+                            [ngClass]="{ 'is-invalid': submitted && (fields['targetRank'].errors || error?.TargetRank) }">
+                            <option [ngValue]="undefined">-</option>
+                            <option *ngFor="let rank of targetRankList" [ngValue]="rank.id">{{rank.name}}</option>
+                        </select>
+                        <label for="targetRankSelect">Target rank</label>
+                        
+                        <div *ngIf="submitted && error?.TargetRank" class="invalid-feedback">
+                            <div>{{error.TargetRank}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Cancel button -->
+                        <div class="col-6">
+                            <button type="button" class="btn btn-lg btn-danger w-100" aria-label="Cancel"
+                                (click)="closeModal()">
+                                Cancel
+                            </button>
+                        </div>
+                        <!-- Submit button -->
+                        <div class="col-6">
+                            <button [disabled]="loading" class="btn btn-lg btn-primary w-100" type="submit">
+                                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                Create
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Error box -->
+                    <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

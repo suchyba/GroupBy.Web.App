@@ -215,4 +215,39 @@
             </div>
         </div>
     </form>
+    <div class="row">
+        <div class="col-12">
+            <div class="row bg-dark text-light rounded py-3 my-3">
+                <div class="col-12 d-flex">
+                    <h4>Registration codes</h4>
+                    <button class="btn btn-success ms-auto" (click)="openAddRegistrationCodeModal()">Add new code</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mt-3">
+            <table class="table table-striped" *ngIf="registrationCodes && registrationCodes.length > 0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Destination group</th>
+                        <th>Destination rank</th>
+                        <th>Code</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let code of registrationCodes">
+                        <td>{{(registrationCodes?.indexOf(code) ?? 0) + 1}}</td>
+                        <td>{{code.name}}</td>
+                        <td>{{code.targetGroupName}}</td>
+                        <td>{{code.targetRankName ?? '-'}}</td>
+                        <td>{{code.code}}</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <span *ngIf="!registrationCodes || registrationCodes.length <= 0">No registration codes</span>
+        </div>
+    </div>
 </div>

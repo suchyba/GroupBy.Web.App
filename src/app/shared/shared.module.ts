@@ -27,6 +27,7 @@ import { TypeaheadModule } from "ngx-bootstrap/typeahead";
 import { InventoryItemLiquidateComponent } from './components/modals/inventory-item-liquidate/inventory-item-liquidate.component';
 import { InventoryItemAddModalComponent } from './components/modals/inventory-item-add-modal/inventory-item-add-modal.component';
 import { InventoryBookRecordTransferModalComponent } from './components/modals/inventory-book-record-transfer-modal/inventory-book-record-transfer-modal.component';
+import { RegistrationCodeAddModalComponent } from './components/modals/registration-code-add-modal/registration-code-add-modal.component';
 
 @NgModule({
     imports: [
@@ -54,6 +55,7 @@ import { InventoryBookRecordTransferModalComponent } from './components/modals/i
         VolunteerThumbnailComponent,
         InventoryItemAddModalComponent,
         InventoryBookRecordTransferModalComponent,
+        RegistrationCodeAddModalComponent,
     ],
     exports: [
         CommonModule,

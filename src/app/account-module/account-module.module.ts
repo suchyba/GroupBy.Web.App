@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { SharedModule } from '../shared/shared.module';
 import { AccountRoutes } from './account.routes';
 import { ManageAccountComponent } from './manage-account/manage-account.component';
@@ -12,7 +13,8 @@ import { ManageAccountComponent } from './manage-account/manage-account.componen
   ],
   imports: [
     RouterModule.forChild(AccountRoutes),
-    SharedModule
+    SharedModule,
+    ModalModule.forRoot()
   ]
 })
 export class AccountModuleModule { }

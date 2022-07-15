@@ -35,6 +35,7 @@ export class GroupDetailsComponent implements OnInit {
 
   public editOwner = false
   public newOwner?: number
+  public newOwnerLoading = false
 
   constructor(
     private route: ActivatedRoute,
@@ -49,6 +50,8 @@ export class GroupDetailsComponent implements OnInit {
       this.group = data['group']
       this.childGroups = data['childGroups']
       this.reloadAccountingBooks();
+      this.loadProjects()
+      this.loadMembers()
     })
 
     this.volunteerId = this.authService.getUserId()
@@ -255,6 +258,8 @@ export class GroupDetailsComponent implements OnInit {
   confirmEditOwnerClick() {
     if (this.group && this.newOwner) {
 
+      this.newOwnerLoading = true
+
       this.groupService.updateGroup({
         id: this.group.id,
         name: this.group.name,
@@ -262,6 +267,7 @@ export class GroupDetailsComponent implements OnInit {
         ownerId: this.newOwner
       }).subscribe(g => {
         this.group = g
+        this.newOwnerLoading = false
 
         window.location.reload()
         this.toastrService.success("Successfully changed owner of the group")
