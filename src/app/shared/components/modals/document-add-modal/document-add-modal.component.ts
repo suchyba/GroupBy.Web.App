@@ -54,7 +54,7 @@ export class DocumentAddModalComponent implements OnInit {
     this.documentAddForm = this.formBuilder.group({
       name: ['', Validators.required],
       filePath: ['empty', Validators.required],
-      project: [this.documentToCreate?.projectId],
+      project: [this.documentToCreate?.relatedProjectId],
       group: [this.documentToCreate?.groupsId[0], Validators.required],
       accountingDocument: [{value: this.isAccountingDocument, disabled: this.blockAccountingDocument}]
     })
@@ -80,11 +80,11 @@ export class DocumentAddModalComponent implements OnInit {
       // project list
       this.groupService.getProjects(this.documentToCreate.groupsId[0]).subscribe(p => {
         this.projectList = p;
-        if (this.documentToCreate?.projectId) {
-          this.projectList = this.projectList.filter(p => p.id === this.documentToCreate?.projectId)
+        if (this.documentToCreate?.relatedProjectId) {
+          this.projectList = this.projectList.filter(p => p.id === this.documentToCreate?.relatedProjectId)
 
           if (this.blockProject) {
-            this.documentAddForm.controls['project'].setValue(this.documentToCreate.projectId)
+            this.documentAddForm.controls['project'].setValue(this.documentToCreate.relatedProjectId)
             this.documentAddForm.controls['project'].disable()
           }
         }
@@ -117,7 +117,7 @@ export class DocumentAddModalComponent implements OnInit {
       this.documentToCreate.name = this.fields['name'].value
       this.documentToCreate.filePath = this.fields['filePath'].value
       this.documentToCreate.groupsId = [this.fields['group'].value]
-      this.documentToCreate.projectId = this.fields['project'].value
+      this.documentToCreate.relatedProjectId = this.fields['project'].value
 
       if (this.documentAddForm.controls['accountingDocument'].value) {
         this.accountingDocumentService.CreateAccountingDocument(this.documentToCreate)

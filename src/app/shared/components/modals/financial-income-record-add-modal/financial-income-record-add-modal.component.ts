@@ -192,7 +192,7 @@ export class FinancialIncomeRecordAddModalComponent implements OnInit {
             name: "",
             filePath: "null",
             groupsId: [this.group?.id],
-            projectId: this.recordToCreate?.relatedProjectId
+            relatedProjectId: this.recordToCreate?.relatedProjectId
           },
           isAccountingDocument: true
         }

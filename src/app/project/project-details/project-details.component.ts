@@ -140,7 +140,7 @@ export class ProjectDetailsComponent implements OnInit {
         documentToCreate: {
           groupsId: [groupId],
           name: "",
-          projectId: this.project?.id,
+          relatedProjectId: this.project?.id,
           filePath: ""
         },
         blockProject: true,

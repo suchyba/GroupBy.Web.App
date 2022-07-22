@@ -212,7 +212,7 @@ export class InventoryBookRecordAddModalComponent implements OnInit {
             name: "",
             filePath: "null",
             groupsId: [this.group.id],
-            projectId: undefined
+            relatedProjectId: undefined
           }
         }
       })
