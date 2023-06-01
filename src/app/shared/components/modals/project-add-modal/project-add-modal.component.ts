@@ -92,8 +92,8 @@ export class ProjectAddModalComponent implements OnInit {
     const project: ICreateProject = {
       name: this.projectAddForm.controls['name'].value,
       description: this.projectAddForm.controls['description'].value,
-      ownerId: parseInt(this.projectAddForm.controls['owner'].value),
-      parentGroupId: parseInt(this.projectAddForm.controls['parentGroup'].value),
+      ownerId: this.projectAddForm.controls['owner'].value,
+      parentGroupId: this.projectAddForm.controls['parentGroup'].value,
       active: this.projectAddForm.controls['active'].value,
       beginDate: this.projectAddForm.controls['beginDate'].value,
       endDate: this.projectAddForm.controls['endDate'].value,

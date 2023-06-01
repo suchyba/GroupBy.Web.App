@@ -2,7 +2,7 @@ import { ISimpleGroup } from "../group/group-simple.model"
 import { ISimpleVolunteer } from "../volunteer/volunteer-simple.model"
 
 export interface IProject {
-    id: number
+    id: string
     name: string
     description: string
     beginDate: Date | undefined

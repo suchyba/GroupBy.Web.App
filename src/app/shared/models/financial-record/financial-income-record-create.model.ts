@@ -7,8 +7,7 @@ export interface ICreateFinancialIncomeRecord {
     other: number,
     date: Date,
     description: string,
-    bookId: number | undefined,
-    bookOrderNumberId: number | undefined,
-    relatedProjectId: number | undefined,
-    relatedDocumentId: number | undefined
+    bookId: string | undefined,
+    relatedProjectId: string | undefined,
+    relatedDocumentId: string | undefined
 }

@@ -20,11 +20,14 @@ import { DocumentAddModalComponent } from '../document-add-modal/document-add-mo
 })
 export class FinancialOutcomeRecordAddModalComponent implements OnInit {
   @Input() recordToCreate: ICreateFinancialOutcomeRecord | undefined
+  @Input() bookIdentificator: number | undefined
+  @Input() bookOrderNumber: number | undefined
+
   public projectList: ISimpleProject[] | undefined
   public documentList: ISimpleAccountingDocument[] | undefined
 
   public accountingBookList: ISimpleAccountingBook[] | undefined
-  public distinctBookId: number[] | undefined
+  public distinctBookIdentificator: number[] | undefined
   public distinctBookOrderNumber: number[] | undefined
   public group: ISimpleGroup | undefined
 
@@ -49,8 +52,9 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
     this.bsModalRef.setClass('modal-lg')
 
     this.recordAddForm = this.formBuilder.group({
+      bookIdentificator: [this.bookIdentificator, Validators.required],
+      bookOrderNumber: [this.bookOrderNumber, Validators.required],
       bookId: [this.recordToCreate?.bookId, Validators.required],
-      bookOrderNumber: [this.recordToCreate?.bookOrderNumberId, Validators.required],
       description: ['', Validators.required],
       relatedProject: [this.recordToCreate?.relatedProjectId],
       relatedDocument: [this.recordToCreate?.relatedDocumentId, Validators.required],
@@ -96,17 +100,27 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
           books = books.filter(b => !b.locked)
 
           this.accountingBookList = books
-          this.distinctBookId = books.map(b => b.bookId).filter((v, i, s) => s.indexOf(v) === i)
-          this.onBookIdChange(this.recordToCreate?.bookId)
-
+          this.distinctBookIdentificator = books.map(b => b.bookIdentificator).filter((v, i, s) => s.indexOf(v) === i)
+          
+          // supplied book
           if (this.recordToCreate?.bookId) {
-            this.recordAddForm.controls['bookId'].disable()
-            this.recordAddForm.controls['bookId'].setValue(this.recordToCreate.bookId)
+            let book = this.accountingBookList.filter(b => b.id === this.recordToCreate?.bookId)[0]
+            this.bookIdentificator = book.bookIdentificator
+            this.bookOrderNumber = book.bookOrderNumberId
           }
-          if (this.recordToCreate?.bookOrderNumberId) {
-            this.recordAddForm.controls['bookOrderNumber'].setValue(this.recordToCreate.bookOrderNumberId)
+
+          // supplied only part of the book id
+          if (this.bookIdentificator) {
+            this.recordAddForm.controls['bookIdentificator'].disable()
+            this.recordAddForm.controls['bookIdentificator'].setValue(this.bookIdentificator)
+          }
+          if (this.bookOrderNumber) {
+            this.recordAddForm.controls['bookOrderNumber'].setValue(this.bookOrderNumber)
           }
           this.recordAddForm.controls['bookOrderNumber'].disable()
+          
+          this.onBookIdChange(this.bookIdentificator)
+          this.onBookOrderNumberChange(this.bookOrderNumber)
         })
       })
 
@@ -130,7 +144,6 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
 
     if (this.recordToCreate) {
       this.recordToCreate.bookId = this.fields['bookId'].value
-      this.recordToCreate.bookOrderNumberId = this.fields['bookOrderNumber'].value
       this.recordToCreate.relatedDocumentId = this.fields['relatedDocument'].value
       this.recordToCreate.relatedProjectId = this.fields['relatedProject'].value
       this.recordToCreate.date = this.fields['date'].value
@@ -175,15 +188,31 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
     }
   }
 
-  public onBookIdChange(currBookId: number | undefined): void {
-    if (currBookId) {
+  public onBookIdChange(currBookIdentificator: number | undefined): void {
+    if (currBookIdentificator) {
       this.distinctBookOrderNumber = this.accountingBookList
-        ?.filter(b => b.bookId === currBookId)
+        ?.filter(b => b.bookIdentificator === currBookIdentificator)
         .map(b => b.bookOrderNumberId)
         .filter((v, i, s) => s.indexOf(v) === i)
 
+      this.onBookOrderNumberChange(undefined)
       this.fields['bookOrderNumber'].setValue(undefined)
       this.fields['bookOrderNumber'].enable()
+    }
+  }
+
+  public onBookOrderNumberChange(currBookOrderNumber: number | undefined): void {
+    if (currBookOrderNumber && this.recordToCreate) {
+      this.recordToCreate.bookId = this.accountingBookList
+      ?.filter(b => b.bookIdentificator === this.fields['bookIdentificator'].value && b.bookOrderNumberId === currBookOrderNumber)
+      .map(b => b.id)[0]
+
+      this.fields['bookId'].setValue(this.recordToCreate?.bookId)
+    }
+    else if (this.recordToCreate) {
+      this.recordToCreate.bookId = undefined
+      
+      this.fields['bookId'].setValue(this.recordToCreate?.bookId)
     }
   }
 
@@ -215,7 +244,7 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
 
   public getCurrAccBookName(): string {
     if (this.fields['bookId'].value && this.fields['bookOrderNumber'].value) {
-      return this.accountingBookList?.find(b => b.bookId === this.fields['bookId'].value && b.bookOrderNumberId === this.fields['bookOrderNumber'].value)?.name ?? ''
+      return this.accountingBookList?.find(b => b.id === this.fields['bookId'].value)?.name ?? ''
     }
     else
       return ''

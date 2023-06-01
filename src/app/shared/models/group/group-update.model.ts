@@ -1,6 +1,6 @@
 export interface IUpdateGroup {
-    id: number,
+    id: string,
     name: string,
     description: string,
-    ownerId: number
+    ownerId: string
 }

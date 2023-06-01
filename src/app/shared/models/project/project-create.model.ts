@@ -5,6 +5,6 @@ export interface ICreateProject {
     endDate: Date | undefined
     active: boolean
     independent: boolean
-    parentGroupId: number | undefined
-    ownerId: number
+    parentGroupId: string | undefined
+    ownerId: string
 }

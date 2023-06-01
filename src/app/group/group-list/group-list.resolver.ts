@@ -17,7 +17,7 @@ export class GroupListResolver implements Resolve<ISimpleGroup[] | undefined> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ISimpleGroup[] | undefined> {
-    const volunteerId: number | undefined = this.authService.getUserId()
+    const volunteerId: string | undefined = this.authService.getUserId()
     if (volunteerId)
       return this.volunteerService.getGroups(volunteerId)
 

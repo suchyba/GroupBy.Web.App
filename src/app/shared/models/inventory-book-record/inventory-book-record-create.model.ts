@@ -1,8 +1,8 @@
 export interface ICreateInventoryBookRecord {
-    inventoryBookId: number,
-    itemId: number | undefined,
+    inventoryBookId: string,
+    itemId: string | undefined,
     date: Date | undefined,
-    documentId: number | undefined,
+    documentId: string | undefined,
     income: boolean,
-    sourceId: number | undefined
+    sourceId: string | undefined
 }

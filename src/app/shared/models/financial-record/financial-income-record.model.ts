@@ -3,7 +3,7 @@ import { ISimpleAccountingDocument } from "../accounting-document/accounting-doc
 import { ISimpleProject } from "../project/project-simple.model"
 
 export interface IFinancialIncomeRecord {
-    id: number
+    id: string
     membershipFee: number,
     programFee: number,
     dotation: number,

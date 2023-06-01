@@ -21,7 +21,7 @@ export class GroupListComponent implements OnInit {
   }
 
   openGroupAddModal(): void {
-    const userId: number | undefined = this.authService.getUserId()
+    const userId: string | undefined = this.authService.getUserId()
     if (userId)
     {
       this.modalService.show(GroupAddModalComponent, {

@@ -16,7 +16,7 @@ export class InventoryItemSourceService {
     return this.http.get<ISimpleInventoryItemSource[]>(`${environment.apiUrl}/api/inventoryItemSource`)
   }
 
-  getInventoryItemSource(sourceId: number): Observable<IInventoryItemSource> {
+  getInventoryItemSource(sourceId: string): Observable<IInventoryItemSource> {
     return this.http.get<IInventoryItemSource>(`${environment.apiUrl}/api/inventoryItemSources/${sourceId}`)
   }
 }

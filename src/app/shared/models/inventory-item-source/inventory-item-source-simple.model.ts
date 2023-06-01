@@ -1,4 +1,4 @@
 export interface ISimpleInventoryItemSource {
-    id: number,
+    id: string,
     name: string
 }

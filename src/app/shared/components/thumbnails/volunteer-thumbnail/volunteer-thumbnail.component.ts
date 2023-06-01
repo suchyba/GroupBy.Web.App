@@ -13,7 +13,7 @@ import { ConfirmationYesNoModalComponent } from '../../modals/confirmation-yes-n
 export class VolunteerThumbnailComponent implements OnInit {
   @Input() volunteer: ISimpleVolunteer | undefined
   @Input() canRemove: boolean | undefined
-  @Input() groupId: number | undefined
+  @Input() groupId: string | undefined
 
   @Output() onRemovedFromGroupEvent: EventEmitter<void> = new EventEmitter<void>()
   constructor(

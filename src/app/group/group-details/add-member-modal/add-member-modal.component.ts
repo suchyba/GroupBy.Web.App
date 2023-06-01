@@ -13,8 +13,8 @@ import { VolunteerService } from 'src/app/shared/services/volunteer.service';
   styleUrls: ['./add-member-modal.component.css']
 })
 export class AddMemberModalComponent implements OnInit {
-  @Input() groupId: number | undefined
-  @Output() volunteerAddedEvent: EventEmitter<number> = new EventEmitter<number>()
+  @Input() groupId: string | undefined
+  @Output() volunteerAddedEvent: EventEmitter<string> = new EventEmitter<string>()
 
   public allVolunteerList: ISimpleVolunteer[] = []
   public filteredVolunteerList: Observable<ISimpleVolunteer[]> = new Observable<ISimpleVolunteer[]>()
@@ -64,14 +64,14 @@ export class AddMemberModalComponent implements OnInit {
     this.selectedVolunteer = undefined
   }
 
-  removeVolunteerFromSelectedList(volunteerId: number): void {
+  removeVolunteerFromSelectedList(volunteerId: string): void {
     this.selectedVolunteerList = this.selectedVolunteerList.filter(v => v.id !== volunteerId)
   }
 
   confirmClick(): void {
     if (this.groupId) {
       this.selectedVolunteerList.forEach((volunteer) => {
-        this.groupService.addMember(<number>this.groupId, volunteer.id).subscribe(result => {
+        this.groupService.addMember(<string>this.groupId, volunteer.id).subscribe(result => {
           if (!result) {
             this.toastrService.success(`Volunteer ${volunteer.firstNames} ${volunteer.lastName} has been added to the group`)
             this.volunteerAddedEvent.emit(volunteer.id)

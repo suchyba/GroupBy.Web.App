@@ -4,7 +4,7 @@ import { ISimpleVolunteer } from "../volunteer/volunteer-simple.model"
 import { ISimpleGroup as IGroupSimple } from "./group-simple.model"
 
 export interface IGroup {
-    id: number
+    id: string
     name: string
     description: string
     owner: ISimpleVolunteer

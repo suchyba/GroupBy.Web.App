@@ -12,7 +12,7 @@ export class AccountingDocumentService {
 
   constructor(private http: HttpClient) { }
 
-  GetAccountingDocument(id: number): Observable<IAccountingDocument> {
+  GetAccountingDocument(id: string): Observable<IAccountingDocument> {
     return this.http.get<IAccountingDocument>(`${environment.apiUrl}/api/accountingDocument/${id}`)
   }
   CreateAccountingDocument(document: ICreateAccountingDocument): Observable<IAccountingDocument> {

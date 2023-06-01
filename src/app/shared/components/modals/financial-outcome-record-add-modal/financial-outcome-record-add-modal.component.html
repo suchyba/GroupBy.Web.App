@@ -165,22 +165,22 @@
                     </div>
                     <!-- Accounting book -->
                     <div class="row">
-                        <!-- BookId -->
+                        <!-- BookIdentificator -->
                         <div class="col-4">
-                            <div class="form-floating mb-3" aria-label="BookId">
-                                <select id="bookIdSelect" class="form-select" formControlName="bookId"
-                                    [ngClass]="{ 'is-invalid': submitted && (fields['bookId'].errors || error?.BookId) }"
-                                    (change)="onBookIdChange(fields['bookId'].value)">
-                                    <option *ngFor="let bookId of distinctBookId" [ngValue]="bookId">
-                                        {{bookId}}</option>
+                            <div class="form-floating mb-3" aria-label="BookIdentificator">
+                                <select id="bookIdentificatorSelect" class="form-select" formControlName="bookIdentificator"
+                                    [ngClass]="{ 'is-invalid': submitted && (fields['bookIdentificator'].errors || error?.BookId) }"
+                                    (change)="onBookIdChange(fields['bookIdentificator'].value)">
+                                    <option *ngFor="let bookIdentificator of distinctBookIdentificator" [ngValue]="bookIdentificator">
+                                        {{bookIdentificator}}</option>
                                 </select>
-                                <label for="bookIdSelect">Book id*</label>
+                                <label for="bookIdentificatorSelect">Book id*</label>
 
-                                <div *ngIf="submitted && fields['bookId'].errors" class="invalid-feedback">
-                                    <div *ngIf="fields['bookId'].errors['required']">This field is required</div>
+                                <div *ngIf="submitted && fields['bookIdentificator'].errors" class="invalid-feedback">
+                                    <div *ngIf="fields['bookIdentificator'].errors['required']">This field is required</div>
                                 </div>
-                                <div *ngIf="submitted && error?.BookId" class="invalid-feedback">
-                                    <div>{{error.BookId}}</div>
+                                <div *ngIf="submitted && error?.BookIdentificator" class="invalid-feedback">
+                                    <div>{{error.BookIdentificator}}</div>
                                 </div>
                             </div>
                         </div>
@@ -188,7 +188,8 @@
                         <div class="col-4">
                             <div class="form-floating mb-3" aria-label="BookOrderNumber">
                                 <select id="bookOrderNumberSelect" class="form-select" formControlName="bookOrderNumber"
-                                    [ngClass]="{ 'is-invalid': submitted && (fields['bookOrderNumber'].errors || error?.BookOrderNumber) }">
+                                    [ngClass]="{ 'is-invalid': submitted && (fields['bookOrderNumber'].errors || error?.BookOrderNumber) }"
+                                    (change)="onBookOrderNumberChange(fields['bookOrderNumber'].value)">
                                     <option *ngFor="let bookOrderNumber of distinctBookOrderNumber"
                                         [ngValue]="bookOrderNumber">
                                         {{bookOrderNumber}}</option>

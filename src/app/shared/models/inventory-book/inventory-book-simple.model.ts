@@ -1,4 +1,4 @@
 export interface ISimpleInventoryBook {
-    id: number
+    id: string
     name: string
 }

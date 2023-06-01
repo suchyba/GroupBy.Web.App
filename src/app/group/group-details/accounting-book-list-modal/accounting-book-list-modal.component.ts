@@ -13,7 +13,7 @@ import { GroupService } from 'src/app/shared/services/group.service';
 })
 export class AccountingBookListComponentModal implements OnInit {
   @Input() accountingBooks: ISimpleAccountingBook[] | undefined
-  @Input() groupId: number | undefined
+  @Input() groupId: string | undefined
   public bookIds: number[] | undefined
   public booksIdHidden: { [key: string]: boolean} = {}
   public booksStausChanging: { [key: string]: boolean} = {}
@@ -37,18 +37,18 @@ export class AccountingBookListComponentModal implements OnInit {
         this.bookIds = []
         this.booksIdHidden = {...this.booksIdHidden}
         this.accountingBooks?.forEach(b => {
-          if (!this.bookIds?.find(id => id === b.bookId))
-            this.bookIds?.push(b.bookId)
-          if (this.booksIdHidden && this.booksIdHidden[b.bookId] === undefined)
-            this.booksIdHidden[b.bookId] = true
-          if (this.booksStausChanging && this.booksStausChanging[`${b.bookId},${b.bookOrderNumberId}`] === undefined)
-            this.booksStausChanging[`${b.bookId},${b.bookOrderNumberId}`] = false
+          if (!this.bookIds?.find(id => id === b.bookIdentificator))
+            this.bookIds?.push(b.bookIdentificator)
+          if (this.booksIdHidden && this.booksIdHidden[b.bookIdentificator] === undefined)
+            this.booksIdHidden[b.bookIdentificator] = true
+          if (this.booksStausChanging && this.booksStausChanging[`${b.id}`] === undefined)
+            this.booksStausChanging[`${b.id}`] = false
         })
       })
   }
   getBooksWithId(id: number): ISimpleAccountingBook[] | undefined {
     if (this.accountingBooks)
-      return this.accountingBooks.filter(b => b.bookId === id)
+      return this.accountingBooks.filter(b => b.bookIdentificator === id)
     return undefined
   }
 
@@ -57,7 +57,7 @@ export class AccountingBookListComponentModal implements OnInit {
       initialState: {
         bookToCreate: {
           relatedGroupId: this.groupId,
-          bookId: this.groupId,
+          bookIdentificator: undefined,
           bookOrderNumberId: undefined,
           locked: false,
           name: undefined
@@ -68,34 +68,36 @@ export class AccountingBookListComponentModal implements OnInit {
   }
 
   lockClick(book: ISimpleAccountingBook): void {
-    this.booksStausChanging[`${book.bookId},${book.bookOrderNumberId}`] = true
+    this.booksStausChanging[`${book.id}`] = true
     this.accountingBookService.updateAccountingBook({
-      bookId: book.bookId,
+      id: book.id,
+      bookIdentificator: book.bookIdentificator,
       bookOrderNumberId: book.bookOrderNumberId,
       locked: true,
       name: book.name
     }).subscribe(book => {
       this.refreshBookList()
       this.toastrService.success(`Successfully locked ${book.name} accounting book`)
-      this.booksStausChanging[`${book.bookId},${book.bookOrderNumberId}`] = false
+      this.booksStausChanging[`${book.id}`] = false
     })
   }
 
-  isBookStatusChanging(bookId: number, bookOrderNumber: number): boolean {
-    return this.booksStausChanging[`${bookId},${bookOrderNumber}`]
+  isBookStatusChanging(id: string): boolean {
+    return this.booksStausChanging[`${id}`]
   }
 
   unlockClick(book: ISimpleAccountingBook): void {
-    this.booksStausChanging[`${book.bookId},${book.bookOrderNumberId}`] = true
+    this.booksStausChanging[`${book.id}`] = true
     this.accountingBookService.updateAccountingBook({
-      bookId: book.bookId,
+      id: book.id,
+      bookIdentificator: book.bookIdentificator,
       bookOrderNumberId: book.bookOrderNumberId,
       locked: false,
       name: book.name
     }).subscribe(book => {
       this.refreshBookList()
       this.toastrService.success(`Successfully unlocked ${book.name} accounting book`)
-      this.booksStausChanging[`${book.bookId},${book.bookOrderNumberId}`] = false
+      this.booksStausChanging[`${book.id}`] = false
     })
   }
 

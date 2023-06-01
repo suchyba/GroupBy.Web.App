@@ -17,16 +17,16 @@ export class ProjectService {
   createProject(project: ICreateProject): Observable<IProject> {
     return this.http.post<IProject>(`${environment.apiUrl}/api/project/add`, project)
   }
-  getProject(id: number): Observable<IProject> {
+  getProject(id: string): Observable<IProject> {
     return this.http.get<IProject>(`${environment.apiUrl}/api/project/${id}`)
   }
-  getRelatedFinancialRecords(id: number): Observable<ISimpleFinancialRecord[]> {
+  getRelatedFinancialRecords(id: string): Observable<ISimpleFinancialRecord[]> {
     return this.http.get<ISimpleFinancialRecord[]>(`${environment.apiUrl}/api/project/${id}/financialRecords`)
   }
-  getAccountingDocuments(id: number): Observable<ISimpleAccountingDocument[]> {
+  getAccountingDocuments(id: string): Observable<ISimpleAccountingDocument[]> {
     return this.http.get<ISimpleAccountingDocument[]>(`${environment.apiUrl}/api/project/${id}/accountingDocuments`)
   }
-  deleteProject(id: number): Observable<Object> {
+  deleteProject(id: string): Observable<Object> {
     return this.http.delete(`${environment.apiUrl}/api/project/delete/${id}`)
   }
 }

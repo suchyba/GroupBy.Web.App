@@ -1,5 +1,5 @@
 export interface ISimpleVolunteer {
-    id: number
+    id: string
     firstNames: string
     lastName: string
     email: string

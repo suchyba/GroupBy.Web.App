@@ -1,5 +1,5 @@
 export interface ISimpleProject {
-    id: number
+    id: string
     name: string
     description: string
     beginDate: Date | undefined

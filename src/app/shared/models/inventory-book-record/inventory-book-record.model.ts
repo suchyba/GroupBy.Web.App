@@ -4,7 +4,7 @@ import { ISimpleInventoryBook } from "../inventory-book/inventory-book-simple.mo
 import { ISimpleInventoryItem } from "../inventory-item/inventory-item-simple.model";
 
 export interface IInventoryBookRecord {
-    id: number,
+    id: string,
     date: Date,
     document: ISimpleDocument | ISimpleAccountingDocument,
     income: boolean,

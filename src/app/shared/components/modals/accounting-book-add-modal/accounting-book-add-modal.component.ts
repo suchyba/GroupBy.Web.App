@@ -40,7 +40,7 @@ export class AccountingBookAddModalComponent implements OnInit {
     this.bsModalRef.setClass('modal-lg')
 
     this.accountingBookAddForm = this.formBuilder.group({
-      book: [this.bookToCreate?.bookId, Validators.required],
+      book: [this.bookToCreate?.bookIdentificator, Validators.required],
       bookOrderNumber: [this.bookToCreate?.bookOrderNumberId, Validators.required],
       name: ['', Validators.required],
       locked: [this.bookToCreate?.locked ?? false, Validators.required],
@@ -86,7 +86,7 @@ export class AccountingBookAddModalComponent implements OnInit {
 
     this.accountingBookService.createAccountingBook({
       name: this.accountingBookAddForm.controls['name'].value,
-      bookId: this.accountingBookAddForm.controls['book'].value,
+      bookIdentificator: this.accountingBookAddForm.controls['book'].value,
       bookOrderNumberId: this.accountingBookAddForm.controls['bookOrderNumber'].value,
       locked: this.accountingBookAddForm.controls['locked'].value,
       relatedGroupId: this.accountingBookAddForm.controls['relatedGroup'].value

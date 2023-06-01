@@ -86,8 +86,8 @@ export class GroupAddModalComponent implements OnInit {
     this.groupService.createGroup({
       name: this.groupAddForm.controls['name'].value,
       description: this.groupAddForm.controls['description'].value,
-      ownerId: parseInt(this.groupAddForm.controls['owner'].value),
-      parentGroupId: parseInt(this.groupAddForm.controls['parentGroup'].value)
+      ownerId: this.groupAddForm.controls['owner'].value,
+      parentGroupId: this.groupAddForm.controls['parentGroup'].value
     }).pipe(first())
       .subscribe({
         complete: () => {

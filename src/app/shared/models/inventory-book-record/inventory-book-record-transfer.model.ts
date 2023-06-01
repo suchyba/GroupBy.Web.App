@@ -1,9 +1,9 @@
 export interface ITransferInventoryBookRecord {
-    inventoryBookFromId: number,
-    inventoryBookToId: number | undefined,
-    itemId: number | undefined,
+    inventoryBookFromId: string,
+    inventoryBookToId: string | undefined,
+    itemId: string | undefined,
     date: Date | undefined,
     documentName: string | undefined
-    sourceFromId: number | undefined
-    sourceToId: number | undefined
+    sourceFromId: string | undefined
+    sourceToId: string | undefined
 }

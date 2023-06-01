@@ -1,4 +1,4 @@
 export interface ICreateInventoryBook {
     name: string,
-    relatedGroupId: number
+    relatedGroupId: string
 }

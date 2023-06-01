@@ -1,10 +1,10 @@
 export interface IUpdateVolunteer {
-    id: number,
+    id: string,
     firstNames: string,
     lastName: string,
     birthDate: Date,
     phoneNumber: string,
     address: string,
     confirmed: boolean,
-    rankId?: number
+    rankId?: string
 }

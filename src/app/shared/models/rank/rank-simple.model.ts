@@ -1,5 +1,5 @@
 export interface ISimpleRank {
-    id: number,
+    id: string,
     name: string,
-    higherRankId: number | undefined
+    higherRankId: string | undefined
 }

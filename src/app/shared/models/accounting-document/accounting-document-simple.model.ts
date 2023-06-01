@@ -1,5 +1,5 @@
 export interface ISimpleAccountingDocument {
-    id: number,
+    id: string,
     name: string,
     filePath: string
 }

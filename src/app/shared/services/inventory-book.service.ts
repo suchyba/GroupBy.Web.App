@@ -14,7 +14,7 @@ export class InventoryBookService {
 
   constructor(private http: HttpClient) { }
 
-  getInventoryBook(bookId: number): Observable<IInventoryBook> {
+  getInventoryBook(bookId: string): Observable<IInventoryBook> {
     return this.http.get<IInventoryBook>(`${environment.apiUrl}/api/inventoryBook/${bookId}`)
   }
 
@@ -22,15 +22,15 @@ export class InventoryBookService {
     return this.http.post<IInventoryBook>(`${environment.apiUrl}/api/inventoryBook/add`, book)
   }
 
-  getRecords(bookId: number): Observable<IListInventoryBookRecord[]> {
+  getRecords(bookId: string): Observable<IListInventoryBookRecord[]> {
     return this.http.get<IListInventoryBookRecord[]>(`${environment.apiUrl}/api/inventoryBook/${bookId}/records`)
   }
 
-  getItems(bookid: number): Observable<ISimpleInventoryItem[]> {
+  getItems(bookid: string): Observable<ISimpleInventoryItem[]> {
     return this.http.get<ISimpleInventoryItem[]>(`${environment.apiUrl}/api/inventoryBook/${bookid}/items`)
   }
 
-  deleteInventoryBook(bookId: number): Observable<Object> {
+  deleteInventoryBook(bookId: string): Observable<Object> {
     return this.http.delete(`${environment.apiUrl}/api/inventoryBook/${bookId}/delete`)
   }
 }
