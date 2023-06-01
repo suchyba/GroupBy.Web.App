@@ -1,5 +1,5 @@
 export interface ISimpleFinancialRecord {
-    id: number,
+    id: string,
     date: Date,
     description: string,
     relatedDocumentName: string,

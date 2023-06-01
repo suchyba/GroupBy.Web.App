@@ -15,13 +15,13 @@ export class VolunteerService {
 
   constructor(private http: HttpClient) { }
 
-  getGroups(volunteerId: number): Observable<ISimpleGroup[]> {
+  getGroups(volunteerId: string): Observable<ISimpleGroup[]> {
     return this.http.get<ISimpleGroup[]>(`${environment.apiUrl}/api/volunteer/${volunteerId}/groups`)
   }
-  getOwnedGroups(volunteerId: number): Observable<ISimpleGroup[]> {
+  getOwnedGroups(volunteerId: string): Observable<ISimpleGroup[]> {
     return this.http.get<ISimpleGroup[]>(`${environment.apiUrl}/api/volunteer/${volunteerId}/ownedgroups`)
   }
-  getVolunteer(volunteerId: number): Observable<IVolunteer> {
+  getVolunteer(volunteerId: string): Observable<IVolunteer> {
     return this.http.get<IVolunteer>(`${environment.apiUrl}/api/volunteer/${volunteerId}`)
   }
   getAllVolunteers(): Observable<ISimpleVolunteer[]> {
@@ -30,7 +30,7 @@ export class VolunteerService {
   updateVolunteer(volunteer: IUpdateVolunteer): Observable<IVolunteer>{
     return this.http.put<IVolunteer>(`${environment.apiUrl}/api/volunteer/update`, volunteer)
   }
-  getRegistrationCodes(volunteerId: number) :Observable<IListRegistrationCode[]> {
+  getRegistrationCodes(volunteerId: string) :Observable<IListRegistrationCode[]> {
     return this.http.get<IListRegistrationCode[]>(`${environment.apiUrl}/api/volunteer/${volunteerId}/registrationcodes`)
   }
 }

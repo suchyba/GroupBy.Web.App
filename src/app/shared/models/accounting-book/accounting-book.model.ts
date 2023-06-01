@@ -1,7 +1,8 @@
 import { ISimpleGroup } from "../group/group-simple.model";
 
 export interface IAccountingBook {
-    bookId: number,
+    id: string
+    bookIdentificator: number,
     bookOrderNumberId: number,
     name: string,
     locked: boolean,

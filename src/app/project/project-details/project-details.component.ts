@@ -21,7 +21,7 @@ export class ProjectDetailsComponent implements OnInit {
   @Input() project: IProject | undefined
   public financialRecords: ISimpleFinancialRecord[] | undefined = []
   public financialRecordsTotal: number | undefined
-  public volunteerId: number | undefined
+  public volunteerId: string | undefined
 
   public accountingDocuments: ISimpleAccountingDocument[] | undefined | null = null
   public accountingDocumentsHidden: boolean = true
@@ -77,7 +77,6 @@ export class ProjectDetailsComponent implements OnInit {
         group: this.project?.projectGroup ? this.project.projectGroup : this.project?.parentGroup,
         recordToCreate: {
           bookId: undefined,
-          bookOrderNumberId: undefined,
           date: new Date(),
           description: "",
           dotation: 0,
@@ -105,7 +104,6 @@ export class ProjectDetailsComponent implements OnInit {
         group: this.project?.projectGroup ? this.project.projectGroup : this.project?.parentGroup,
         recordToCreate: {
           bookId: undefined,
-          bookOrderNumberId: undefined,
           date: new Date(),
           description: "",
           inventory: 0,
@@ -131,7 +129,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   openAccountingDocumentAddModal(): void {
-    let groupId: number = -1;
+    let groupId: string = "";
     if (this.project)
       groupId = this.project.projectGroup?.id ? this.project.projectGroup.id : this.project.parentGroup.id
 
@@ -178,12 +176,12 @@ export class ProjectDetailsComponent implements OnInit {
   redirectToAccountingBook(record: ISimpleFinancialRecord): void {
     if (record.otherIncome !== null) {
       this.financialInRecordService.GetFinancialIncomeRecord(record.id).subscribe(r => {
-        this.router.navigate(['/accountingBooks', r.book.bookId, r.book.bookOrderNumberId])
+        this.router.navigate(['/accountingBooks', r.book.id])
       })
     }
     else if (record.otherOutcome !== null) {
       this.financialOutRecordService.GetFinancialOutcomeRecord(record.id).subscribe(r => {
-        this.router.navigate(['/accountingBooks', r.book.bookId, r.book.bookOrderNumberId])
+        this.router.navigate(['/accountingBooks', r.book.id])
       })
     }
   }

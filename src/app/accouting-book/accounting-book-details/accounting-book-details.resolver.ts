@@ -14,6 +14,6 @@ import { AccountingBookService } from 'src/app/shared/services/accounting-book.s
 export class AccountingBookDetailsResolver implements Resolve<IAccountingBook> {
   constructor(private accountingBookService: AccountingBookService) { }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IAccountingBook> {
-    return this.accountingBookService.getAccountingBook(route.params['bookId'], route.params['bookOrderNumberId'])
+    return this.accountingBookService.getAccountingBook(route.params['id'])
   }
 }

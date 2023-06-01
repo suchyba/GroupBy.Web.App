@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
@@ -59,7 +59,7 @@ export class AccountingBookDetailsComponent implements OnInit {
 
   refreshFinancialRecords(): void {
     if (this.accountingBook)
-      this.accountingBookService.getFinancialRecords(this.accountingBook?.bookId, this.accountingBook?.bookOrderNumberId).subscribe(r => {
+      this.accountingBookService.getFinancialRecords(this.accountingBook?.id).subscribe(r => {
         this.records = r.sort((r1, r2) => new Date(r1.date).getTime() - new Date(r2.date).getTime()).map(r => {
           r.date = new Date(r.date)
           return r
@@ -204,8 +204,7 @@ export class AccountingBookDetailsComponent implements OnInit {
         initialState: {
           group: this.accountingBook?.relatedGroup,
           recordToCreate: {
-            bookId: this.accountingBook?.bookId,
-            bookOrderNumberId: this.accountingBook?.bookOrderNumberId,
+            bookId: this.accountingBook?.id,
             date: new Date(),
             description: "",
             dotation: 0,
@@ -233,8 +232,7 @@ export class AccountingBookDetailsComponent implements OnInit {
         initialState: {
           group: this.accountingBook?.relatedGroup,
           recordToCreate: {
-            bookId: this.accountingBook?.bookId,
-            bookOrderNumberId: this.accountingBook?.bookOrderNumberId,
+            bookId: this.accountingBook?.id,
             date: new Date(),
             description: "",
             inventory: 0,
@@ -263,7 +261,8 @@ export class AccountingBookDetailsComponent implements OnInit {
     if (this.accountingBook) {
       this.bookStatusChanging = true
       this.accountingBookService.updateAccountingBook({
-        bookId: this.accountingBook.bookId,
+        id: this.accountingBook.id,
+        bookIdentificator: this.accountingBook.bookIdentificator,
         bookOrderNumberId: this.accountingBook.bookOrderNumberId,
         name: this.accountingBook.name,
         locked: false
@@ -280,7 +279,8 @@ export class AccountingBookDetailsComponent implements OnInit {
     if (this.accountingBook) {
       this.bookStatusChanging = true
       this.accountingBookService.updateAccountingBook({
-        bookId: this.accountingBook.bookId,
+        id: this.accountingBook.id,
+        bookIdentificator: this.accountingBook.bookIdentificator,
         bookOrderNumberId: this.accountingBook.bookOrderNumberId,
         name: this.accountingBook.name,
         locked: true

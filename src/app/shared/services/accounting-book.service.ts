@@ -15,12 +15,12 @@ export class AccountingBookService {
 
   constructor(private http: HttpClient) { }
 
-  getAccountingBook(id: number, orderNumber: number): Observable<IAccountingBook> {
-    return this.http.get<IAccountingBook>(`${environment.apiUrl}/api/accountingBook/${id}/${orderNumber}`)
+  getAccountingBook(id: string): Observable<IAccountingBook> {
+    return this.http.get<IAccountingBook>(`${environment.apiUrl}/api/accountingBook/${id}`)
   }
 
-  getFinancialRecords(id: number, orderNumber: number): Observable<ISimpleFinancialRecord[]> {
-    return this.http.get<ISimpleFinancialRecord[]>(`${environment.apiUrl}/api/accountingBook/${id}/${orderNumber}/records`)
+  getFinancialRecords(id: string): Observable<ISimpleFinancialRecord[]> {
+    return this.http.get<ISimpleFinancialRecord[]>(`${environment.apiUrl}/api/accountingBook/${id}/records`)
   }
 
   createAccountingBook(book: ICreateAccountingBook): Observable<IAccountingBook> {
@@ -32,6 +32,6 @@ export class AccountingBookService {
   }
 
   deleteAccountingBook(book: ISimpleAccountingBook): Observable<Object> {
-    return this.http.delete(`${environment.apiUrl}/api/accountingBook/delete/${book.bookId}/${book.bookOrderNumberId}`)
+    return this.http.delete(`${environment.apiUrl}/api/accountingBook/delete/${book.id}`)
   }
 }

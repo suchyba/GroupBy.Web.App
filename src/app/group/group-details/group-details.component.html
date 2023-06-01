@@ -22,7 +22,7 @@
                         <hr />
                         <div class="btn-group ms-auto" *ngIf="accountingBooks">
                             <button class="btn btn-primary" [disabled]="getLatestAccBook() === undefined"
-                                [routerLink]="['/accountingBooks', getLatestAccBook()?.bookId, getLatestAccBook()?.bookOrderNumberId]">Latest
+                                [routerLink]="['/accountingBooks', getLatestAccBook()?.id]">Latest
                                 unlocked</button>
                             <button class="btn btn-secondary"
                                 [disabled]="accountingBooks && accountingBooks.length <= 0"

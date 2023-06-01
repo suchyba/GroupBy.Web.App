@@ -16,7 +16,7 @@ import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 export class InventoryBookAddModalComponent implements OnInit {
   @Input() bookToCreate: ICreateInventoryBook | undefined
   @Input() group: ISimpleGroup | undefined
-  @Input() volunteerId: number | undefined
+  @Input() volunteerId: string | undefined
 
   @Output() createdBook: ISimpleInventoryBook | undefined
   @Output() bookCreatedEvent: EventEmitter<ISimpleInventoryBook> = new EventEmitter<ISimpleInventoryBook>()

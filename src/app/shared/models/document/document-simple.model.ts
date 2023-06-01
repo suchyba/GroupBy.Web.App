@@ -1,5 +1,5 @@
 export interface ISimpleDocument {
-    id: number,
+    id: string,
     name: string,
     filePath: string
 }

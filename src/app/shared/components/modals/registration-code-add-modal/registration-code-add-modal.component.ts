@@ -7,7 +7,6 @@ import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
 import { ISimpleRank } from 'src/app/shared/models/rank/rank-simple.model';
 import { ICreateRegistrationCode } from 'src/app/shared/models/registration-code/registration-code-create.model';
 import { ISimpleVolunteer } from 'src/app/shared/models/volunteer/volunteer-simple.model';
-import { GroupService } from 'src/app/shared/services/group.service';
 import { RankService } from 'src/app/shared/services/rank.service';
 import { RegistrationCodeService } from 'src/app/shared/services/registration-code.service';
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
@@ -88,9 +87,9 @@ export class RegistrationCodeAddModalComponent implements OnInit {
 
     this.registrationCodeService.createRegistrationCode({
       name: this.registrationCodeAddForm.controls['name'].value,
-      ownerId: parseInt(this.registrationCodeAddForm.controls['owner'].value),
-      targetGroupId: parseInt(this.registrationCodeAddForm.controls['targetGroup'].value),
-      targetRankId: parseInt(this.registrationCodeAddForm.controls['targetRank'].value)
+      ownerId: this.registrationCodeAddForm.controls['owner'].value,
+      targetGroupId: this.registrationCodeAddForm.controls['targetGroup'].value,
+      targetRankId: this.registrationCodeAddForm.controls['targetRank'].value
     }).pipe(first())
       .subscribe({
         complete: () => {

@@ -1,5 +1,5 @@
 export interface IInventoryItem {
-    id: number,
+    id: string,
     symbol: string,
     name: string,
     value: number,

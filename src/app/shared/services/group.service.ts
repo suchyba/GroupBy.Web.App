@@ -20,25 +20,25 @@ export class GroupService {
 
   }
 
-  getGroup(id: number): Observable<IGroup> {
+  getGroup(id: string): Observable<IGroup> {
     return this.http.get<IGroup>(`${environment.apiUrl}/api/group/${id}`)
   }
-  getChildGroups(id: number): Observable<ISimpleGroup[]> {
+  getChildGroups(id: string): Observable<ISimpleGroup[]> {
     return this.http.get<ISimpleGroup[]>(`${environment.apiUrl}/api/group/${id}/subgroups`)
   }
-  getMembers(id: number): Observable<ISimpleVolunteer[]> {
+  getMembers(id: string): Observable<ISimpleVolunteer[]> {
     return this.http.get<ISimpleVolunteer[]>(`${environment.apiUrl}/api/group/${id}/members`)
   }
-  getProjects(id: number): Observable<ISimpleProject[]> {
+  getProjects(id: string): Observable<ISimpleProject[]> {
     return this.http.get<ISimpleProject[]>(`${environment.apiUrl}/api/group/${id}/projects`)
   }
-  getAccountingBooks(id: number): Observable<ISimpleAccountingBook[]> {
+  getAccountingBooks(id: string): Observable<ISimpleAccountingBook[]> {
     return this.http.get<ISimpleAccountingBook[]>(`${environment.apiUrl}/api/group/${id}/accountingBooks`)
   }
   createGroup(group: ICreateGroup) {
     return this.http.post(`${environment.apiUrl}/api/group/add`, group)
   }
-  getAccountingDocuments(groupId: number, projectId: number | undefined) {
+  getAccountingDocuments(groupId: string, projectId: string | undefined) {
     if (projectId)
       return this.http.get<ISimpleAccountingDocument[]>(`${environment.apiUrl}/api/group/${groupId}/accountingDocuments`, {
         params: {
@@ -48,16 +48,16 @@ export class GroupService {
     else
       return this.http.get<ISimpleAccountingDocument[]>(`${environment.apiUrl}/api/group/${groupId}/accountingDocuments`)
   }
-  deleteGroup(id: number): Observable<Object> {
+  deleteGroup(id: string): Observable<Object> {
     return this.http.delete(`${environment.apiUrl}/api/group/delete/${id}`)
   }
-  removeMember(groupId: number, volunteerId: number): Observable<Object> {
+  removeMember(groupId: string, volunteerId: string): Observable<Object> {
     return this.http.post(`${environment.apiUrl}/api/group/members/remove/${groupId}/${volunteerId}`, null)
   }
-  addMember(groupId: number, volunteerId: number): Observable<Object> {
+  addMember(groupId: string, volunteerId: string): Observable<Object> {
     return this.http.post(`${environment.apiUrl}/api/group/members/add/${groupId}/${volunteerId}`, null)
   }
-  getDocuments(groupId: number, projectId: number | undefined = undefined): Observable<ISimpleDocument[]> {
+  getDocuments(groupId: string, projectId: string | undefined = undefined): Observable<ISimpleDocument[]> {
     if (projectId)
       return this.http.get<ISimpleDocument[]>(`${environment.apiUrl}/api/group/${groupId}/Documents`, {
         params: {

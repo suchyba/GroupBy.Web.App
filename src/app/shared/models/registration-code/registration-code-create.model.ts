@@ -1,6 +1,6 @@
 export interface ICreateRegistrationCode {
     name?: string,
-    targetGroupId?: number,
-    targetRankId?: number,
-    ownerId?: number
+    targetGroupId?: string,
+    targetRankId?: string,
+    ownerId?: string
 }

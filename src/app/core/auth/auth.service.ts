@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { IUser } from 'src/app/shared/models/auth/user.model';
@@ -9,15 +9,15 @@ import { ISimpleUser } from '../../shared/models/auth/user-simple.model';
 @Injectable()
 export class AuthService {
 
-  private volunteerIdSubject: BehaviorSubject<number | null>
-    = new BehaviorSubject<number | null>(null)
+  private volunteerIdSubject: BehaviorSubject<string | null>
+    = new BehaviorSubject<string | null>(null)
 
   readonly voluneerId$ = this.volunteerIdSubject.asObservable()
 
   constructor(private http: HttpClient) {
     let v_id = localStorage.getItem('volunteer_id')
     if (v_id !== null)
-      this.volunteerIdSubject.next(parseInt(v_id))
+      this.volunteerIdSubject.next(v_id)
   }
 
   login(email: string, password: string) {
@@ -27,7 +27,7 @@ export class AuthService {
         localStorage.setItem('volunteer_id', res.volunteerId)
         localStorage.setItem('email', res.email)
 
-        this.volunteerIdSubject.next(parseInt(res.volunteerId))
+        this.volunteerIdSubject.next(res.volunteerId)
       }))
   }
 
@@ -43,10 +43,10 @@ export class AuthService {
     this.volunteerIdSubject.next(null)
   }
 
-  public getUserId(): number | undefined {
+  public getUserId(): string | undefined {
     const volunteerId: string | undefined = localStorage.getItem('volunteer_id') ?? undefined
     if (volunteerId)
-      return parseInt(volunteerId);
+      return volunteerId;
 
     return undefined
   }

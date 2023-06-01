@@ -3,5 +3,5 @@ import { AccountingBookDetailsComponent } from "./accounting-book-details/accoun
 import { AccountingBookDetailsResolver } from "./accounting-book-details/accounting-book-details.resolver";
 
 export const AccountingBooksRoutes: Routes = [
-    { path: ':bookId/:bookOrderNumberId', component: AccountingBookDetailsComponent, resolve: { accountingBook: AccountingBookDetailsResolver } }
+    { path: ':id', component: AccountingBookDetailsComponent, resolve: { accountingBook: AccountingBookDetailsResolver } }
 ]

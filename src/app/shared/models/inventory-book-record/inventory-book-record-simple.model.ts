@@ -1,6 +1,6 @@
 export interface ISimpleInventoryBookRecord {
-    id: number,
-    inventoryBookId: number,
+    id: string,
+    inventoryBookId: string,
     date: Date,
     income: boolean
 }

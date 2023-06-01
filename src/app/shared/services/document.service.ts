@@ -12,7 +12,7 @@ export class DocumentService {
 
   constructor(private http: HttpClient) { }
 
-  getDocument(documentId: number): Observable<IDocument> {
+  getDocument(documentId: string): Observable<IDocument> {
     return this.http.get<IDocument>(`${environment.apiUrl}/api/documents/${documentId}`)
   }
 

@@ -24,7 +24,7 @@ import { AddMemberModalComponent } from './add-member-modal/add-member-modal.com
 export class GroupDetailsComponent implements OnInit {
   @Input() group: IGroup | undefined
   @Input() childGroups: ISimpleGroup[] | undefined
-  @Input() volunteerId: number | undefined
+  @Input() volunteerId: string | undefined
   @Input() accountingBooks: ISimpleAccountingBook[] | undefined
 
   @Input() members: ISimpleVolunteer[] | undefined | null = null
@@ -34,7 +34,7 @@ export class GroupDetailsComponent implements OnInit {
   public projectsHidden: boolean = true;
 
   public editOwner = false
-  public newOwner?: number
+  public newOwner?: string
   public newOwnerLoading = false
 
   constructor(
@@ -110,9 +110,9 @@ export class GroupDetailsComponent implements OnInit {
 
   getLatestAccBook(): ISimpleAccountingBook | undefined {
     return this.accountingBooks?.filter(b => b.locked === false).sort((b1, b2) => {
-      if (b1.bookId > b2.bookId)
+      if (b1.bookIdentificator > b2.bookIdentificator)
         return 1
-      else if (b1.bookId === b2.bookId) {
+      else if (b1.bookIdentificator === b2.bookIdentificator) {
         if (b1.bookOrderNumberId > b2.bookOrderNumberId)
           return 1
         else if (b1.bookOrderNumberId < b2.bookOrderNumberId)
@@ -159,7 +159,7 @@ export class GroupDetailsComponent implements OnInit {
         initialState: {
           bookToCreate: {
             relatedGroupId: this.group?.id,
-            bookId: this.group?.id,
+            bookIdentificator: undefined,
             bookOrderNumberId: undefined,
             locked: false,
             name: undefined

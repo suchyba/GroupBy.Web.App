@@ -1,5 +1,6 @@
 export interface ISimpleAccountingBook {
-    bookId: number,
+    id: string,
+    bookIdentificator: number,
     bookOrderNumberId: number,
     name: string,
     locked: boolean
