@@ -112,12 +112,14 @@ export class FinancialIncomeRecordAddModalComponent implements OnInit {
             this.recordAddForm.controls['bookIdentificator'].disable()
             this.recordAddForm.controls['bookIdentificator'].setValue(this.bookIdentificator)
           }
+          this.recordAddForm.controls['bookOrderNumber'].disable()
+          this.onBookIdChange(this.bookIdentificator)
+          
           if (this.bookOrderNumber) {
             this.recordAddForm.controls['bookOrderNumber'].setValue(this.bookOrderNumber)
+            this.recordAddForm.controls['bookOrderNumber'].disable()
           }
-          this.recordAddForm.controls['bookOrderNumber'].disable()
           
-          this.onBookIdChange(this.bookIdentificator)
           this.onBookOrderNumberChange(this.bookOrderNumber)
         })
       })
