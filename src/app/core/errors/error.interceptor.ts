@@ -21,7 +21,8 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(catchError(err => {
       // if token is not valid or there is no token - logout
       if (err.status === 401) {
-        this.authService.logout()
+        if (this.authService.isLoggedIn())
+          this.authService.logout()
         location.reload()
       }
       else if (typeof err.error === 'string') {

@@ -1,6 +1,5 @@
 FROM node:latest as node
 WORKDIR /app
-EXPOSE 80
 EXPOSE 443
 
 #Build app
