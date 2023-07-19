@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    return this.http.post<ISimpleUser>(`${environment.apiUrl}/api/authenticate/login`, { email, password }, {withCredentials: true})
+    return this.http.post<ISimpleUser>(`${environment.apiUrl}/api/authenticate/login`, { email, password }, { withCredentials: true })
       .pipe(tap(res => {
         localStorage.setItem('id_token', res.token)
         localStorage.setItem('volunteer_id', res.volunteerId)
@@ -37,7 +37,10 @@ export class AuthService {
   }
 
   logout() {
-    this.http.post(`${environment.apiUrl}/api/authenticate/revokeToken`, {}, {withCredentials: true}).subscribe();
+    // revoke token only if still have auth token
+    if (localStorage.getItem('id_token') != null)
+      this.http.post(`${environment.apiUrl}/api/authenticate/revokeToken`, {}, { withCredentials: true }).subscribe();
+
     this.stopRefreshTokenTimer();
     localStorage.removeItem('id_token');
     localStorage.removeItem('volunteer_id');
@@ -85,7 +88,7 @@ export class AuthService {
   }
 
   public refreshToken() {
-    return this.http.post<ISimpleUser>(`${environment.apiUrl}/api/authenticate/refreshToken`, null, {withCredentials: true})
+    return this.http.post<ISimpleUser>(`${environment.apiUrl}/api/authenticate/refreshToken`, null, { withCredentials: true })
       .pipe(tap(res => {
         localStorage.setItem('id_token', res.token)
         localStorage.setItem('volunteer_id', res.volunteerId)
@@ -98,19 +101,19 @@ export class AuthService {
 
   private refreshTokenTimeout?: NodeJS.Timeout;
 
-    private startRefreshTokenTimer() {
-        // parse json object from base64 encoded jwt token
-        const jwtBase64 = localStorage.getItem('id_token')!.split('.')[1];
-        const jwtToken = JSON.parse(atob(jwtBase64));
+  private startRefreshTokenTimer() {
+    // parse json object from base64 encoded jwt token
+    const jwtBase64 = localStorage.getItem('id_token')!.split('.')[1];
+    const jwtToken = JSON.parse(atob(jwtBase64));
 
-        // set a timeout to refresh the token a minute before it expires
-        const expires = new Date(jwtToken.exp * 1000);
-        const timeout = expires.getTime() - Date.now() - (60 * 1000);
-        this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeout);
-    }
+    // set a timeout to refresh the token a minute before it expires
+    const expires = new Date(jwtToken.exp * 1000);
+    const timeout = expires.getTime() - Date.now() - (60 * 1000);
+    this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeout);
+  }
 
-    private stopRefreshTokenTimer() {
-      if (this.refreshTokenTimeout)
-        clearTimeout(this.refreshTokenTimeout);
-    }
+  private stopRefreshTokenTimer() {
+    if (this.refreshTokenTimeout)
+      clearTimeout(this.refreshTokenTimeout);
+  }
 }
