@@ -1,0 +1,132 @@
+<div class="m-2">
+    <div class="modal-header">
+        <div class="row flex-fill">
+            <div class="modal-title col-12">
+                <div class="d-flex">
+                    <h2>Inventory item history</h2>
+                    <button type="button" class="btn btn-outline-secondary close pull-right ms-auto" aria-label="Close"
+                        (click)="onCancel()">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <!-- Item information -->
+            <div class="col-12">
+                <div class="row alert alert-secondary">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <b>Name:</b> {{item?.name}}
+                            </div>
+                            <div class="col-6">
+                                <b>Symbol:</b> {{item?.symbol}}
+                            </div>
+                            <div class="col-12">
+                                <b>Description:</b> {{item?.description}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- History -->
+            <div class="col-12">
+                <accordion [isAnimated]="true">
+                    <accordion-group>
+                        <span accordion-heading>
+                            <i class="bi bi-journal-plus"></i> Creation
+                        </span>
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-striped table-hover mt-3">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <!-- General -->
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Document</th>
+                                            <th scope="col">Source</th>
+                                            <th scope="col">Book</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{{creationRecord?.date?.toLocaleDateString('en-US')}}</td>
+                                            <td>{{creationRecord?.document?.name}}</td>
+                                            <td>{{creationRecord?.source?.name}}</td>
+                                            <td><i class="bi bi-journal-album"></i> {{creationRecord?.book?.name}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </accordion-group>
+                    <accordion-group *ngIf="(transferRecords?.length ?? 0) >= 1">
+                        <span accordion-heading>
+                            <i class="bi bi-journal-text"></i> Transfers
+                        </span>
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-striped table-hover mt-3">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <!-- General -->
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Document</th>
+                                            <th scope="col">Reason</th>
+                                            <th scope="col">Source book</th>
+                                            <th scope="col"></th>
+                                            <th scope="col">Destination book</th>
+                                            <th scope="col">Source</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let record of transferRecords">
+                                            <td>{{record.date.toLocaleDateString('en-US')}}</td>
+                                            <td>{{record.document.name}}</td>
+                                            <td>{{record.sourceFrom.name}}</td>
+                                            <td><i class="bi bi-journal-album"></i> {{record.sourceBook.name}}</td>
+                                            <td><i class="bi bi-caret-right-fill"></i></td>
+                                            <td><i class="bi bi-journal-album"></i> {{record.destinationBook?.name}}</td>
+                                            <td>{{record.sourceTo?.name}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </accordion-group>
+                    <accordion-group *ngIf="liquidationRecord !== undefined">
+                        <span accordion-heading>
+                            <i class="bi bi-journal-minus"></i> Liquidation
+                        </span>
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-striped table-hover mt-3">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <!-- General -->
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Document</th>
+                                            <th scope="col">Reason</th>
+                                            <th scope="col">Book</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{{liquidationRecord.date.toLocaleDateString('en-US')}}</td>
+                                            <td>{{liquidationRecord.document.name}}</td>
+                                            <td>{{liquidationRecord.source.name}}</td>
+                                            <td><i class="bi bi-journal-album"></i> {{liquidationRecord.book.name}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </accordion-group>
+                </accordion>
+            </div>
+        </div>
+    </div>
+</div>

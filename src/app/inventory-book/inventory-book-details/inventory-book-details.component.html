@@ -59,7 +59,7 @@
                             <th scope="col">Date</th>
                             <th scope="col">Document</th>
                             <th scope="col">Item</th>
-                            <th scope="col">Source</th>
+                            <th scope="col">Reason</th>
                             <th scope="col">Type</th>
                         </tr>
                     </thead>
@@ -69,9 +69,13 @@
                             <td>{{record.date.toLocaleDateString('en-US')}}</td>
                             <td>{{record.document.name}}</td>
                             <td>
-                                {{record.item.name}}
-                                <hr />
-                                {{record.item.symbol}}
+                                <div class="d-flex">
+                                    <button class="flex-fill btn btn-outline-secondary" (click)="showItemHistory(record.item)">
+                                        {{record.item.name}}
+                                        <hr />
+                                        {{record.item.symbol}}
+                                    </button>
+                                </div>
                             </td>
                             <td>{{record.source.name}}</td>
                             <td *ngIf="record.income" class="text-success">Income <i
@@ -128,6 +132,7 @@
                                 <div class="btn-group">
                                     <button class="btn btn-primary" (click)="transferItem(item)" tooltip="Transfer this item"><i class="bi bi-journal-arrow-up"></i></button>
                                     <button class="btn btn-danger" (click)="liquidateItem(item)" tooltip="Liquidate this item"><i class="bi bi-journal-minus"></i></button>
+                                    <button class="btn btn-primary" (click)="showItemHistory(item)" tooltip="Show item history"><i class="bi bi-journal-text"></i></button>
                                 </div>
                             </td>
                         </tr>

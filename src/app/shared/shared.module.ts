@@ -24,10 +24,12 @@ import { VolunteerService } from "./services/volunteer.service";
 import { InventoryBookAddModalComponent } from './components/modals/inventory-book-add-modal/inventory-book-add-modal.component';
 import { InventoryBookRecordAddModalComponent } from './components/modals/inventory-book-record-add-modal/inventory-book-record-add-modal.component';
 import { TypeaheadModule } from "ngx-bootstrap/typeahead";
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { InventoryItemLiquidateComponent } from './components/modals/inventory-item-liquidate/inventory-item-liquidate.component';
 import { InventoryItemAddModalComponent } from './components/modals/inventory-item-add-modal/inventory-item-add-modal.component';
 import { InventoryBookRecordTransferModalComponent } from './components/modals/inventory-book-record-transfer-modal/inventory-book-record-transfer-modal.component';
 import { RegistrationCodeAddModalComponent } from './components/modals/registration-code-add-modal/registration-code-add-modal.component';
+import { InventoryItemHistoryModalComponent } from './components/modals/inventory-item-history-modal/inventory-item-history-modal.component';
 
 @NgModule({
     imports: [
@@ -35,7 +37,8 @@ import { RegistrationCodeAddModalComponent } from './components/modals/registrat
         ReactiveFormsModule,
         RouterModule,
         TypeaheadModule,
-        FormsModule],
+        FormsModule,
+        AccordionModule],
     declarations: [
         // modals
         GroupAddModalComponent,
@@ -48,14 +51,15 @@ import { RegistrationCodeAddModalComponent } from './components/modals/registrat
         InventoryBookAddModalComponent,
         InventoryBookRecordAddModalComponent,
         InventoryItemLiquidateComponent,
+        InventoryItemAddModalComponent,
+        InventoryBookRecordTransferModalComponent,
+        RegistrationCodeAddModalComponent,
+        InventoryItemHistoryModalComponent,
         // thumbnails
         ProjectThumbnailComponent,
         GroupThumbnailComponent,
         InventoryBookThumbnailComponent,
         VolunteerThumbnailComponent,
-        InventoryItemAddModalComponent,
-        InventoryBookRecordTransferModalComponent,
-        RegistrationCodeAddModalComponent,
     ],
     exports: [
         CommonModule,

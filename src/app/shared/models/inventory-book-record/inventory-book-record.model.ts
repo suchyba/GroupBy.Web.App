@@ -5,6 +5,7 @@ import { ISimpleInventoryItem } from "../inventory-item/inventory-item-simple.mo
 
 export interface IInventoryBookRecord {
     id: string,
+    orderId: number,
     date: Date,
     document: ISimpleDocument | ISimpleAccountingDocument,
     income: boolean,
