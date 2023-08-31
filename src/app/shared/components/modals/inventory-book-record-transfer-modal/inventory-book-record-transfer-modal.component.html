@@ -80,7 +80,7 @@
                                         <option *ngFor="let source of sourceList" [ngValue]="source.id">{{source.name}}
                                         </option>
                                     </select>
-                                    <label for="sourceSelect">Inventory item source from*</label>
+                                    <label for="sourceSelect">Reason*</label>
 
                                     <div *ngIf="submitted && fields['sourceFromId'].errors" class="invalid-feedback">
                                         <div *ngIf="fields['sourceFromId'].errors['required']">This field is required
@@ -98,7 +98,7 @@
                                         <option *ngFor="let source of sourceList" [ngValue]="source.id">{{source.name}}
                                         </option>
                                     </select>
-                                    <label for="sourceSelect">Inventory item source to*</label>
+                                    <label for="sourceSelect">Inventory item source*</label>
 
                                     <div *ngIf="submitted && fields['sourceToId'].errors" class="invalid-feedback">
                                         <div *ngIf="fields['sourceToId'].errors['required']">This field is required

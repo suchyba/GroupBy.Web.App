@@ -58,7 +58,7 @@
                             <option *ngFor="let source of sourceList" [ngValue]="source.id">{{source.name}}
                             </option>
                         </select>
-                        <label for="sourceSelect">Inventory item source*</label>
+                        <label for="sourceSelect">Reason*</label>
 
                         <div *ngIf="submitted && fields['sourceId'].errors" class="invalid-feedback">
                             <div *ngIf="fields['sourceId'].errors['required']">This field is required</div>
