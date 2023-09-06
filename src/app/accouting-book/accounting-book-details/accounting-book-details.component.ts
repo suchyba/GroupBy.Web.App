@@ -267,10 +267,12 @@ export class AccountingBookDetailsComponent implements OnInit {
         name: this.accountingBook.name,
         locked: false
       }).subscribe(book => {
-        this.accountingBook = book
-        this.refreshFinancialRecords()
-        this.toastrService.success(`Successfully unlocked ${book.name} accounting book`)
-        this.bookStatusChanging = false
+        this.accountingBookService.getAccountingBook(book.id).subscribe(book => {
+          this.accountingBook = book
+          this.refreshFinancialRecords()
+          this.toastrService.success(`Successfully unlocked ${book.name} accounting book`)
+          this.bookStatusChanging = false
+        })
       })
     }
   }
@@ -285,10 +287,12 @@ export class AccountingBookDetailsComponent implements OnInit {
         name: this.accountingBook.name,
         locked: true
       }).subscribe(book => {
-        this.accountingBook = book
-        this.refreshFinancialRecords()
-        this.toastrService.success(`Successfully locked ${book.name} accounting book`)
-        this.bookStatusChanging = false
+        this.accountingBookService.getAccountingBook(book.id).subscribe(book => {
+          this.accountingBook = book
+          this.refreshFinancialRecords()
+          this.toastrService.success(`Successfully locked ${book.name} accounting book`)
+          this.bookStatusChanging = false
+        })
       })
     }
   }
