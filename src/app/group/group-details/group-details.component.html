@@ -10,9 +10,14 @@
                 <!-- group head -->
                 <div class="row">
                     <div class="col-12">
-                        <h3>{{group.name}} <a class="bi bi-pencil-square" *ngIf="isOwner()"></a></h3>
-                        <h5 class="fw-light">{{group.description}} <a class="bi bi-pencil-square" *ngIf="isOwner()"></a>
-                        </h5>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>{{group.name}} <a class="bi bi-pencil-square" *ngIf="isOwner()"></a></h3>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="fw-light">{{group.description}} <a class="bi bi-pencil-square" *ngIf="isOwner()"></a></h5>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- Accounting books -->
@@ -21,7 +26,7 @@
                         <h5>Accounting books</h5>
                         <hr />
                         <div class="btn-group ms-auto" *ngIf="accountingBooks">
-                            <button class="btn btn-primary" [disabled]="getLatestAccBook() === undefined"
+                            <button class="btn btn-secondary" [disabled]="getLatestAccBook() === undefined"
                                 [routerLink]="['/accountingBooks', getLatestAccBook()?.id]">Latest
                                 unlocked</button>
                             <button class="btn btn-secondary"

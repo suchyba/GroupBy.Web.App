@@ -99,7 +99,7 @@
                                             {{record.total.toFixed(2)}}</td>
                                         <td class="text-danger" *ngIf="record.otherOutcome !== null">
                                             -{{record.total.toFixed(2)}}</td>
-                                        <td class="d-flex"><button class="btn btn-primary ms-auto" *ngIf="isOwner()"
+                                        <td class="d-flex"><button class="btn btn-secondary ms-auto" *ngIf="isOwner()"
                                                 (click)="redirectToAccountingBook(record)">Go to book</button></td>
                                     </tr>
                                 </tbody>

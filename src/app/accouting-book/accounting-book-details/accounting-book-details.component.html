@@ -6,20 +6,32 @@
                 <!-- accounting book name -->
                 <div class="row">
                     <div class="col-12">
-                        <h3>{{accountingBook.name}} <span class="badge bg-secondary"
-                                *ngIf="accountingBook.locked">Locked <i class="bi bi-lock-fill"></i></span><span
-                                class="badge bg-success" *ngIf="!accountingBook.locked">Unlocked <i
-                                    class="bi bi-unlock-fill"></i></span></h3>
-                        <p>Current balance: {{accountingBook.balance.toFixed(2)}}</p>
+                        <div class="card">
+                            <div class="card-header">
+                                <p class="fs-3">{{accountingBook.name}}</p>
+                            </div>
+                            <span class="badge bg-secondary" *ngIf="accountingBook.locked">Locked <i
+                                    class="bi bi-lock-fill"></i></span>
+                            <span class="badge bg-success" *ngIf="!accountingBook.locked">Unlocked <i
+                                    class="bi bi-unlock-fill"></i></span>
+                            <div class="card-body">
+                                <p><b>Current balance:</b> {{accountingBook.balance.toFixed(2)}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- Group link -->
                 <div class="row p-1 ms-auto">
                     <div class="col-12 text-center">
-                        <h5>Group: {{accountingBook.relatedGroup.name}}</h5>
-                        <hr />
-                        <button class="btn btn-primary w-100"
-                            [routerLink]="['/groups', accountingBook.relatedGroup.id]">Details</button>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>Group: {{accountingBook.relatedGroup.name}}</h5>
+                                <hr />
+                                <button class="btn btn-secondary w-100"
+                                    [routerLink]="['/groups', accountingBook.relatedGroup.id]">Details</button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -35,13 +47,13 @@
                         <button class="btn btn-success" [disabled]="accountingBook.locked"
                             (click)="openFinancialOutcomeRecordAddModal()">Add new outcome <i
                                 class="bi bi-box-arrow-up"></i></button>
-                        <button class="btn btn-secondary" *ngIf="accountingBook.locked" (click)="unlockBookClick()"
+                        <button class="btn btn-primary" *ngIf="accountingBook.locked" (click)="unlockBookClick()"
                             [disabled]="bookStatusChanging">
                             Unlock <i class="bi bi-unlock"></i>&nbsp;
                             <span class="spinner-border spinner-border-sm" role="status"
                                 *ngIf="bookStatusChanging"></span>
                         </button>
-                        <button class="btn btn-secondary" *ngIf="!accountingBook.locked" (click)="lockBookClick()"
+                        <button class="btn btn-primary" *ngIf="!accountingBook.locked" (click)="lockBookClick()"
                             [disabled]="bookStatusChanging">
                             Lock <i class="bi bi-lock"></i>&nbsp;
                             <span class="spinner-border spinner-border-sm" role="status"
@@ -163,8 +175,8 @@
                 </table>
             </div>
         </div>
-        <div class="mt-3">
-            <p>Current balance: {{accountingBook.balance.toFixed(2)}}</p>
+        <div class="alert alert-secondary mt-3 text-end" role="alert">
+            <b>Current balance:</b> {{accountingBook.balance.toFixed(2)}}
         </div>
     </div>
 </div>

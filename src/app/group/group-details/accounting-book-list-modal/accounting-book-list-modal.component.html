@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                             <div class="ms-auto btn-group">
-                                <button class="btn btn-secondary" *ngIf="book.locked" (click)="unlockClick(book)"
+                                <button class="btn btn-primary" *ngIf="book.locked" (click)="unlockClick(book)"
                                     [disabled]="isBookStatusChanging(book.id)">
                                     Unlock <i class="bi bi-unlock"></i>&nbsp;
                                     <span class="spinner-border spinner-border-sm" role="status"
@@ -51,7 +51,7 @@
                                 </button>
                                 <button class="btn btn-danger" (click)="deleteAccountingBookClick(book)">Delete <i
                                         class="bi bi-trash"></i></button>
-                                <button class="btn btn-primary"
+                                <button class="btn btn-secondary"
                                     [routerLink]="['/accountingBooks', book.id]"
                                     (click)="bsModalRef.hide()">Details</button>
                             </div>
