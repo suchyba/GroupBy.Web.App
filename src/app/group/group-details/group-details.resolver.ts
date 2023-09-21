@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Router, Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot
-} from '@angular/router';
+import { Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { IGroup } from 'src/app/shared/models/group/group.model';
 import { GroupService } from 'src/app/shared/services/group.service';
@@ -11,7 +7,7 @@ import { GroupService } from 'src/app/shared/services/group.service';
 @Injectable({
   providedIn: 'root'
 })
-export class GroupDetailsResolver implements Resolve<IGroup> {
+export class GroupDetailsResolver  {
   constructor(private groupService: GroupService) {
 
   }

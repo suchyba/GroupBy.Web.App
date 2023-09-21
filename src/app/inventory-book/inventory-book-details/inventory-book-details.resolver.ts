@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Router, Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot
-} from '@angular/router';
+import { Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { IInventoryBook } from 'src/app/shared/models/inventory-book/inventory-book.model';
 import { InventoryBookService } from 'src/app/shared/services/inventory-book.service';
@@ -11,7 +7,7 @@ import { InventoryBookService } from 'src/app/shared/services/inventory-book.ser
 @Injectable({
   providedIn: 'root'
 })
-export class InventoryBookDetailsResolver implements Resolve<IInventoryBook> {
+export class InventoryBookDetailsResolver  {
   constructor(private inventoryBookService: InventoryBookService) {
 
   }

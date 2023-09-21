@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs';
@@ -22,7 +22,7 @@ export class RegistrationCodeAddModalComponent implements OnInit {
   public ownerList?: ISimpleVolunteer[]
   public targetRankList?: ISimpleRank[]
 
-  public registrationCodeAddForm: FormGroup = new FormGroup({})
+  public registrationCodeAddForm: UntypedFormGroup = new UntypedFormGroup({})
   public submitted: boolean = false
   public loading: boolean = false
   public error: any
@@ -35,7 +35,7 @@ export class RegistrationCodeAddModalComponent implements OnInit {
   constructor(
     public bsModalRef: BsModalRef,
     private volunteerService: VolunteerService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private rankService: RankService,
     private registrationCodeService: RegistrationCodeService,
     private toastrService: ToastrService) { 

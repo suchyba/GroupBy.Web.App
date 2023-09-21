@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
@@ -22,7 +22,7 @@ export class ManageAccountComponent implements OnInit {
   public loading = false
   public error: any
 
-  public volunteerForm: FormGroup = new FormGroup({})
+  public volunteerForm: UntypedFormGroup = new UntypedFormGroup({})
 
   public registrationCodes: IListRegistrationCode[] | null = null
 
@@ -33,7 +33,7 @@ export class ManageAccountComponent implements OnInit {
   constructor(
     private volunteerService: VolunteerService,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private toastrService: ToastrService,
     private modalService: BsModalService
   ) {

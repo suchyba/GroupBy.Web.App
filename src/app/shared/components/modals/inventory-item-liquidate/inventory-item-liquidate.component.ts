@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { ISimpleDocument } from 'src/app/shared/models/document/document-simple.model';
@@ -36,7 +36,7 @@ export class InventoryItemLiquidateComponent implements OnInit {
   public sourceList: ISimpleInventoryItemSource[] = []
   public documentList: ISimpleDocument[] = []
 
-  public recordAddForm: FormGroup
+  public recordAddForm: UntypedFormGroup
   public submitted: boolean = false
   public loading: boolean = false
   public error: any
@@ -45,7 +45,7 @@ export class InventoryItemLiquidateComponent implements OnInit {
   get fields() { return this.recordAddForm.controls }
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private modalRef: BsModalRef,
     private toastrService: ToastrService,
     private inventoryItemSourceService: InventoryItemSourceService,

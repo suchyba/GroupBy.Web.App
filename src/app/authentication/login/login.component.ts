@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
 import { first } from 'rxjs/operators';
@@ -10,13 +10,13 @@ import { first } from 'rxjs/operators';
 })
 export class LoginComponent implements OnInit {
   @Input() returnUrl: string = '/'
-  public loginForm: FormGroup
+  public loginForm: UntypedFormGroup
   public submitted: boolean = false
   public loading: boolean = false
   public error: string = ''
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute) {

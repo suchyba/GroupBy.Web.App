@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/internal/operators/first';
@@ -32,7 +32,7 @@ export class FinancialIncomeRecordAddModalComponent implements OnInit {
   public distinctBookOrderNumber: number[] | undefined
   public group: ISimpleGroup | undefined
 
-  public recordAddForm: FormGroup
+  public recordAddForm: UntypedFormGroup
   public submitted: boolean = false
   public loading: boolean = false
   public error: any
@@ -41,7 +41,7 @@ export class FinancialIncomeRecordAddModalComponent implements OnInit {
   constructor(
     public bsModalRef: BsModalRef,
     private modalService: BsModalService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private groupService: GroupService,
     private accountingDocumentService: AccountingDocumentService,
     private financialIncomeRecordService: FinancialIncomeRecordService,

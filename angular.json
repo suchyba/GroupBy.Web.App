@@ -105,5 +105,8 @@
       }
     }
   },
-  "defaultProject": "GroupBy.Web.App"
+  "defaultProject": "GroupBy.Web.App",
+  "cli": {
+    "analytics": false
+  }
 }
