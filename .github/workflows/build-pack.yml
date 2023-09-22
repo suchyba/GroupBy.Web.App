@@ -1,0 +1,43 @@
+name: Build and pack application
+
+on:
+  workflow_call:
+    inputs:
+      APPLICATION_NAME:
+        required: false
+        type: string
+        default: group-by.web.app
+      ONLY_BUILD:
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Node.js version
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+
+    - name: npm install
+      run: npm install
+
+    - name: npm build
+      run: npm run build --if-present
+    - name: Pack
+      if: ${{ !inputs.ONLY_BUILD }}
+      run: tar czvf "${{ inputs.APPLICATION_NAME }}.tar.gz" dist/${{ inputs.APPLICATION_NAME }}
+    - name: Clean build dir
+      if: ${{ !inputs.ONLY_BUILD }}
+      run: rm -r dist/${{ inputs.APPLICATION_NAME }}
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      if: ${{ !inputs.ONLY_BUILD }}
+      with:
+        name: ${{ inputs.APPLICATION_NAME }}
+        path: ${{ inputs.APPLICATION_NAME }}.tar.gz
