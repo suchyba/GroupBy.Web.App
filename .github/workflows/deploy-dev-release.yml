@@ -1,0 +1,44 @@
+name: Create DEV package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-pack:
+    name: Build and pack
+    uses: ./.github/workflows/build-pack
+    with:
+      APPLICATION_NAME: group-by.web.app
+      ONLY_BUILD: false
+
+  build-image:
+    name: Build docker image
+    uses: ./.github/workflows/build-docker-image
+    with:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: ${{ github.repository }}
+      DEV_RELEASE: true
+    secrets: inherit
+    needs: build-pack
+    permissions:
+      contents: read
+      packages: write
+
+  generate-changelog:
+    name: Create release
+    runs-on: ubuntu-latest
+    needs: build-image
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Genereate changelog
+        id: changelog
+        uses: heinrichreimer/action-github-changelog-generator@v2.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          output: CHANGELOG.md
+      - name: Upload changelog
+        uses: actions/upload-artifact@v3
+        with:
+          name: Changelog
+          path: CHANGELOG.md
