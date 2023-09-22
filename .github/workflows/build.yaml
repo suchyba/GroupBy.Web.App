@@ -11,7 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     name: Build
     steps:
-    - name: Build and pack application
-      uses: ./.github/workflows/build-pack.yml
-      with:
-        ONLY_BUILD: true
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+
+      - name: npm install
+        run: npm install
+
+      - name: npm build
+        run: npm run build --if-present
+
+#      - name: npm test
+#        run: npm run test --if-present
