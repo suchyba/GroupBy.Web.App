@@ -36,8 +36,9 @@ jobs:
       with:
        images: ${{ inputs.REGISTRY }}/${{ inputs.IMAGE_NAME }}
        tags: |
-          type=schedule,prefix=DEV-,pattern={{date 'DDMMYYYY_hhmm tz='Europe/Warsaw'}},enable=${{ !inputs.DEV_RELEASE }}
-          type=edge,prefix=DEV-,enable=${{ inputs.DEV_RELEASE }}
+          type=semver,pattern={{version}},enable=${{ !inputs.DEV_RELEASE }}
+          type=schedule,prefix=DEV-,pattern={{date 'DDMMYYYY_hhmm tz='Europe/Warsaw'}},enable=${{ inputs.DEV_RELEASE }}
+          type=sha,prefix=DEV-,format=short,enable=${{ inputs.DEV_RELEASE }}
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
     - name: Build
