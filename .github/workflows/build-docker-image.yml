@@ -12,9 +12,6 @@ on:
       DEV_RELEASE:
         required: true
         type: boolean
-    secrets:
-      GITHUB_TOKEN:
-        required: true
 
 jobs:
   build-release:
