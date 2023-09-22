@@ -6,14 +6,14 @@ on:
 jobs:
   build-pack:
     name: Build and pack
-    uses: ./.github/workflows/build-pack
+    uses: ./.github/workflows/build-pack.yml
     with:
       APPLICATION_NAME: group-by.web.app
       ONLY_BUILD: false
 
   build-image:
     name: Build docker image
-    uses: ./.github/workflows/build-docker-image
+    uses: ./.github/workflows/build-docker-image.yml
     with:
       REGISTRY: ghcr.io
       IMAGE_NAME: ${{ github.repository }}
