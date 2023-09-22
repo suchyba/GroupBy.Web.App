@@ -21,6 +21,7 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
+    console.log(environment.apiUrl)
     return this.http.post<ISimpleUser>(`${environment.apiUrl}/api/authenticate/login`, { email, password }, { withCredentials: true })
       .pipe(tap(res => {
         localStorage.setItem('id_token', res.token)
