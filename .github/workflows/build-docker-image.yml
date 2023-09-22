@@ -37,7 +37,7 @@ jobs:
        images: ${{ inputs.REGISTRY }}/${{ inputs.IMAGE_NAME }}
        tags: |
           type=semver,pattern={{version}},enable=${{ !inputs.DEV_RELEASE }}
-          type=schedule,prefix=DEV-,pattern={{date 'DDMMYYYY_hhmm tz='Europe/Warsaw'}},enable=${{ inputs.DEV_RELEASE }}
+          type=raw,value=lastest,enabled=${{ !inputs.DEV_RELEASE }}
           type=raw,value=lastest-DEV,enabled=${{ inputs.DEV_RELEASE }}
           type=sha,prefix=DEV-,format=short,enable=${{ inputs.DEV_RELEASE }}
     - name: Set up Docker Buildx
