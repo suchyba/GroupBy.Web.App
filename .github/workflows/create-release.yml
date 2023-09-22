@@ -17,13 +17,13 @@ jobs:
 
     steps:
     - name: Build and pack application
-      uses: ./.github/workflows/build-pack
+      uses: ./.github/workflows/build-pack.yml
       with:
         application-name: ${{ env.APPLICATION_NAME }}
 
   build-release:
     name: Build docker image
-    uses: ./.github/workflows/build-docker-image
+    uses: ./.github/workflows/build-docker-image.yml
     with:
       REGISTRY: ghcr.io
       IMAGE_NAME: ${{ github.repository }}
