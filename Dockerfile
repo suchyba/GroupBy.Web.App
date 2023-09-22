@@ -1,6 +1,7 @@
 FROM node:latest as node
 WORKDIR /app
 EXPOSE 443
+EXPOSE 80
 
 #Build app
 COPY package*.json /app/
