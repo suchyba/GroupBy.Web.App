@@ -1,4 +1,12 @@
+declare global {
+  interface Window {
+    env: {
+      apiUrl: string
+    }
+  }
+}
+
 export const environment = {
   production: true,
-  apiUrl: 'https://suchyba.ddnsking.com'
+  apiUrl: window['env']['apiUrl']
 };

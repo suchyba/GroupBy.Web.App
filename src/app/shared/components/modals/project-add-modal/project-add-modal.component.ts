@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/internal/operators/first';
@@ -19,7 +19,7 @@ export class ProjectAddModalComponent implements OnInit {
   public parentGroupList: ISimpleGroup[] | undefined
   public ownerList: ISimpleVolunteer[] | undefined
 
-  public projectAddForm: FormGroup
+  public projectAddForm: UntypedFormGroup
   public submitted: boolean = false
   public loading: boolean = false
   public error: any
@@ -30,7 +30,7 @@ export class ProjectAddModalComponent implements OnInit {
     private volunteerService: VolunteerService,
     private groupService: GroupService,
     private projectService: ProjectService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private toastrService: ToastrService) {
 
     this.projectAddForm = this.formBuilder.group({})

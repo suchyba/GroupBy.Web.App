@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/internal/operators/first';
@@ -28,7 +28,7 @@ export class DocumentAddModalComponent implements OnInit {
   public group: ISimpleGroup | undefined
   public blockProject: boolean = false;
 
-  public documentAddForm: FormGroup
+  public documentAddForm: UntypedFormGroup
   public submitted: boolean = false
   public loading: boolean = false
   public error: any
@@ -40,7 +40,7 @@ export class DocumentAddModalComponent implements OnInit {
 
   constructor(
     public bsModalRef: BsModalRef,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private groupService: GroupService,
     private accountingDocumentService: AccountingDocumentService,
     private documentService: DocumentService,

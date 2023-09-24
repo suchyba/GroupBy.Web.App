@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { ICreateInventoryItem } from 'src/app/shared/models/inventory-item/inventory-item-create.model';
@@ -14,7 +14,7 @@ import { InventoryItemService } from 'src/app/shared/services/inventory-item.ser
 export class InventoryItemAddModalComponent implements OnInit {
   @Input() itemToCreate: ICreateInventoryItem | undefined
 
-  public itemAddForm: FormGroup
+  public itemAddForm: UntypedFormGroup
   public submitted: boolean = false
   public loading: boolean = false
   public error: any
@@ -27,7 +27,7 @@ export class InventoryItemAddModalComponent implements OnInit {
   constructor(
     private modalRef: BsModalRef,
     private toastrService: ToastrService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private inventoryItemService: InventoryItemService
   ) {
     this.itemAddForm = formBuilder.group({})

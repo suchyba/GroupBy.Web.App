@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs';
@@ -18,7 +18,7 @@ export class AccountingBookAddModalComponent implements OnInit {
   @Input() bookToCreate: ICreateAccountingBook | undefined
   public groupList: ISimpleGroup[] | undefined
 
-  public accountingBookAddForm: FormGroup
+  public accountingBookAddForm: UntypedFormGroup
   public submitted: boolean = false
   public loading: boolean = false
   public error: any
@@ -27,7 +27,7 @@ export class AccountingBookAddModalComponent implements OnInit {
   constructor(
     public bsModalRef: BsModalRef,
     private accountingBookService: AccountingBookService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private groupService: GroupService,
     private authService: AuthService,
     private volunteerService: VolunteerService,

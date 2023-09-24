@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
@@ -23,7 +23,7 @@ export class InventoryBookAddModalComponent implements OnInit {
 
   public groupList: ISimpleGroup[] = []
 
-  public bookAddForm: FormGroup
+  public bookAddForm: UntypedFormGroup
   public submitted: boolean = false
   public loading: boolean = false
   public error: any
@@ -35,7 +35,7 @@ export class InventoryBookAddModalComponent implements OnInit {
     private inventoryBookService: InventoryBookService,
     private groupService: GroupService,
     private volunteerService: VolunteerService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private toastrService: ToastrService,
     public modalRef: BsModalRef
   ) {
