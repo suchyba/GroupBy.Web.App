@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, tap } from 'rxjs';
 import { RegistrationCodeAddModalComponent } from 'src/app/shared/components/modals/registration-code-add-modal/registration-code-add-modal.component';
@@ -25,6 +26,7 @@ export class ManageAccountComponent implements OnInit {
   public volunteerForm: UntypedFormGroup = new UntypedFormGroup({})
 
   public registrationCodes: IListRegistrationCode[] | null = null
+  public showRegistrationCode: boolean[] = []
 
   public get fields() {
     return this.volunteerForm.controls
@@ -35,7 +37,8 @@ export class ManageAccountComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: UntypedFormBuilder,
     private toastrService: ToastrService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private clipboardService: ClipboardService
   ) {
     this.user = route.snapshot.data['user']
 
@@ -60,6 +63,7 @@ export class ManageAccountComponent implements OnInit {
     if (this.user?.relatedVolunteer)
       this.volunteerService.getRegistrationCodes(this.user.relatedVolunteer.id).subscribe(cList => {
         this.registrationCodes = cList
+        this.showRegistrationCode = new Array(cList.length).fill(false)
       })
   }
 
@@ -112,5 +116,9 @@ export class ManageAccountComponent implements OnInit {
         }
       })
     }
+  }
+
+  copyToClipboard(text: string) {
+    this.clipboardService.copyFromContent(text)
   }
 }

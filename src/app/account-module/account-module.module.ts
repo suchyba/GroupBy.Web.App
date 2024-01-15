@@ -4,6 +4,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { SharedModule } from '../shared/shared.module';
 import { AccountRoutes } from './account.routes';
 import { ManageAccountComponent } from './manage-account/manage-account.component';
+import { ClipboardModule } from 'ngx-clipboard';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 
 
@@ -14,7 +16,9 @@ import { ManageAccountComponent } from './manage-account/manage-account.componen
   imports: [
     RouterModule.forChild(AccountRoutes),
     SharedModule,
-    ModalModule.forRoot()
+    ClipboardModule,
+    ModalModule.forRoot(),
+    PopoverModule.forRoot()
   ]
 })
 export class AccountModuleModule { }
