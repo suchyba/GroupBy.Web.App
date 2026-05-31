@@ -1,174 +1,230 @@
 <div class="m-2">
-    <div class="modal-header">
-        <div class="row flex-fill">
-            <div class="modal-title col-12">
-                <div class="d-flex">
-                    <h2>Transfer inventory item</h2>
-                    <button type="button" class="btn btn-outline-secondary close pull-right ms-auto" aria-label="Close"
-                        (click)="onCancel()">
-                        <i class="bi bi-x-lg"></i>
-                    </button>
+  <div class="modal-header">
+    <div class="row flex-fill">
+      <div class="modal-title col-12">
+        <div class="d-flex">
+          <h2>Transfer inventory item</h2>
+          <button type="button" class="btn btn-outline-secondary close pull-right ms-auto" aria-label="Close"
+            (click)="onCancel()">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-12">
+        <form [formGroup]="recordAddForm" (ngSubmit)="onSubmit()">
+          <!-- From inventory book -->
+          <div class="form-floating mb-3" aria-label="InventoryBookFromId">
+            <select id="inventoryBookFromSelect" class="form-select" formControlName="inventoryBookFromId"
+              [ngClass]="{ 'is-invalid': submitted && (fields['inventoryBookFromId'].errors || error?.InventoryBookFromId) }">
+              @for (book of inventoryBookFromList; track book) {
+                <option [ngValue]="book.id">{{book.name}}
+                </option>
+              }
+            </select>
+            <label for="inventoryBookFromSelect">Inventory book from*</label>
+
+            @if (submitted && fields['inventoryBookFromId'].errors) {
+              <div class="invalid-feedback">
+                @if (fields['inventoryBookFromId'].errors['required']) {
+                  <div>This field is required</div>
+                }
+              </div>
+            }
+            @if (submitted && error?.InventoryBookFromId) {
+              <div class="invalid-feedback">
+                <div>{{error.InventoryBookFromId}}</div>
+              </div>
+            }
+          </div>
+
+          <!-- To group -->
+          <div class="form-floating d-flex flex-column w-100 mb-3">
+            <input autofocus placeholder="Volunteer" formControlName="groupToId"
+              [typeahead]="filteredGroupList" typeaheadOptionField="name"
+              (typeaheadNoResults)="noResultsEvent($event)" [typeaheadMinLength]="0"
+              [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="5"
+              (typeaheadOnSelect)="onSelectGroup($event.item)" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && (fields['groupToId'].errors || error?.GroupToId) }">
+              <label for="groupToId">Destination group*</label>
+              @if (noGroupResults) {
+                <div class="alert alert-danger mt-1 mb-0">No results found</div>
+              }
+
+              @if (submitted && fields['groupToId'].errors) {
+                <div class="invalid-feedback">
+                  @if (fields['groupToId'].errors['required']) {
+                    <div>This field is required</div>
+                  }
                 </div>
+              }
+              @if (submitted && error?.GroupToId) {
+                <div class="invalid-feedback">
+                  <div>{{error.GroupToId}}</div>
+                </div>
+              }
             </div>
-        </div>
-    </div>
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-12">
-                <form [formGroup]="recordAddForm" (ngSubmit)="onSubmit()">
-                    <!-- From inventory book -->
-                    <div class="form-floating mb-3" aria-label="InventoryBookFromId">
-                        <select id="inventoryBookFromSelect" class="form-select" formControlName="inventoryBookFromId"
-                            [ngClass]="{ 'is-invalid': submitted && (fields['inventoryBookFromId'].errors || error?.InventoryBookFromId) }">
-                            <option *ngFor="let book of inventoryBookFromList" [ngValue]="book.id">{{book.name}}
-                            </option>
-                        </select>
-                        <label for="inventoryBookFromSelect">Inventory book from*</label>
 
-                        <div *ngIf="submitted && fields['inventoryBookFromId'].errors" class="invalid-feedback">
-                            <div *ngIf="fields['inventoryBookFromId'].errors['required']">This field is required</div>
-                        </div>
-                        <div *ngIf="submitted && error?.InventoryBookFromId" class="invalid-feedback">
-                            <div>{{error.InventoryBookFromId}}</div>
-                        </div>
+            <!-- Inventory item -->
+            <div class="form-floating mb-3" aria-label="ItemId">
+              <select id="itemSelect" class="form-select" formControlName="itemId"
+                [ngClass]="{ 'is-invalid': submitted && (fields['itemId'].errors || error?.ItemId) }">
+                @for (item of itemList; track item) {
+                  <option [ngValue]="item.id">{{item.name}}
+                    ({{item.symbol}})
+                  </option>
+                }
+              </select>
+              <label for="itemSelect">Inventory item*</label>
+
+              @if (submitted && fields['itemId'].errors) {
+                <div class="invalid-feedback">
+                  @if (fields['itemId'].errors['required']) {
+                    <div>This field is required</div>
+                  }
+                </div>
+              }
+              @if (submitted && error?.ItemId) {
+                <div class="invalid-feedback">
+                  <div>{{error.ItemId}}</div>
+                </div>
+              }
+            </div>
+
+            <div class="input-group mb-3 d-flex">
+              <div class="flex-fill">
+                <div class="d-flex flex-column">
+                  <!-- Source from -->
+                  <div class="form-floating mb-3" aria-label="SourceFromId">
+                    <select id="sourceFromSelect" class="form-select" formControlName="sourceFromId"
+                      [ngClass]="{ 'is-invalid': submitted && (fields['sourceFromId'].errors || error?.SourceFromId) }">
+                      @for (source of sourceList; track source) {
+                        <option [ngValue]="source.id">{{source.name}}
+                        </option>
+                      }
+                    </select>
+                    <label for="sourceSelect">Reason*</label>
+
+                    @if (submitted && fields['sourceFromId'].errors) {
+                      <div class="invalid-feedback">
+                        @if (fields['sourceFromId'].errors['required']) {
+                          <div>This field is required
+                          </div>
+                        }
+                      </div>
+                    }
+                    @if (submitted && error?.SourceFromId) {
+                      <div class="invalid-feedback">
+                        <div>{{error.SourceFromId}}</div>
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Source to -->
+                  <div class="form-floating" aria-label="SourceToId">
+                    <select id="sourceToSelect" class="form-select" formControlName="sourceToId"
+                      [ngClass]="{ 'is-invalid': submitted && (fields['sourceToId'].errors || error?.SourceToId) }">
+                      @for (source of sourceList; track source) {
+                        <option [ngValue]="source.id">{{source.name}}
+                        </option>
+                      }
+                    </select>
+                    <label for="sourceSelect">Inventory item source*</label>
+
+                    @if (submitted && fields['sourceToId'].errors) {
+                      <div class="invalid-feedback">
+                        @if (fields['sourceToId'].errors['required']) {
+                          <div>This field is required
+                          </div>
+                        }
+                      </div>
+                    }
+                    @if (submitted && error?.SourceToId) {
+                      <div class="invalid-feedback">
+                        <div>{{error.SourceToId}}</div>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="input-group-text ms-auto">
+                <input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off"
+                  [checked]="sourcesLinked" (click)="onSourceLinkClick()"
+                  [disabled]="linkingSourcesDisabled">
+                  <label class="btn btn-outline-secondary" for="btn-check-outlined"><i
+                  class="bi bi-link"></i></label>
+                </div>
+              </div>
+
+              <!-- Document -->
+              <div class="form-floating mb-3">
+                <input type="text" formControlName="document" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && (fields['document'].errors || error?.Email) }"
+                  placeholder="document" />
+                  <label for="document">Document name*</label>
+
+                  @if (submitted && fields['document'].errors) {
+                    <div class="invalid-feedback">
+                      @if (fields['document'].errors['required']) {
+                        <div>This field is required</div>
+                      }
                     </div>
-
-                    <!-- To group -->
-                    <div class="form-floating d-flex flex-column w-100 mb-3">
-                        <input autofocus placeholder="Volunteer" formControlName="groupToId"
-                            [typeahead]="filteredGroupList" typeaheadOptionField="name"
-                            (typeaheadNoResults)="noResultsEvent($event)" [typeaheadMinLength]="0"
-                            [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="5"
-                            (typeaheadOnSelect)="onSelectGroup($event.item)" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && (fields['groupToId'].errors || error?.GroupToId) }">
-                        <label for="groupToId">Destination group*</label>
-                        <div class="alert alert-danger mt-1 mb-0" *ngIf="noGroupResults">No results found</div>
-
-                        <div *ngIf="submitted && fields['groupToId'].errors" class="invalid-feedback">
-                            <div *ngIf="fields['groupToId'].errors['required']">This field is required</div>
-                        </div>
-                        <div *ngIf="submitted && error?.GroupToId" class="invalid-feedback">
-                            <div>{{error.GroupToId}}</div>
-                        </div>
+                  }
+                  @if (submitted && error?.Document) {
+                    <div class="invalid-feedback">
+                      <div>{{error.Document}}</div>
                     </div>
+                  }
+                </div>
 
-                    <!-- Inventory item -->
-                    <div class="form-floating mb-3" aria-label="ItemId">
-                        <select id="itemSelect" class="form-select" formControlName="itemId"
-                            [ngClass]="{ 'is-invalid': submitted && (fields['itemId'].errors || error?.ItemId) }">
-                            <option *ngFor="let item of itemList" [ngValue]="item.id">{{item.name}}
-                                ({{item.symbol}})
-                            </option>
-                        </select>
-                        <label for="itemSelect">Inventory item*</label>
+                <!-- Date -->
+                <div class="form-floating mb-3">
+                  <input type="date" formControlName="date" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && (fields['date'].errors || error?.Email) }"
+                    placeholder="date" />
+                    <label for="date">Date*</label>
 
-                        <div *ngIf="submitted && fields['itemId'].errors" class="invalid-feedback">
-                            <div *ngIf="fields['itemId'].errors['required']">This field is required</div>
-                        </div>
-                        <div *ngIf="submitted && error?.ItemId" class="invalid-feedback">
-                            <div>{{error.ItemId}}</div>
-                        </div>
+                    @if (submitted && fields['date'].errors) {
+                      <div class="invalid-feedback">
+                        @if (fields['date'].errors['required']) {
+                          <div>This field is required</div>
+                        }
+                      </div>
+                    }
+                    @if (submitted && error?.Date) {
+                      <div class="invalid-feedback">
+                        <div>{{error.Date}}</div>
+                      </div>
+                    }
+                  </div>
+
+                  <div class="row">
+                    <!-- Cancel button -->
+                    <div class="col-6">
+                      <button type="button" class="btn btn-lg btn-danger w-100" aria-label="Cancel"
+                        (click)="onCancel()">
+                        Cancel
+                      </button>
                     </div>
-
-                    <div class="input-group mb-3 d-flex">
-                        <div class="flex-fill">
-                            <div class="d-flex flex-column">
-                                <!-- Source from -->
-                                <div class="form-floating mb-3" aria-label="SourceFromId">
-                                    <select id="sourceFromSelect" class="form-select" formControlName="sourceFromId"
-                                        [ngClass]="{ 'is-invalid': submitted && (fields['sourceFromId'].errors || error?.SourceFromId) }">
-                                        <option *ngFor="let source of sourceList" [ngValue]="source.id">{{source.name}}
-                                        </option>
-                                    </select>
-                                    <label for="sourceSelect">Reason*</label>
-
-                                    <div *ngIf="submitted && fields['sourceFromId'].errors" class="invalid-feedback">
-                                        <div *ngIf="fields['sourceFromId'].errors['required']">This field is required
-                                        </div>
-                                    </div>
-                                    <div *ngIf="submitted && error?.SourceFromId" class="invalid-feedback">
-                                        <div>{{error.SourceFromId}}</div>
-                                    </div>
-                                </div>
-
-                                <!-- Source to -->
-                                <div class="form-floating" aria-label="SourceToId">
-                                    <select id="sourceToSelect" class="form-select" formControlName="sourceToId"
-                                        [ngClass]="{ 'is-invalid': submitted && (fields['sourceToId'].errors || error?.SourceToId) }">
-                                        <option *ngFor="let source of sourceList" [ngValue]="source.id">{{source.name}}
-                                        </option>
-                                    </select>
-                                    <label for="sourceSelect">Inventory item source*</label>
-
-                                    <div *ngIf="submitted && fields['sourceToId'].errors" class="invalid-feedback">
-                                        <div *ngIf="fields['sourceToId'].errors['required']">This field is required
-                                        </div>
-                                    </div>
-                                    <div *ngIf="submitted && error?.SourceToId" class="invalid-feedback">
-                                        <div>{{error.SourceToId}}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-group-text ms-auto">
-                            <input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off"
-                                [checked]="sourcesLinked" (click)="onSourceLinkClick()"
-                                [disabled]="linkingSourcesDisabled">
-                            <label class="btn btn-outline-secondary" for="btn-check-outlined"><i
-                                    class="bi bi-link"></i></label>
-                        </div>
+                    <!-- Submit button -->
+                    <div class="col-6">
+                      <button [disabled]="loading" class="btn btn-lg btn-primary w-100" type="submit">
+                        @if (loading) {
+                          <span class="spinner-border spinner-border-sm mr-1"></span>
+                        }
+                        Create
+                      </button>
                     </div>
-
-                    <!-- Document -->
-                    <div class="form-floating mb-3">
-                        <input type="text" formControlName="document" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && (fields['document'].errors || error?.Email) }"
-                            placeholder="document" />
-                        <label for="document">Document name*</label>
-
-                        <div *ngIf="submitted && fields['document'].errors" class="invalid-feedback">
-                            <div *ngIf="fields['document'].errors['required']">This field is required</div>
-                        </div>
-                        <div *ngIf="submitted && error?.Document" class="invalid-feedback">
-                            <div>{{error.Document}}</div>
-                        </div>
-                    </div>
-
-                    <!-- Date -->
-                    <div class="form-floating mb-3">
-                        <input type="date" formControlName="date" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && (fields['date'].errors || error?.Email) }"
-                            placeholder="date" />
-                        <label for="date">Date*</label>
-
-                        <div *ngIf="submitted && fields['date'].errors" class="invalid-feedback">
-                            <div *ngIf="fields['date'].errors['required']">This field is required</div>
-                        </div>
-                        <div *ngIf="submitted && error?.Date" class="invalid-feedback">
-                            <div>{{error.Date}}</div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <!-- Cancel button -->
-                        <div class="col-6">
-                            <button type="button" class="btn btn-lg btn-danger w-100" aria-label="Cancel"
-                                (click)="onCancel()">
-                                Cancel
-                            </button>
-                        </div>
-                        <!-- Submit button -->
-                        <div class="col-6">
-                            <button [disabled]="loading" class="btn btn-lg btn-primary w-100" type="submit">
-                                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                                Create
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Error box -->
-                    <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
+                  </div>
+                  <!-- Error box -->
+                  @if (errorMessage) {
+                    <div class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
+                  }
                 </form>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-</div>

@@ -1,21 +1,31 @@
 <div class="card text-light bg-dark p-2 h-100" width>
-    <div class="card-header">
-        <h5>
-            <i class="bi bi-flag-fill"></i>
-            {{project?.name}}
-        </h5>
-        <span *ngIf="project?.active" class="badge bg-success">Active</span>
-        <span *ngIf="project?.independent" class="badge bg-secondary">Independent</span>
-        <span *ngIf="endSoon()" class="badge bg-warning">Ends soon</span>
-        <span *ngIf="ended()" class="badge bg-danger">Ended</span>
+  <div class="card-header">
+    <h5>
+      <i class="bi bi-flag-fill"></i>
+      {{project?.name}}
+    </h5>
+    @if (project?.active) {
+      <span class="badge bg-success">Active</span>
+    }
+    @if (project?.independent) {
+      <span class="badge bg-secondary">Independent</span>
+    }
+    @if (endSoon()) {
+      <span class="badge bg-warning">Ends soon</span>
+    }
+    @if (ended()) {
+      <span class="badge bg-danger">Ended</span>
+    }
+  </div>
+  <div class="card-body">
+    <p class="card-text">{{project?.description}} </p>
+  </div>
+  <div class="card-footer">
+    <div class="d-flex justify-content-between mt-2">
+      <a class="btn btn-secondary" [routerLink]="['/projects', project?.id]">Details</a>
+      @if (canRemove) {
+        <button class="btn btn-outline-danger" (click)="removeProjectClick()"><i class="bi bi-trash"></i></button>
+      }
     </div>
-    <div class="card-body">
-        <p class="card-text">{{project?.description}} </p>
-    </div>
-    <div class="card-footer">
-        <div class="d-flex justify-content-between mt-2">
-            <a class="btn btn-secondary" [routerLink]="['/projects', project?.id]">Details</a>
-            <button class="btn btn-outline-danger" *ngIf="canRemove" (click)="removeProjectClick()"><i class="bi bi-trash"></i></button>
-        </div>
-    </div>
+  </div>
 </div>
