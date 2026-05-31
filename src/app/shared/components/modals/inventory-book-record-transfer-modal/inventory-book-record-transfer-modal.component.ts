@@ -17,9 +17,10 @@ import { InventoryItemSourceService } from 'src/app/shared/services/inventory-it
 import { InventoryItemService } from 'src/app/shared/services/inventory-item.service';
 
 @Component({
-  selector: 'app-inventory-book-record-transfer-modal',
-  templateUrl: './inventory-book-record-transfer-modal.component.html',
-  styleUrls: ['./inventory-book-record-transfer-modal.component.css']
+    selector: 'app-inventory-book-record-transfer-modal',
+    templateUrl: './inventory-book-record-transfer-modal.component.html',
+    styleUrls: ['./inventory-book-record-transfer-modal.component.css'],
+    standalone: false
 })
 export class InventoryBookRecordTransferModalComponent implements OnInit {
   @Input() recordToCreate: ITransferInventoryBookRecord | undefined

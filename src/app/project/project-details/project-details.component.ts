@@ -13,9 +13,10 @@ import { FinancialOutcomeRecordService } from 'src/app/shared/services/financial
 import { ProjectService } from 'src/app/shared/services/project.service';
 
 @Component({
-  selector: 'app-project-details',
-  templateUrl: './project-details.component.html',
-  styleUrls: ['./project-details.component.css']
+    selector: 'app-project-details',
+    templateUrl: './project-details.component.html',
+    styleUrls: ['./project-details.component.css'],
+    standalone: false
 })
 export class ProjectDetailsComponent implements OnInit {
   @Input() project: IProject | undefined

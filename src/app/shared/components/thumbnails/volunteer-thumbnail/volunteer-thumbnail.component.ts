@@ -6,9 +6,10 @@ import { GroupService } from 'src/app/shared/services/group.service';
 import { ConfirmationYesNoModalComponent } from '../../modals/confirmation-yes-no-modal/confirmation-yes-no-modal.component';
 
 @Component({
-  selector: 'shr-volunteer-thumbnail',
-  templateUrl: './volunteer-thumbnail.component.html',
-  styleUrls: ['./volunteer-thumbnail.component.css']
+    selector: 'shr-volunteer-thumbnail',
+    templateUrl: './volunteer-thumbnail.component.html',
+    styleUrls: ['./volunteer-thumbnail.component.css'],
+    standalone: false
 })
 export class VolunteerThumbnailComponent implements OnInit {
   @Input() volunteer: ISimpleVolunteer | undefined

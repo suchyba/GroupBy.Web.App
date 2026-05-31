@@ -11,8 +11,9 @@ import { GroupService } from 'src/app/shared/services/group.service';
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 
 @Component({
-  templateUrl: './accounting-book-add-modal.component.html',
-  styleUrls: ['./accounting-book-add-modal.component.css']
+    templateUrl: './accounting-book-add-modal.component.html',
+    styleUrls: ['./accounting-book-add-modal.component.css'],
+    standalone: false
 })
 export class AccountingBookAddModalComponent implements OnInit {
   @Input() bookToCreate: ICreateAccountingBook | undefined

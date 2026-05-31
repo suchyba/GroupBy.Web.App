@@ -15,9 +15,10 @@ import { GroupService } from 'src/app/shared/services/group.service';
 import { DocumentAddModalComponent } from '../document-add-modal/document-add-modal.component';
 
 @Component({
-  selector: 'app-financial-income-record-add-modal',
-  templateUrl: './financial-income-record-add-modal.component.html',
-  styleUrls: ['./financial-income-record-add-modal.component.css']
+    selector: 'app-financial-income-record-add-modal',
+    templateUrl: './financial-income-record-add-modal.component.html',
+    styleUrls: ['./financial-income-record-add-modal.component.css'],
+    standalone: false
 })
 export class FinancialIncomeRecordAddModalComponent implements OnInit {
   @Input() recordToCreate: ICreateFinancialIncomeRecord | undefined

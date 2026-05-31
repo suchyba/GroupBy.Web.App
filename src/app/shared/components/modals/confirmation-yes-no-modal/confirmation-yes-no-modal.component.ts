@@ -2,8 +2,9 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
-  templateUrl: './confirmation-yes-no-modal.component.html',
-  styleUrls: ['./confirmation-yes-no-modal.component.css']
+    templateUrl: './confirmation-yes-no-modal.component.html',
+    styleUrls: ['./confirmation-yes-no-modal.component.css'],
+    standalone: false
 })
 export class ConfirmationYesNoModalComponent implements OnInit {
   @Input() message: string = 'Are you sure?'

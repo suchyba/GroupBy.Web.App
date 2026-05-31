@@ -6,8 +6,9 @@ import { first } from 'rxjs';
 import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Component({
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.css'],
+    standalone: false
 })
 export class RegisterComponent implements OnInit {
   public registerForm: UntypedFormGroup

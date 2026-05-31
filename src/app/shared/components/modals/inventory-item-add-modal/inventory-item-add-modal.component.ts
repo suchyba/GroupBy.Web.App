@@ -7,9 +7,10 @@ import { IInventoryItem } from 'src/app/shared/models/inventory-item/inventory-i
 import { InventoryItemService } from 'src/app/shared/services/inventory-item.service';
 
 @Component({
-  selector: 'app-inventory-item-add-modal',
-  templateUrl: './inventory-item-add-modal.component.html',
-  styleUrls: ['./inventory-item-add-modal.component.css']
+    selector: 'app-inventory-item-add-modal',
+    templateUrl: './inventory-item-add-modal.component.html',
+    styleUrls: ['./inventory-item-add-modal.component.css'],
+    standalone: false
 })
 export class InventoryItemAddModalComponent implements OnInit {
   @Input() itemToCreate: ICreateInventoryItem | undefined

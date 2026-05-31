@@ -6,9 +6,10 @@ import { ISimpleProject } from 'src/app/shared/models/project/project-simple.mod
 import { ProjectService } from 'src/app/shared/services/project.service';
 
 @Component({
-  selector: 'shr-project-thumbnail',
-  templateUrl: './project-thumbnail.component.html',
-  styleUrls: ['./project-thumbnail.component.css']
+    selector: 'shr-project-thumbnail',
+    templateUrl: './project-thumbnail.component.html',
+    styleUrls: ['./project-thumbnail.component.css'],
+    standalone: false
 })
 export class ProjectThumbnailComponent implements OnInit {
   @Input() project: ISimpleProject | undefined

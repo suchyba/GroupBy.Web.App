@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { APP_INITIALIZER, NgModule } from "@angular/core";
+import { NgModule, inject, provideAppInitializer } from "@angular/core";
 
 import { AuthService } from "./auth/auth.service";
 import { ErrorInterceptor } from "./errors/error.interceptor";
@@ -26,7 +26,10 @@ import { appInitializer } from "./auth/auth.initializer";
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         ToastrService,
-        { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AuthService] }
+        provideAppInitializer(() => {
+        const initializerFn = (appInitializer)(inject(AuthService));
+        return initializerFn();
+      })
     ]
 })
 export class CoreModule { };

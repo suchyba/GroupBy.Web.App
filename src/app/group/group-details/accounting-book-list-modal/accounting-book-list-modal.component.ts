@@ -8,8 +8,9 @@ import { AccountingBookService } from 'src/app/shared/services/accounting-book.s
 import { GroupService } from 'src/app/shared/services/group.service';
 
 @Component({
-  templateUrl: './accounting-book-list-modal.component.html',
-  styleUrls: ['./accounting-book-list-modal.component.css']
+    templateUrl: './accounting-book-list-modal.component.html',
+    styleUrls: ['./accounting-book-list-modal.component.css'],
+    standalone: false
 })
 export class AccountingBookListComponentModal implements OnInit {
   @Input() accountingBooks: ISimpleAccountingBook[] | undefined

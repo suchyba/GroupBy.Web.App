@@ -18,8 +18,9 @@ import { AccountingBookListComponentModal } from '../group-details/accounting-bo
 import { AddMemberModalComponent } from './add-member-modal/add-member-modal.component';
 
 @Component({
-  templateUrl: './group-details.component.html',
-  styleUrls: ['./group-details.component.css']
+    templateUrl: './group-details.component.html',
+    styleUrls: ['./group-details.component.css'],
+    standalone: false
 })
 export class GroupDetailsComponent implements OnInit {
   @Input() group: IGroup | undefined

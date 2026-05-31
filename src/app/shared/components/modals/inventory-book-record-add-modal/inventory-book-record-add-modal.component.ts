@@ -20,9 +20,10 @@ import { DocumentAddModalComponent } from '../document-add-modal/document-add-mo
 import { InventoryItemAddModalComponent } from '../inventory-item-add-modal/inventory-item-add-modal.component';
 
 @Component({
-  selector: 'app-inventory-book-record-add-modal',
-  templateUrl: './inventory-book-record-add-modal.component.html',
-  styleUrls: ['./inventory-book-record-add-modal.component.css']
+    selector: 'app-inventory-book-record-add-modal',
+    templateUrl: './inventory-book-record-add-modal.component.html',
+    styleUrls: ['./inventory-book-record-add-modal.component.css'],
+    standalone: false
 })
 export class InventoryBookRecordAddModalComponent implements OnInit {
   @Input() recordToCreate: ICreateInventoryBookRecord | undefined

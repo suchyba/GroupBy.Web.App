@@ -10,8 +10,9 @@ import { InventoryBookService } from 'src/app/shared/services/inventory-book.ser
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 
 @Component({
-  templateUrl: './inventory-book-add-modal.component.html',
-  styleUrls: ['./inventory-book-add-modal.component.css']
+    templateUrl: './inventory-book-add-modal.component.html',
+    styleUrls: ['./inventory-book-add-modal.component.css'],
+    standalone: false
 })
 export class InventoryBookAddModalComponent implements OnInit {
   @Input() bookToCreate: ICreateInventoryBook | undefined

@@ -12,9 +12,10 @@ import { RegistrationCodeService } from 'src/app/shared/services/registration-co
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 
 @Component({
-  selector: 'app-registration-code-add-modal',
-  templateUrl: './registration-code-add-modal.component.html',
-  styleUrls: ['./registration-code-add-modal.component.css']
+    selector: 'app-registration-code-add-modal',
+    templateUrl: './registration-code-add-modal.component.html',
+    styleUrls: ['./registration-code-add-modal.component.css'],
+    standalone: false
 })
 export class RegistrationCodeAddModalComponent implements OnInit {
   @Input() registrationCodeToCreate?: ICreateRegistrationCode

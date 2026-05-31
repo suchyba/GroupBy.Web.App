@@ -10,8 +10,9 @@ import { GroupService } from 'src/app/shared/services/group.service';
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 
 @Component({
-  templateUrl: './group-add-modal.component.html',
-  styleUrls: ['./group-add-modal.component.css']
+    templateUrl: './group-add-modal.component.html',
+    styleUrls: ['./group-add-modal.component.css'],
+    standalone: false
 })
 export class GroupAddModalComponent implements OnInit {
   @Input() groupToCreate: ICreateGroup | undefined

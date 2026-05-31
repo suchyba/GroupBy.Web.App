@@ -11,8 +11,9 @@ import { ProjectService } from 'src/app/shared/services/project.service';
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 
 @Component({
-  templateUrl: './project-add-modal.component.html',
-  styleUrls: ['./project-add-modal.component.css']
+    templateUrl: './project-add-modal.component.html',
+    styleUrls: ['./project-add-modal.component.css'],
+    standalone: false
 })
 export class ProjectAddModalComponent implements OnInit {
   @Input() projectToCreate: ICreateProject | undefined

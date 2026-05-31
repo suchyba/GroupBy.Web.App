@@ -14,8 +14,9 @@ import { DocumentService } from 'src/app/shared/services/document.service';
 import { GroupService } from 'src/app/shared/services/group.service';
 
 @Component({
-  templateUrl: './document-add-modal.component.html',
-  styleUrls: ['./document-add-modal.component.css']
+    templateUrl: './document-add-modal.component.html',
+    styleUrls: ['./document-add-modal.component.css'],
+    standalone: false
 })
 export class DocumentAddModalComponent implements OnInit {
   @Input() documentToCreate: ICreateDocument | undefined

@@ -12,9 +12,10 @@ import { IListRegistrationCode } from 'src/app/shared/models/registration-code/r
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 
 @Component({
-  selector: 'app-manage-account',
-  templateUrl: './manage-account.component.html',
-  styleUrls: ['./manage-account.component.css']
+    selector: 'app-manage-account',
+    templateUrl: './manage-account.component.html',
+    styleUrls: ['./manage-account.component.css'],
+    standalone: false
 })
 export class ManageAccountComponent implements OnInit {
   public user?: IUser

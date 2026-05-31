@@ -15,8 +15,9 @@ import { GroupService } from 'src/app/shared/services/group.service';
 import { DocumentAddModalComponent } from '../document-add-modal/document-add-modal.component';
 
 @Component({
-  templateUrl: './financial-outcome-record-add-modal.component.html',
-  styleUrls: ['./financial-outcome-record-add-modal.component.css']
+    templateUrl: './financial-outcome-record-add-modal.component.html',
+    styleUrls: ['./financial-outcome-record-add-modal.component.css'],
+    standalone: false
 })
 export class FinancialOutcomeRecordAddModalComponent implements OnInit {
   @Input() recordToCreate: ICreateFinancialOutcomeRecord | undefined

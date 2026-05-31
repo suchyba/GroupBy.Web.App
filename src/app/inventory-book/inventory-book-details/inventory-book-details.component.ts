@@ -12,8 +12,9 @@ import { IInventoryItem } from 'src/app/shared/models/inventory-item/inventory-i
 import { InventoryBookService } from 'src/app/shared/services/inventory-book.service';
 
 @Component({
-  templateUrl: './inventory-book-details.component.html',
-  styleUrls: ['./inventory-book-details.component.css']
+    templateUrl: './inventory-book-details.component.html',
+    styleUrls: ['./inventory-book-details.component.css'],
+    standalone: false
 })
 export class InventoryBookDetailsComponent implements OnInit {
   @Input() inventoryBook: IInventoryBook | undefined

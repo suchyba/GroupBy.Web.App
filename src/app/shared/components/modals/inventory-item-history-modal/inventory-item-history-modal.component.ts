@@ -6,9 +6,10 @@ import { InventoryItemService } from 'src/app/shared/services/inventory-item.ser
 import { IInventoryTransferModel } from './inventory-transfer-model';
 
 @Component({
-  selector: 'app-inventory-item-history-modal',
-  templateUrl: './inventory-item-history-modal.component.html',
-  styleUrls: ['./inventory-item-history-modal.component.css']
+    selector: 'app-inventory-item-history-modal',
+    templateUrl: './inventory-item-history-modal.component.html',
+    styleUrls: ['./inventory-item-history-modal.component.css'],
+    standalone: false
 })
 export class InventoryItemHistoryModalComponent implements OnInit {
   @Input() item: ISimpleInventoryItem | undefined

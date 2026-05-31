@@ -18,9 +18,10 @@ import { InventoryItemService } from 'src/app/shared/services/inventory-item.ser
 import { DocumentAddModalComponent } from '../document-add-modal/document-add-modal.component';
 
 @Component({
-  selector: 'app-inventory-item-liquidate',
-  templateUrl: './inventory-item-liquidate.component.html',
-  styleUrls: ['./inventory-item-liquidate.component.css']
+    selector: 'app-inventory-item-liquidate',
+    templateUrl: './inventory-item-liquidate.component.html',
+    styleUrls: ['./inventory-item-liquidate.component.css'],
+    standalone: false
 })
 export class InventoryItemLiquidateComponent implements OnInit {
   @Input() recordToCreate: ICreateInventoryBookRecord | undefined

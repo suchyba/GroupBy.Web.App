@@ -6,9 +6,10 @@ import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
 import { GroupService } from 'src/app/shared/services/group.service';
 
 @Component({
-  selector: 'shr-group-thumbnail',
-  templateUrl: './group-thumbnail.component.html',
-  styleUrls: ['./group-thumbnail.component.css']
+    selector: 'shr-group-thumbnail',
+    templateUrl: './group-thumbnail.component.html',
+    styleUrls: ['./group-thumbnail.component.css'],
+    standalone: false
 })
 export class GroupThumbnailComponent implements OnInit {
   @Input() group: ISimpleGroup | undefined

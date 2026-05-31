@@ -5,9 +5,10 @@ import { VolunteerService } from '../../shared/services/volunteer.service';
 import { map, Observable, of, switchMap, tap } from 'rxjs';
 
 @Component({
-  selector: 'app-nav',
-  templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.css']
+    selector: 'app-nav',
+    templateUrl: './nav.component.html',
+    styleUrls: ['./nav.component.css'],
+    standalone: false
 })
 export class NavComponent implements OnInit {
   nameObs: Observable<string> = new Observable()

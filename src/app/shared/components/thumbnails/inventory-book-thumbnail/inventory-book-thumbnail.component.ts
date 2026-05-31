@@ -6,9 +6,10 @@ import { ISimpleInventoryBook } from '../../../models/inventory-book/inventory-b
 import { ConfirmationYesNoModalComponent } from '../../modals/confirmation-yes-no-modal/confirmation-yes-no-modal.component';
 
 @Component({
-  selector: 'shr-inventory-book-thumbnail',
-  templateUrl: './inventory-book-thumbnail.component.html',
-  styleUrls: ['./inventory-book-thumbnail.component.css']
+    selector: 'shr-inventory-book-thumbnail',
+    templateUrl: './inventory-book-thumbnail.component.html',
+    styleUrls: ['./inventory-book-thumbnail.component.css'],
+    standalone: false
 })
 export class InventoryBookThumbnailComponent implements OnInit {
   @Input() inventoryBook: ISimpleInventoryBook | undefined

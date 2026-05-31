@@ -101,7 +101,7 @@
                 <input type="password" formControlName="confirmPassword" class="form-control"
                     [ngClass]="{ 'is-invalid': submitted && fields['confirmPassword'].errors }"
                     placeholder="confirmPassword" />
-                <label for="confirmPassword">Repate password*</label>
+                <label for="confirmPassword">Repeat password*</label>
 
                 <div *ngIf="submitted && fields['confirmPassword'].errors" class="invalid-feedback">
                     <div *ngIf="fields['confirmPassword'].errors['required']">This field is required</div>

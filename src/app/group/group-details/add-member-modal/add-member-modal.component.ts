@@ -8,9 +8,10 @@ import { GroupService } from 'src/app/shared/services/group.service';
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 
 @Component({
-  selector: 'app-add-member-modal',
-  templateUrl: './add-member-modal.component.html',
-  styleUrls: ['./add-member-modal.component.css']
+    selector: 'app-add-member-modal',
+    templateUrl: './add-member-modal.component.html',
+    styleUrls: ['./add-member-modal.component.css'],
+    standalone: false
 })
 export class AddMemberModalComponent implements OnInit {
   @Input() groupId: string | undefined

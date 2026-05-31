@@ -10,8 +10,9 @@ import { ISimpleFinancialRecord } from 'src/app/shared/models/financial-record/f
 import { AccountingBookService } from 'src/app/shared/services/accounting-book.service';
 
 @Component({
-  templateUrl: './accounting-book-details.component.html',
-  styleUrls: ['./accounting-book-details.component.css']
+    templateUrl: './accounting-book-details.component.html',
+    styleUrls: ['./accounting-book-details.component.css'],
+    standalone: false
 })
 export class AccountingBookDetailsComponent implements OnInit {
   private _accountingBook: IAccountingBook | undefined;
