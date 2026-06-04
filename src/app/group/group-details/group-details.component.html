@@ -200,7 +200,7 @@
             </div>
           </div>
         </div>
-        <div class="row" id="membersCollapse" [collapse]="membersHidden" [isAnimated]="true">
+        <div class="row" id="membersCollapse" [ngbCollapse]="membersHidden">
           <div class="col-12">
             <!-- getting data from api-->
             <div class="d-flex justify-content-center mt-4">
@@ -254,7 +254,7 @@
             }
           </div>
         </div>
-        <div id="projectsCollapse" class="row" [collapse]="projectsHidden" [isAnimated]="true">
+        <div id="projectsCollapse" class="row" [ngbCollapse]="projectsHidden">
           <div class="col-12">
             <!-- getting data from api-->
             <div class="d-flex justify-content-center mt-4">

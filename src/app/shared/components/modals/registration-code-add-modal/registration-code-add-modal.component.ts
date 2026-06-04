@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs';
 import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
@@ -34,7 +34,7 @@ export class RegistrationCodeAddModalComponent implements OnInit {
   }
 
   constructor(
-    public bsModalRef: BsModalRef,
+    public bsModalRef: NgbActiveModal,
     private volunteerService: VolunteerService,
     private formBuilder: UntypedFormBuilder,
     private rankService: RankService,
@@ -73,7 +73,7 @@ export class RegistrationCodeAddModalComponent implements OnInit {
   }
 
   public closeModal() {
-    this.bsModalRef.hide()
+    this.bsModalRef.close()
   }
 
   public onSubmit() {
@@ -95,7 +95,7 @@ export class RegistrationCodeAddModalComponent implements OnInit {
       .subscribe({
         complete: () => {
           this.toastrService.success(`Successfully created ${this.registrationCodeAddForm.get('name')?.value} registration code`)
-          this.bsModalRef.hide()
+          this.bsModalRef.close()
         },
         error: (error) => {
           this.error = error;

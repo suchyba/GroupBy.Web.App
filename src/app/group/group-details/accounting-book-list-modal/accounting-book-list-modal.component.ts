@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { AccountingBookAddModalComponent } from 'src/app/shared/components/modals/accounting-book-add-modal/accounting-book-add-modal.component';
 import { ConfirmationYesNoModalComponent } from 'src/app/shared/components/modals/confirmation-yes-no-modal/confirmation-yes-no-modal.component';
@@ -20,14 +20,14 @@ export class AccountingBookListComponentModal implements OnInit {
   public booksStausChanging: { [key: string]: boolean} = {}
 
   constructor(
-    public bsModalRef: BsModalRef,
+    public activeModal: NgbActiveModal,
     private groupService: GroupService,
     private accountingBookService: AccountingBookService,
-    private modalService: BsModalService,
+    private modalService: NgbModal,
     private toastrService: ToastrService) { }
 
   ngOnInit(): void {
-    this.bsModalRef.setClass('modal-lg')
+    // modal size should be set when opened via NgbModal.open(options)
     this.refreshBookList()
   }
   
@@ -54,18 +54,15 @@ export class AccountingBookListComponentModal implements OnInit {
   }
 
   openAddAccountingBookModal(): void {
-    const modalRef = this.modalService.show(AccountingBookAddModalComponent, {
-      initialState: {
-        bookToCreate: {
-          relatedGroupId: this.groupId,
-          bookIdentificator: undefined,
-          bookOrderNumberId: undefined,
-          locked: false,
-          name: undefined
-        }
-      }
-    })
-    this.bsModalRef.hide()
+    const modalRef = this.modalService.open(AccountingBookAddModalComponent, { size: 'lg' })
+    modalRef.componentInstance.bookToCreate = {
+      relatedGroupId: this.groupId,
+      bookIdentificator: undefined,
+      bookOrderNumberId: undefined,
+      locked: false,
+      name: undefined
+    }
+    this.activeModal.close()
   }
 
   lockClick(book: ISimpleAccountingBook): void {
@@ -107,9 +104,10 @@ export class AccountingBookListComponentModal implements OnInit {
   }
 
   openConfirmation(action: (object: any, book: ISimpleAccountingBook) => void, book: ISimpleAccountingBook): boolean {
-    const modalRef = this.modalService.show(ConfirmationYesNoModalComponent, { initialState: { message: `You are sure you want to delete ${book.name} accounting book?` } })
-    modalRef.onHidden?.subscribe(() => {
-      if (modalRef.content?.result) {
+    const modalRef = this.modalService.open(ConfirmationYesNoModalComponent)
+    modalRef.componentInstance.message = `You are sure you want to delete ${book.name} accounting book?`
+    modalRef.closed.subscribe(() => {
+      if (modalRef.componentInstance?.result) {
         action(this, book)
       }
     })

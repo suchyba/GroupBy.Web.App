@@ -5,7 +5,7 @@
         <div class="d-flex">
           <h2>Add new accounting book</h2>
           <button type="button" class="btn btn-outline-secondary close pull-right ms-auto" aria-label="Close"
-            (click)="bsModalRef.hide()">
+            (click)="bsModalRef.close()">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
@@ -108,7 +108,7 @@
             <!-- Cancel button -->
             <div class="col-6">
               <button type="button" class="btn btn-lg btn-danger w-100" aria-label="Cancel"
-                (click)="bsModalRef.hide()">
+                (click)="bsModalRef.close()">
                 Cancel
               </button>
             </div>

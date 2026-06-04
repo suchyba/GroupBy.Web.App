@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
 import { InventoryBookDetailsComponent } from './inventory-book-details/inventory-book-details.component';
 import { InventoryBookDetailsResolver } from './inventory-book-details/inventory-book-details.resolver';
@@ -15,8 +14,8 @@ import { InventoryBookRoutes } from './inventory-book.routes';
   imports: [
     SharedModule,
     RouterModule.forChild(InventoryBookRoutes),
-    ModalModule.forRoot(),
-    TooltipModule.forRoot()
+    NgbModalModule,
+    NgbTooltipModule
   ],
   providers: [
     InventoryBookDetailsResolver

@@ -20,12 +20,10 @@
                 <div class="col-12">
                   <!-- First names -->
                   <div class="row my-2">
-                    <div class="col-2">
-                      First names
-                    </div>
+                    <div class="col-2">First names</div>
                     <div class="col-10">
                       <input type="text" formControlName="firstNames" class="form-control"
-                        [ngClass]="{ 'is-invalid': submitted && (fields['firstNames'].errors || error?.FirstNames)}"
+                        [class.is-invalid]="submitted && (fields['firstNames']?.errors || error?.FirstNames)"
                         placeholder="firstNames" />
                         @if (submitted && fields['firstNames'].errors) {
                           <div class="invalid-feedback">
@@ -49,7 +47,7 @@
                       </div>
                       <div class="col-10">
                         <input type="text" formControlName="lastName" class="form-control"
-                          [ngClass]="{ 'is-invalid': submitted && (fields['lastName'].errors || error?.LastName)}"
+                          [class.is-invalid]="submitted && (fields['lastName'].errors || error?.LastName)"
                           placeholder="lastName" />
                           @if (submitted && fields['lastName'].errors) {
                             <div class="invalid-feedback">
@@ -73,7 +71,7 @@
                         </div>
                         <div class="col-10">
                           <input type="date" formControlName="birthDate" class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && (fields['birthDate'].errors || error?.BirthDate)}"
+                            [class.is-invalid]="submitted && (fields['birthDate'].errors || error?.BirthDate)"
                             placeholder="birthDate" />
                             @if (submitted && fields['birthDate'].errors) {
                               <div class="invalid-feedback">
@@ -97,7 +95,7 @@
                           </div>
                           <div class="col-10">
                             <input type="phone" formControlName="phoneNumber" class="form-control"
-                              [ngClass]="{ 'is-invalid': submitted && (fields['phoneNumber'].errors || error?.PhoneNumber)}"
+                              [class.is-invalid]="submitted && (fields['phoneNumber'].errors || error?.PhoneNumber)"
                               placeholder="phoneNumber" />
                               @if (submitted && fields['phoneNumber'].errors) {
                                 <div class="invalid-feedback">
@@ -121,7 +119,7 @@
                             </div>
                             <div class="col-10">
                               <input type="email" formControlName="email" class="form-control"
-                                [ngClass]="{ 'is-invalid': submitted && (fields['email'].errors || error?.Email)}"
+                                [class.is-invalid]="submitted && (fields['email'].errors || error?.Email)"
                                 placeholder="email" />
                                 @if (submitted && fields['email'].errors) {
                                   <div class="invalid-feedback">
@@ -152,8 +150,8 @@
                               </div>
                               <div class="col-10">
                                 <textarea formControlName="address" class="form-control"
-                                  [ngClass]="{ 'is-invalid': submitted && (fields['address'].errors || error?.Address)}"
-                                placeholder="Address"></textarea>
+                                  [class.is-invalid]="submitted && (fields['address'].errors || error?.Address)"
+                                  placeholder="Address"></textarea>
                                 @if (submitted && fields['address'].errors) {
                                   <div class="invalid-feedback">
                                     @if (fields['address'].errors['required']) {
@@ -232,22 +230,22 @@
                             </h5>
                             <div class="row">
                               <div class="col-12">
-                                @if (user?.relatedVolunteer?.confirmed) {
+                                @if (user.relatedVolunteer.confirmed) {
                                   <span class="badge bg-success">Account
                                   confirmed</span>
                                 }
-                                @if (!user?.relatedVolunteer?.confirmed) {
+                                @if (!user.relatedVolunteer.confirmed) {
                                   <span class="badge bg-warning"
                                     >Account not
                                   confirmed</span>
                                 }
                               </div>
                               <div class="col-12 mt-2">
-                                @if (user?.emailConfirmed) {
+                                @if (user.emailConfirmed) {
                                   <span class="badge bg-success">Email
                                   confirmed</span>
                                 }
-                                @if (!user?.emailConfirmed) {
+                                @if (!user.emailConfirmed) {
                                   <span class="badge bg-warning">Email not
                                   confirmed</span>
                                 }
@@ -303,7 +301,7 @@
                                     <span><i class="bi bi-eye"></i></span>
                                   }
                                 </button>
-                                <button class="btn btn-secondary" (click)="copyToClipboard(code.code)" value="click to copy" [popover]="'Copied!'" triggers="focus"><i class="bi bi-copy"></i></button>
+                                <button class="btn btn-secondary" [cdkCopyToClipboard]="code.code" value="click to copy" [ngbPopover]="'Copied!'" triggers="focus"><i class="bi bi-copy"></i></button>
                               </div>
                             </td>
                             <td>

@@ -43,30 +43,32 @@
 
           <!-- To group -->
           <div class="form-floating d-flex flex-column w-100 mb-3">
-            <input autofocus placeholder="Volunteer" formControlName="groupToId"
-              [typeahead]="filteredGroupList" typeaheadOptionField="name"
-              (typeaheadNoResults)="noResultsEvent($event)" [typeaheadMinLength]="0"
-              [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="5"
-              (typeaheadOnSelect)="onSelectGroup($event.item)" class="form-control"
+            <input 
+              id="groupToId"
+              type="text"
+              class="form-control" 
+              placeholder="Search group..."
+              formControlName="groupToId"
+              [ngbTypeahead]="search"
+              [inputFormatter]="inputFormatter"
+              [resultFormatter]="resultFormatter"
+              (selectItem)="onSelectGroup($event)"
               [ngClass]="{ 'is-invalid': submitted && (fields['groupToId'].errors || error?.GroupToId) }">
-              <label for="groupToId">Destination group*</label>
-              @if (noGroupResults) {
-                <div class="alert alert-danger mt-1 mb-0">No results found</div>
-              }
-
-              @if (submitted && fields['groupToId'].errors) {
-                <div class="invalid-feedback">
-                  @if (fields['groupToId'].errors['required']) {
-                    <div>This field is required</div>
-                  }
-                </div>
-              }
-              @if (submitted && error?.GroupToId) {
-                <div class="invalid-feedback">
-                  <div>{{error.GroupToId}}</div>
-                </div>
-              }
-            </div>
+            <label for="groupToId">Destination group*</label>
+            
+            @if (submitted && fields['groupToId'].errors) {
+              <div class="invalid-feedback">
+                @if (fields['groupToId'].errors['required']) {
+                  <div>This field is required</div>
+                }
+              </div>
+            }
+            @if (submitted && error?.GroupToId) {
+              <div class="invalid-feedback">
+                <div>{{error.GroupToId}}</div>
+              </div>
+            }
+          </div>
 
             <!-- Inventory item -->
             <div class="form-floating mb-3" aria-label="ItemId">

@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap/modal';
-import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, of, Subscriber, switchMap } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { ISimpleVolunteer } from 'src/app/shared/models/volunteer/volunteer-simple.model';
 import { GroupService } from 'src/app/shared/services/group.service';
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
@@ -19,6 +19,20 @@ export class AddMemberModalComponent implements OnInit {
 
   public allVolunteerList: ISimpleVolunteer[] = []
   public filteredVolunteerList: Observable<ISimpleVolunteer[]> = new Observable<ISimpleVolunteer[]>()
+  public search: (text$: Observable<string>) => Observable<ISimpleVolunteer[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map((term: string) => {
+        const query = new RegExp(term || '', 'i')
+        return this.allVolunteerList.filter((volunteer: ISimpleVolunteer) =>
+          (query.test(volunteer.firstNames)
+            || query.test(volunteer.lastName)
+            || query.test(volunteer.email))
+          && !this.selectedVolunteerList.find(v => v.id === volunteer.id)
+        ).slice(0, 10)
+      })
+    )
   public selectedVolunteerList: ISimpleVolunteer[] = []
   public selectedVolunteer: string | undefined
   public noResults: boolean = false
@@ -27,7 +41,7 @@ export class AddMemberModalComponent implements OnInit {
     private groupService: GroupService,
     private volunteerService: VolunteerService,
     private toastrService: ToastrService,
-    public bsModalRef: BsModalRef) {
+    public activeModal: NgbActiveModal) {
       volunteerService.getAllVolunteers().subscribe(list => {
       this.allVolunteerList = [...list]
       if (this.groupId) {
@@ -40,27 +54,10 @@ export class AddMemberModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bsModalRef.setClass('modal-lg')
-    this.filteredVolunteerList = new Observable((observer: Subscriber<string>) => {
-      // Runs on every search
-      observer.next(this.selectedVolunteer);
-    })
-      .pipe(
-        switchMap((token: string) => {
-          const query = new RegExp(token, 'i');
-
-          return of(
-            this.allVolunteerList.filter((volunteer: ISimpleVolunteer) =>
-              (query.test(volunteer.firstNames)
-                || query.test(volunteer.lastName)
-                || query.test(volunteer.email))
-              && !this.selectedVolunteerList.find(v => v.id === volunteer.id))
-          );
-        })
-      );
+    // ng-bootstrap size should be set when opening the modal (size: 'lg')
   }
 
-  onSelect(match: TypeaheadMatch): void {
+  onSelect(match: any): void {
     this.selectedVolunteerList = [...this.selectedVolunteerList, match.item]
     this.selectedVolunteer = undefined
   }
@@ -80,13 +77,13 @@ export class AddMemberModalComponent implements OnInit {
         })
       })
     }
-    this.bsModalRef.hide()
+    this.activeModal.close()
   }
   cancelClick(): void {
-    this.bsModalRef.hide()
+    this.activeModal.close()
   }
 
-  noResultsEvent(isNoResults: boolean): void {
-   this.noResults = isNoResults 
+  noResultsEvent(isNoResults: any): void {
+   this.noResults = !!isNoResults 
   }
 }

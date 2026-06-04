@@ -1,7 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/internal/operators/first';
 import { ISimpleAccountingBook } from 'src/app/shared/models/accounting-book/accounting-book-simple.model';
@@ -39,8 +39,8 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
   public errorMessage: string = ''
 
   constructor(
-    public bsModalRef: BsModalRef,
-    private modalService: BsModalService,
+    public bsModalRef: NgbActiveModal,
+    private modalService: NgbModal,
     private formBuilder: UntypedFormBuilder,
     private groupService: GroupService,
     private accountingDocumentService: AccountingDocumentService,
@@ -50,7 +50,7 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bsModalRef.setClass('modal-lg')
+    this.bsModalRef.update({ size: 'lg' })
 
     this.recordAddForm = this.formBuilder.group({
       bookIdentificator: [this.bookIdentificator, Validators.required],
@@ -165,7 +165,7 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
         .subscribe({
           complete: () => {
             this.toastrService.success('Successfully created financial outcome record')
-            this.bsModalRef.hide()
+            this.bsModalRef.close()
           },
           error: (error) => {
             this.error = error;
@@ -223,25 +223,23 @@ export class FinancialOutcomeRecordAddModalComponent implements OnInit {
 
   openAccountingDocumentAddModal(): void {
     if (this.group) {
-      let modal = this.modalService.show(DocumentAddModalComponent, {
-        initialState: {
-          documentToCreate: {
+      let modal = this.modalService.open(DocumentAddModalComponent)
+
+      modal.componentInstance.documentToCreate = {
             name: "",
             filePath: "null",
             groupsId: [this.group.id],
             relatedProjectId: this.recordToCreate?.relatedProjectId
-          },
-          isAccountingDocument: true
+          }
+      modal.componentInstance.isAccountingDocument = true
+      
+      modal.closed.subscribe(() => {
+        if (modal.componentInstance?.createdDocument && this.documentList) {
+          this.documentList.push(modal.componentInstance.createdDocument)
+          this.fields['relatedDocument'].setValue(modal.componentInstance.createdDocument.id)
+          this.onRelatedDocumentChange()
         }
       })
-      if (modal.onHidden)
-        modal.onHidden.subscribe(() => {
-          if (modal.content?.createdDocument && this.documentList) {
-            this.documentList.push(modal.content.createdDocument)
-            this.fields['relatedDocument'].setValue(modal.content.createdDocument.id)
-            this.onRelatedDocumentChange()
-          }
-        })
     }
   }
 

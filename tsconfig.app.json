@@ -3,7 +3,12 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": ["node"]
+    "target": "ES2022",
+    "useDefineForClassFields": false,
+    "types": [
+      "node",
+      "@angular/localize"
+    ]
   },
   "files": [
     "src/main.ts",

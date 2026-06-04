@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationYesNoModalComponent } from 'src/app/shared/components/modals/confirmation-yes-no-modal/confirmation-yes-no-modal.component';
 import { ISimpleProject } from 'src/app/shared/models/project/project-simple.model';
@@ -17,7 +17,7 @@ export class ProjectThumbnailComponent implements OnInit {
   @Output() deletedEvent: EventEmitter<void> = new EventEmitter<void>()
 
   constructor(
-    private modalService: BsModalService,
+    private modalService: NgbModal,
     private projectService: ProjectService,
     private toastrService: ToastrService) { }
 
@@ -53,11 +53,12 @@ export class ProjectThumbnailComponent implements OnInit {
   }
 
   openConfirmation(action: (object: any) => void): boolean {
-    const modalRef = this.modalService.show(ConfirmationYesNoModalComponent, { initialState: { message: 'You are sure you want to delete this project?' } })
-    modalRef.onHidden?.subscribe(() => {
-      if (modalRef.content?.result) {
+    const modalRef = this.modalService.open(ConfirmationYesNoModalComponent)
+
+    modalRef.componentInstance.message = 'You are sure you want to delete this project?'
+
+    modalRef.result.then(() => {
         action(this)
-      }
     })
     return false
   }

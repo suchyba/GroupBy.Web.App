@@ -5,7 +5,7 @@
         <div class="d-flex">
           <h2>List of accounting books of the group</h2>
           <button type="button" class="btn btn-outline-secondary close pull-right ms-auto" aria-label="Close"
-            (click)="bsModalRef.hide()">
+            (click)="activeModal.close()">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
@@ -26,7 +26,7 @@
               <i class="bi bi-caret-up-fill"></i>
             }
           </button>
-          <div id="{{id}}" class="row ps-5" [collapse]="booksIdHidden[id]" [isAnimated]="true">
+          <div id="{{id}}" class="row ps-5" [ngbCollapse]="booksIdHidden[id]">
             @for (book of getBooksWithId(id); track book) {
               <div class="col-12 my-2 border-bottom border-dark p-2">
                 <div class="d-flex align-items-top">
@@ -71,7 +71,7 @@
                 class="bi bi-trash"></i></button>
                 <button class="btn btn-secondary"
                   [routerLink]="['/accountingBooks', book.id]"
-                (click)="bsModalRef.hide()">Details</button>
+                (click)="activeModal.close()">Details</button>
               </div>
             </div>
           </div>

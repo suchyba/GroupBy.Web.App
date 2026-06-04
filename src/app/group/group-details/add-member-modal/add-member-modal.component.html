@@ -18,7 +18,7 @@
         <div class="d-flex">
           <h2>Add volunteers to the group</h2>
           <button type="button" class="btn btn-outline-secondary close pull-right ms-auto" aria-label="Close"
-            (click)="bsModalRef.hide()">
+            (click)="activeModal.close()">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
@@ -41,10 +41,9 @@
               <div class="alert alert-danger">No results found</div>
             }
             <input autofocus placeholder="Volunteer" [(ngModel)]="selectedVolunteer"
-              [typeahead]="filteredVolunteerList" [typeaheadItemTemplate]="customItemTemplate"
-              (typeaheadOnSelect)="onSelect($event)" (typeaheadNoResults)="noResultsEvent($event)"
-              [typeaheadMinLength]="0" [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="5"
-              class="form-control">
+              [ngbTypeahead]="search" [resultTemplate]="customItemTemplate"
+              (selectItem)="onSelect($event)" (noResult)="noResultsEvent($event)"
+              [minLength]="0" class="form-control">
           </div>
         </div>
         <div class="col-12 mt-3">

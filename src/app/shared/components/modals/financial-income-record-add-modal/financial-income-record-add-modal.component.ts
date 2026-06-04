@@ -1,7 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/internal/operators/first';
 import { ISimpleAccountingBook } from 'src/app/shared/models/accounting-book/accounting-book-simple.model';
@@ -15,10 +15,10 @@ import { GroupService } from 'src/app/shared/services/group.service';
 import { DocumentAddModalComponent } from '../document-add-modal/document-add-modal.component';
 
 @Component({
-    selector: 'app-financial-income-record-add-modal',
-    templateUrl: './financial-income-record-add-modal.component.html',
-    styleUrls: ['./financial-income-record-add-modal.component.css'],
-    standalone: false
+  selector: 'app-financial-income-record-add-modal',
+  templateUrl: './financial-income-record-add-modal.component.html',
+  styleUrls: ['./financial-income-record-add-modal.component.css'],
+  standalone: false
 })
 export class FinancialIncomeRecordAddModalComponent implements OnInit {
   @Input() recordToCreate: ICreateFinancialIncomeRecord | undefined
@@ -40,8 +40,8 @@ export class FinancialIncomeRecordAddModalComponent implements OnInit {
   public errorMessage: string = ''
 
   constructor(
-    public bsModalRef: BsModalRef,
-    private modalService: BsModalService,
+    public bsModalRef: NgbActiveModal,
+    private modalService: NgbModal,
     private formBuilder: UntypedFormBuilder,
     private groupService: GroupService,
     private accountingDocumentService: AccountingDocumentService,
@@ -51,7 +51,7 @@ export class FinancialIncomeRecordAddModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bsModalRef.setClass('modal-lg')
+    this.bsModalRef.update({ size: 'lg' })
 
     this.recordAddForm = this.formBuilder.group({
       bookIdentificator: [this.bookIdentificator, Validators.required],
@@ -115,12 +115,12 @@ export class FinancialIncomeRecordAddModalComponent implements OnInit {
           }
           this.recordAddForm.controls['bookOrderNumber'].disable()
           this.onBookIdChange(this.bookIdentificator)
-          
+
           if (this.bookOrderNumber) {
             this.recordAddForm.controls['bookOrderNumber'].setValue(this.bookOrderNumber)
             this.recordAddForm.controls['bookOrderNumber'].disable()
           }
-          
+
           this.onBookOrderNumberChange(this.bookOrderNumber)
         })
       })
@@ -160,7 +160,7 @@ export class FinancialIncomeRecordAddModalComponent implements OnInit {
         .subscribe({
           complete: () => {
             this.toastrService.success('Successfully created financial income record')
-            this.bsModalRef.hide()
+            this.bsModalRef.close()
           },
           error: (error) => {
             this.error = error;
@@ -202,14 +202,14 @@ export class FinancialIncomeRecordAddModalComponent implements OnInit {
   public onBookOrderNumberChange(currBookOrderNumber: number | undefined): void {
     if (currBookOrderNumber && this.recordToCreate) {
       this.recordToCreate.bookId = this.accountingBookList
-      ?.filter(b => b.bookIdentificator === this.fields['bookIdentificator'].value && b.bookOrderNumberId === currBookOrderNumber)
-      .map(b => b.id)[0]
+        ?.filter(b => b.bookIdentificator === this.fields['bookIdentificator'].value && b.bookOrderNumberId === currBookOrderNumber)
+        .map(b => b.id)[0]
 
       this.fields['bookId'].setValue(this.recordToCreate?.bookId)
     }
     else if (this.recordToCreate) {
       this.recordToCreate.bookId = undefined
-      
+
       this.fields['bookId'].setValue(this.recordToCreate?.bookId)
     }
   }
@@ -218,25 +218,23 @@ export class FinancialIncomeRecordAddModalComponent implements OnInit {
 
   openAccountingDocumentAddModal(): void {
     if (this.group) {
-      let modal = this.modalService.show(DocumentAddModalComponent, {
-        initialState: {
-          documentToCreate: {
-            name: "",
-            filePath: "null",
-            groupsId: [this.group?.id],
-            relatedProjectId: this.recordToCreate?.relatedProjectId
-          },
-          isAccountingDocument: true
+      let modal = this.modalService.open(DocumentAddModalComponent)
+
+      modal.componentInstance.documentToCreate = {
+        name: "",
+        filePath: "null",
+        groupsId: [this.group?.id],
+        relatedProjectId: this.recordToCreate?.relatedProjectId
+      }
+      modal.componentInstance.isAccountingDocument = true
+
+      modal.closed.subscribe(() => {
+        if (modal.componentInstance?.createdDocument && this.documentList) {
+          this.documentList.push(modal.componentInstance.createdDocument)
+          this.fields['relatedDocument'].setValue(modal.componentInstance.createdDocument.id)
+          this.onRelatedDocumentChange()
         }
       })
-      if (modal.onHidden)
-        modal.onHidden.subscribe(() => {
-          if (modal.content?.createdDocument && this.documentList) {
-            this.documentList.push(modal.content.createdDocument)
-            this.fields['relatedDocument'].setValue(modal.content.createdDocument.id)
-            this.onRelatedDocumentChange()
-          }
-        })
     }
   }
 

@@ -1,9 +1,10 @@
 import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NgbModal, NgbActiveModal, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
 import { ITransferInventoryBookRecord } from 'src/app/shared/models/inventory-book-record/inventory-book-record-transfer.model';
 import { ISimpleInventoryBook } from 'src/app/shared/models/inventory-book/inventory-book-simple.model';
@@ -35,10 +36,14 @@ export class InventoryBookRecordTransferModalComponent implements OnInit {
   public sourcesLinked: boolean = true
   public linkingSourcesDisabled = false
 
-  public filteredGroupList: ISimpleGroup[] = []
   public groupList: ISimpleGroup[] = []
   public selectedGroup: ISimpleGroup | undefined
-  public noGroupResults = false
+
+  // Funkcja do filtrowania dla ngbTypeahead
+  public search = (text$: Observable<string>) =>
+    text$.pipe(
+      map((text: string) => this.filterGroup(text))
+    )
 
   public recordAddForm: UntypedFormGroup
   public submitted: boolean = false
@@ -48,7 +53,7 @@ export class InventoryBookRecordTransferModalComponent implements OnInit {
 
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private modalRef: BsModalRef,
+    private modalRef: NgbActiveModal,
     private toastrService: ToastrService,
     private inventoryItemSourceService: InventoryItemSourceService,
     private inventoryBookRecordService: InventoryBookRecordService,
@@ -56,23 +61,34 @@ export class InventoryBookRecordTransferModalComponent implements OnInit {
     private inventoryItemService: InventoryItemService,
     private documentService: DocumentService,
     private groupService: GroupService,
-    private modalService: BsModalService) {
+    private modalService: NgbModal) {
     this.recordAddForm = formBuilder.group({})
   }
 
   get fields() { return this.recordAddForm.controls }
 
-  private filterGroup(value: string): ISimpleGroup[] {
+  private filterGroup(value: string | ISimpleGroup): ISimpleGroup[] {
+    const searchValue = typeof value === 'string' ? value : value.name;
     return this.groupList
-      .filter((g: ISimpleGroup) => g.name.toLowerCase().includes(value.toLowerCase()));
+      .filter((g: ISimpleGroup) => g.name.toLowerCase().includes(searchValue.toLowerCase()));
   }
 
-  onSelectGroup(group: ISimpleGroup) {
-    this.selectedGroup = group
+  inputFormatter = (group: ISimpleGroup): string => {
+    return group && group.name ? group.name : '';
+  }
+
+  resultFormatter = (group: ISimpleGroup): string => {
+    return group && group.name ? group.name : '';
+  }
+
+  onSelectGroup(event: NgbTypeaheadSelectItemEvent<ISimpleGroup>) {
+    this.selectedGroup = event.item;
+    // Update form control with the group ID
+    this.recordAddForm.controls['groupToId'].setValue(event.item, { emitEvent: false });
   }
 
   ngOnInit(): void {
-    this.modalRef.setClass('modal-lg')
+    this.modalRef.update({ size: 'lg' })
 
     this.recordAddForm = this.formBuilder.group({
       inventoryBookFromId: [this.recordToCreate?.inventoryBookFromId, Validators.required],
@@ -84,11 +100,14 @@ export class InventoryBookRecordTransferModalComponent implements OnInit {
       date: [formatDate(this.recordToCreate?.date ?? new Date(), 'yyyy-MM-dd', 'en'), Validators.required]
     })
 
-    // typeahead filtering
-    this.recordAddForm.controls['groupToId'].valueChanges.pipe(startWith(''))
-      .subscribe((value: string) => {
-        this.filteredGroupList = this.filterGroup(value)
-      })
+    // typeahead filtering - subscribe to form control changes to track selected value
+    this.recordAddForm.get('groupToId')?.valueChanges.pipe(
+      startWith('')
+    ).subscribe((value) => {
+      if (typeof value === 'string' && value === '') {
+        this.selectedGroup = undefined;
+      }
+    })
 
     this.recordAddForm.controls['sourceFromId'].valueChanges.subscribe(value => {
       if (this.sourcesLinked) {
@@ -174,7 +193,6 @@ export class InventoryBookRecordTransferModalComponent implements OnInit {
     // destination group list
     this.groupService.getAllGroups().subscribe(allGroups => {
       this.groupList = allGroups.filter(g => g.hasInventoryBook && g.id !== this.groupFrom?.id)
-      this.filteredGroupList = this.groupList
     })
 
   }
@@ -201,7 +219,7 @@ export class InventoryBookRecordTransferModalComponent implements OnInit {
         }).subscribe({
           complete: () => {
             this.toastrService.success(`Successfully transfered item`)
-            this.modalRef.hide()
+            this.modalRef.close()
           },
           error: (error) => {
             this.error = error;
@@ -216,7 +234,7 @@ export class InventoryBookRecordTransferModalComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.modalRef.hide()
+    this.modalRef.close()
   }
 
   onSourceLinkClick(): void {
@@ -229,9 +247,5 @@ export class InventoryBookRecordTransferModalComponent implements OnInit {
     else {
       this.recordAddForm.controls['sourceToId'].enable()
     }
-  }
-
-  noResultsEvent(isNoResults: boolean): void {
-    this.noGroupResults = isNoResults
   }
 }

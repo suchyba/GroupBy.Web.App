@@ -7,6 +7,7 @@ import { PreloadAllModules, RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
+import { NgbModule, NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({ declarations: [
         // common components
@@ -15,7 +16,9 @@ import { CoreModule } from './core/core.module';
     bootstrap: [GroupByAppComponent], imports: [BrowserModule,
         RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules }),
         BrowserAnimationsModule,
-        CoreModule], providers: [
+        CoreModule,
+        NgbModule,
+        NgbAccordionModule], providers: [
         provideHttpClient(withInterceptorsFromDi())
     ] })
 export class GroupByAppModule { }

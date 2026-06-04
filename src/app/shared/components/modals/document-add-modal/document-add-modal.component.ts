@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/internal/operators/first';
 import { ICreateAccountingDocument } from 'src/app/shared/models/accounting-document/accounting-document-create.model';
@@ -40,7 +40,7 @@ export class DocumentAddModalComponent implements OnInit {
   }
 
   constructor(
-    public bsModalRef: BsModalRef,
+    public bsModalRef: NgbActiveModal,
     private formBuilder: UntypedFormBuilder,
     private groupService: GroupService,
     private accountingDocumentService: AccountingDocumentService,
@@ -50,7 +50,7 @@ export class DocumentAddModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bsModalRef.setClass('modal-lg')
+    this.bsModalRef.update({ size: 'lg'})
 
     this.documentAddForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -126,7 +126,7 @@ export class DocumentAddModalComponent implements OnInit {
             next: (d) => {
               this.createdDocument = d
               this.toastrService.success(`Successfully created ${d.name} accounting document`)
-              this.bsModalRef.hide()
+              this.bsModalRef.close()
             },
             error: (error) => {
               this.error = error;
@@ -142,7 +142,7 @@ export class DocumentAddModalComponent implements OnInit {
             next: (d) => {
               this.createdDocument = d
               this.toastrService.success(`Successfully created ${d.name} document`)
-              this.bsModalRef.hide()
+              this.bsModalRef.close()
             },
             error: (error) => {
               this.error = error;

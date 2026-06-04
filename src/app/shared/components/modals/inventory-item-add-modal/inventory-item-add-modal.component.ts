@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { ICreateInventoryItem } from 'src/app/shared/models/inventory-item/inventory-item-create.model';
 import { IInventoryItem } from 'src/app/shared/models/inventory-item/inventory-item.model';
@@ -26,7 +26,7 @@ export class InventoryItemAddModalComponent implements OnInit {
   get fields() { return this.itemAddForm.controls }
 
   constructor(
-    private modalRef: BsModalRef,
+    private modalRef: NgbActiveModal,
     private toastrService: ToastrService,
     private formBuilder: UntypedFormBuilder,
     private inventoryItemService: InventoryItemService
@@ -35,7 +35,7 @@ export class InventoryItemAddModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.modalRef.setClass('modal-lg')
+    this.modalRef.update({ size: 'lg' })
 
     this.itemAddForm = this.formBuilder.group({
       symbol: [this.itemToCreate?.symbol, Validators.required],
@@ -46,7 +46,7 @@ export class InventoryItemAddModalComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.modalRef.hide()
+    this.modalRef.close()
   }
 
   onSubmit(): void {
@@ -67,7 +67,7 @@ export class InventoryItemAddModalComponent implements OnInit {
     }).subscribe({
       complete: () => {
         this.toastrService.success(`Successfully created inventory item: ${this.itemAddForm.controls['name'].value}`)
-        this.modalRef.hide()
+        this.modalRef.close()
       },
       next: (finalItem) => {
         this.createdItem = finalItem
