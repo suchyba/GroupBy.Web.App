@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgbModalModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
 import { AccountRoutes } from './account.routes';
 import { ManageAccountComponent } from './manage-account/manage-account.component';
-import { ClipboardModule } from 'ngx-clipboard';
-import { PopoverModule } from 'ngx-bootstrap/popover';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+
 
 
 
@@ -17,8 +17,8 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
     RouterModule.forChild(AccountRoutes),
     SharedModule,
     ClipboardModule,
-    ModalModule.forRoot(),
-    PopoverModule.forRoot()
+    NgbModalModule,
+    NgbPopoverModule
   ]
 })
 export class AccountModuleModule { }

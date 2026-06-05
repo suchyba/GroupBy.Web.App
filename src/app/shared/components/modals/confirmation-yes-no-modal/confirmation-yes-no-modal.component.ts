@@ -1,17 +1,17 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  templateUrl: './confirmation-yes-no-modal.component.html',
-  styleUrls: ['./confirmation-yes-no-modal.component.css']
+    templateUrl: './confirmation-yes-no-modal.component.html',
+    styleUrls: ['./confirmation-yes-no-modal.component.css'],
+    standalone: false
 })
 export class ConfirmationYesNoModalComponent implements OnInit {
   @Input() message: string = 'Are you sure?'
   @Output() result: boolean | undefined
 
   constructor(
-    public bsModalRef: BsModalRef,
-    private modalService: BsModalService) {
+    public bsModalRef: NgbActiveModal) {
       
     }
 
@@ -21,11 +21,12 @@ export class ConfirmationYesNoModalComponent implements OnInit {
 
   cancelClick(): void {
     this.result = false
-    this.bsModalRef.hide()
+    this.bsModalRef.close()
   }
+
   okClick(): void {
     this.result = true
-    this.bsModalRef.hide()
+    this.bsModalRef.close()
   }
 
 }

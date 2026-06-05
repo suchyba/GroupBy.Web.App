@@ -23,8 +23,7 @@ import { ProjectService } from "./services/project.service";
 import { VolunteerService } from "./services/volunteer.service";
 import { InventoryBookAddModalComponent } from './components/modals/inventory-book-add-modal/inventory-book-add-modal.component';
 import { InventoryBookRecordAddModalComponent } from './components/modals/inventory-book-record-add-modal/inventory-book-record-add-modal.component';
-import { TypeaheadModule } from "ngx-bootstrap/typeahead";
-import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { NgbTypeaheadModule, NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { InventoryItemLiquidateComponent } from './components/modals/inventory-item-liquidate/inventory-item-liquidate.component';
 import { InventoryItemAddModalComponent } from './components/modals/inventory-item-add-modal/inventory-item-add-modal.component';
 import { InventoryBookRecordTransferModalComponent } from './components/modals/inventory-book-record-transfer-modal/inventory-book-record-transfer-modal.component';
@@ -36,9 +35,9 @@ import { InventoryItemHistoryModalComponent } from './components/modals/inventor
         CommonModule,
         ReactiveFormsModule,
         RouterModule,
-        TypeaheadModule,
         FormsModule,
-        AccordionModule],
+        NgbTypeaheadModule,
+        NgbAccordionModule],
     declarations: [
         // modals
         GroupAddModalComponent,

@@ -2,8 +2,7 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { ClipboardService } from 'ngx-clipboard';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, tap } from 'rxjs';
 import { RegistrationCodeAddModalComponent } from 'src/app/shared/components/modals/registration-code-add-modal/registration-code-add-modal.component';
@@ -12,9 +11,10 @@ import { IListRegistrationCode } from 'src/app/shared/models/registration-code/r
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 
 @Component({
-  selector: 'app-manage-account',
-  templateUrl: './manage-account.component.html',
-  styleUrls: ['./manage-account.component.css']
+    selector: 'app-manage-account',
+    templateUrl: './manage-account.component.html',
+    styleUrls: ['./manage-account.component.css'],
+    standalone: false
 })
 export class ManageAccountComponent implements OnInit {
   public user?: IUser
@@ -37,8 +37,7 @@ export class ManageAccountComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: UntypedFormBuilder,
     private toastrService: ToastrService,
-    private modalService: BsModalService,
-    private clipboardService: ClipboardService
+    private modalService: NgbModal
   ) {
     this.user = route.snapshot.data['user']
 
@@ -107,18 +106,13 @@ export class ManageAccountComponent implements OnInit {
 
   openAddRegistrationCodeModal() {
     if (this.user) {
-      this.modalService.show(RegistrationCodeAddModalComponent, {
-        initialState: {
-          registrationCodeToCreate: {
-            ownerId: this.user?.relatedVolunteer.id
-          },
-          ownerList: [this.user?.relatedVolunteer]
-        }
-      })
-    }
-  }
+      let modalRef = this.modalService.open(RegistrationCodeAddModalComponent)
 
-  copyToClipboard(text: string) {
-    this.clipboardService.copyFromContent(text)
+      modalRef.componentInstance.registrationCodeToCreate = {
+        ownerId: this.user?.relatedVolunteer.id
+      }
+
+      modalRef.componentInstance.ownerList = [this.user?.relatedVolunteer]
+    }
   }
 }

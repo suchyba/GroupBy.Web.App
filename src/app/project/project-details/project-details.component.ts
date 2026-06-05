@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { DocumentAddModalComponent } from 'src/app/shared/components/modals/document-add-modal/document-add-modal.component';
 import { FinancialIncomeRecordAddModalComponent } from 'src/app/shared/components/modals/financial-income-record-add-modal/financial-income-record-add-modal.component';
@@ -15,7 +15,8 @@ import { ProjectService } from 'src/app/shared/services/project.service';
 @Component({
   selector: 'app-project-details',
   templateUrl: './project-details.component.html',
-  styleUrls: ['./project-details.component.css']
+  styleUrls: ['./project-details.component.css'],
+  standalone: false
 })
 export class ProjectDetailsComponent implements OnInit {
   @Input() project: IProject | undefined
@@ -33,7 +34,7 @@ export class ProjectDetailsComponent implements OnInit {
     private financialInRecordService: FinancialIncomeRecordService,
     private financialOutRecordService: FinancialOutcomeRecordService,
     private router: Router,
-    private modalService: BsModalService) { }
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.project = this.route.snapshot.data['project']
@@ -72,60 +73,56 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   openFinancialIncomeRecordAddModal(): void {
-    let modal = this.modalService.show(FinancialIncomeRecordAddModalComponent, {
-      initialState: {
-        group: this.project?.projectGroup ? this.project.projectGroup : this.project?.parentGroup,
-        recordToCreate: {
-          bookId: undefined,
-          date: new Date(),
-          description: "",
-          dotation: 0,
-          earningAction: 0,
-          membershipFee: 0,
-          onePercent: 0,
-          other: 0,
-          programFee: 0,
-          relatedDocumentId: undefined,
-          relatedProjectId: this.project?.id
-        }
-      }
-    })
-    if (modal.onHidden) {
-      modal.onHidden.subscribe(() => {
-        this.financialRecords = undefined
-        this.refreshFinancialRecords()
-      })
+    let modal = this.modalService.open(FinancialIncomeRecordAddModalComponent)
+
+    modal.componentInstance.group = this.project?.projectGroup ? this.project.projectGroup : this.project?.parentGroup
+    modal.componentInstance.recordToCreate = {
+      bookId: undefined,
+      date: new Date(),
+      description: "",
+      dotation: 0,
+      earningAction: 0,
+      membershipFee: 0,
+      onePercent: 0,
+      other: 0,
+      programFee: 0,
+      relatedDocumentId: undefined,
+      relatedProjectId: this.project?.id
     }
+
+    modal.closed.subscribe(() => {
+      this.financialRecords = undefined
+      this.refreshFinancialRecords()
+    })
+
   }
 
   openFinancialOutcomeRecordAddModal(): void {
-    let modal = this.modalService.show(FinancialOutcomeRecordAddModalComponent, {
-      initialState: {
-        group: this.project?.projectGroup ? this.project.projectGroup : this.project?.parentGroup,
-        recordToCreate: {
-          bookId: undefined,
-          date: new Date(),
-          description: "",
-          inventory: 0,
-          material: 0,
-          service: 0,
-          transport: 0,
-          insurance: 0,
-          accommodation: 0,
-          salary: 0,
-          food: 0,
-          other: 0,
-          relatedDocumentId: undefined,
-          relatedProjectId: this.project?.id
-        }
-      }
-    })
-    if (modal.onHidden) {
-      modal.onHidden.subscribe(() => {
-        this.accountingDocuments = undefined
-        this.loadAccountingDocuments()
-      })
+    let modal = this.modalService.open(FinancialOutcomeRecordAddModalComponent)
+
+    modal.componentInstance.group = this.project?.projectGroup ? this.project.projectGroup : this.project?.parentGroup
+    modal.componentInstance.recordToCreate = {
+      bookId: undefined,
+      date: new Date(),
+      description: "",
+      inventory: 0,
+      material: 0,
+      service: 0,
+      transport: 0,
+      insurance: 0,
+      accommodation: 0,
+      salary: 0,
+      food: 0,
+      other: 0,
+      relatedDocumentId: undefined,
+      relatedProjectId: this.project?.id
     }
+
+    modal.closed.subscribe(() => {
+      this.accountingDocuments = undefined
+      this.loadAccountingDocuments()
+    })
+
   }
 
   openAccountingDocumentAddModal(): void {
@@ -133,24 +130,22 @@ export class ProjectDetailsComponent implements OnInit {
     if (this.project)
       groupId = this.project.projectGroup?.id ? this.project.projectGroup.id : this.project.parentGroup.id
 
-    let modal = this.modalService.show(DocumentAddModalComponent, {
-      initialState: {
-        documentToCreate: {
-          groupsId: [groupId],
-          name: "",
-          relatedProjectId: this.project?.id,
-          filePath: ""
-        },
-        blockProject: true,
-        isAccountingDocument: true
-      }
-    })
-    if (modal.onHidden) {
-      modal.onHidden.subscribe(() => {
-        this.financialRecords = undefined
-        this.refreshFinancialRecords()
-      })
+    let modal = this.modalService.open(DocumentAddModalComponent)
+
+    modal.componentInstance.documentToCreate = {
+      groupsId: [groupId],
+      name: "",
+      relatedProjectId: this.project?.id,
+      filePath: ""
     }
+    modal.componentInstance.blockProject = true
+    modal.componentInstance.isAccountingDocument = true
+
+    modal.closed.subscribe(() => {
+      this.financialRecords = undefined
+      this.refreshFinancialRecords()
+    })
+
   }
 
   loadAccountingDocuments() {

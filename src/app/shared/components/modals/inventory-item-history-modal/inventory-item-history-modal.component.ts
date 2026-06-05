@@ -1,14 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IListInventoryBookRecord } from 'src/app/shared/models/inventory-book-record/inventory-book-record-list.model';
 import { ISimpleInventoryItem } from 'src/app/shared/models/inventory-item/inventory-item-simple.model';
 import { InventoryItemService } from 'src/app/shared/services/inventory-item.service';
 import { IInventoryTransferModel } from './inventory-transfer-model';
 
 @Component({
-  selector: 'app-inventory-item-history-modal',
-  templateUrl: './inventory-item-history-modal.component.html',
-  styleUrls: ['./inventory-item-history-modal.component.css']
+    selector: 'app-inventory-item-history-modal',
+    templateUrl: './inventory-item-history-modal.component.html',
+    styleUrls: ['./inventory-item-history-modal.component.css'],
+    standalone: false
 })
 export class InventoryItemHistoryModalComponent implements OnInit {
   @Input() item: ISimpleInventoryItem | undefined
@@ -20,12 +21,12 @@ export class InventoryItemHistoryModalComponent implements OnInit {
   public liquidationRecord: IListInventoryBookRecord | undefined
 
   constructor(
-    private modalRef: BsModalRef,
+    private modalRef: NgbActiveModal,
     private inventoryItemService: InventoryItemService
   ) { }
 
   ngOnInit(): void {
-    this.modalRef.setClass('modal-lg')
+    this.modalRef.update({ size: 'lg' })
 
     if (this.item)
       this.inventoryItemService.getInventoryItemHistory(this.item.id).subscribe(history => {
@@ -69,7 +70,7 @@ export class InventoryItemHistoryModalComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.modalRef.hide()
+    this.modalRef.close()
   }
 
   isItemLiquidated(): boolean {

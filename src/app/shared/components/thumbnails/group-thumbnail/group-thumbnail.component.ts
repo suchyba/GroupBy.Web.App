@@ -1,21 +1,22 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationYesNoModalComponent } from 'src/app/shared/components/modals/confirmation-yes-no-modal/confirmation-yes-no-modal.component';
 import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
 import { GroupService } from 'src/app/shared/services/group.service';
 
 @Component({
-  selector: 'shr-group-thumbnail',
-  templateUrl: './group-thumbnail.component.html',
-  styleUrls: ['./group-thumbnail.component.css']
+    selector: 'shr-group-thumbnail',
+    templateUrl: './group-thumbnail.component.html',
+    styleUrls: ['./group-thumbnail.component.css'],
+    standalone: false
 })
 export class GroupThumbnailComponent implements OnInit {
   @Input() group: ISimpleGroup | undefined
   @Input() canRemove: boolean | undefined
   @Output() deletedEvent: EventEmitter<void> = new EventEmitter<void>()
   constructor(
-    private modalService: BsModalService,
+    private modalService: NgbModal,
     private groupService: GroupService,
     private toastrService: ToastrService) { }
 
@@ -23,11 +24,12 @@ export class GroupThumbnailComponent implements OnInit {
   }
 
   openConfirmation(action: (object: any) => void): boolean {
-    const modalRef = this.modalService.show(ConfirmationYesNoModalComponent, { initialState: { message: 'You are sure you want to delete this group?' } })
-    modalRef.onHidden?.subscribe(() => {
-      if (modalRef.content?.result) {
+    const modalRef = this.modalService.open(ConfirmationYesNoModalComponent)
+
+    modalRef.componentInstance.message = 'You are sure you want to delete this group?'
+
+    modalRef.result.then(() => {
         action(this)
-      }
     })
     return false
   }

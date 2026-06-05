@@ -1,210 +1,288 @@
 <!-- loading group spinner -->
 <div class="d-flex justify-content-center mt-4">
-    <div *ngIf="group === undefined" class="spinner-border" role="status"></div>
+  @if (group === undefined) {
+    <div class="spinner-border" role="status"></div>
+  }
 </div>
 <!-- content -->
-<div *ngIf="group">
+@if (group) {
+  <div>
     <div class="row">
-        <div class="col-12">
-            <div class="d-flex align-items-center">
-                <!-- group head -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3>{{group.name}} <a class="bi bi-pencil-square" *ngIf="isOwner()"></a></h3>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="fw-light">{{group.description}} <a class="bi bi-pencil-square" *ngIf="isOwner()"></a></h5>
-                            </div>
-                        </div>
-                    </div>
+      <div class="col-12">
+        <div class="d-flex align-items-center">
+          <!-- group head -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3>{{group.name}} @if (isOwner()) {
+                    <a class="bi bi-pencil-square"></a>
+                  }</h3>
                 </div>
-                <!-- Accounting books -->
-                <div class="row ms-auto p-1" *ngIf="isOwner()">
-                    <div class="col-12 text-center">
-                        <h5>Accounting books</h5>
-                        <hr />
-                        <div class="btn-group ms-auto" *ngIf="accountingBooks">
-                            <button class="btn btn-secondary" [disabled]="getLatestAccBook() === undefined"
-                                [routerLink]="['/accountingBooks', getLatestAccBook()?.id]">Latest
-                                unlocked</button>
-                            <button class="btn btn-secondary"
-                                [disabled]="accountingBooks && accountingBooks.length <= 0"
-                                (click)="openAccountingBooksModal()">List</button>
-                            <button class="btn btn-success" (click)="openAddAccountingBookModal()">Add new</button>
-                        </div>
-                        <div *ngIf="accountingBooks === undefined" class="spinner-border" role="status"></div>
-                    </div>
+                <div class="card-body">
+                  <h5 class="fw-light">{{group.description}} @if (isOwner()) {
+                    <a class="bi bi-pencil-square"></a>
+                  }</h5>
                 </div>
+              </div>
             </div>
+          </div>
+          <!-- Accounting books -->
+          @if (isOwner()) {
+            <div class="row ms-auto p-1">
+              <div class="col-12 text-center">
+                <h5>Accounting books</h5>
+                <hr />
+                @if (accountingBooks) {
+                  <div class="btn-group ms-auto">
+                    <button class="btn btn-secondary" [disabled]="getLatestAccBook() === undefined"
+                      [routerLink]="['/accountingBooks', getLatestAccBook()?.id]">Latest
+                    unlocked</button>
+                    <button class="btn btn-secondary"
+                      [disabled]="accountingBooks && accountingBooks.length <= 0"
+                    (click)="openAccountingBooksModal()">List</button>
+                    <button class="btn btn-success" (click)="openAddAccountingBookModal()">Add new</button>
+                  </div>
+                }
+                @if (accountingBooks === undefined) {
+                  <div class="spinner-border" role="status"></div>
+                }
+              </div>
+            </div>
+          }
         </div>
+      </div>
     </div>
     <div class="mt-5 row">
-        <!-- owner -->
-        <div class="col-3">
-            <h5 class="text-center">Owner of the group <a class="bi bi-pencil-square" *ngIf="isOwner()"
-                    (click)="editOwnerClick()"></a></h5>
-            <shr-volunteer-thumbnail [volunteer]="group.owner" [canRemove]="false" class="w-100" *ngIf="!editOwner">
-            </shr-volunteer-thumbnail>
-            <div class="w-100 h-100 d-flex" *ngIf="editOwner">
-
-                <div class="row h-100 w-100" *ngIf="!members">
-                    <div class="col-12 d-flex justify-content-center">
-                        <span class="spinner-border align-self-center"></span>
-                    </div>
+      <!-- owner -->
+      <div class="col-3">
+        <h5 class="text-center">Owner of the group @if (isOwner()) {
+          <a class="bi bi-pencil-square"
+          (click)="editOwnerClick()"></a>
+        }</h5>
+        @if (!editOwner) {
+          <shr-volunteer-thumbnail [volunteer]="group.owner" [canRemove]="false" class="w-100">
+          </shr-volunteer-thumbnail>
+        }
+        @if (editOwner) {
+          <div class="w-100 h-100 d-flex">
+            @if (!members) {
+              <div class="row h-100 w-100">
+                <div class="col-12 d-flex justify-content-center">
+                  <span class="spinner-border align-self-center"></span>
                 </div>
-                <div class="row" *ngIf="members">
-                    <div class="col-12">
-                        <div class="btn-group">
-                            <select id="relatedGroup" class="form-select" [(ngModel)]="newOwner">
-                                <option *ngFor="let volunteer of members" [ngValue]="volunteer.id">
-                                    {{volunteer.firstNames}}
-                                    {{volunteer.lastName}}</option>
-                            </select>
-
-                            <button class="btn btn-success" (click)="confirmEditOwnerClick()">
-                                <span *ngIf="newOwnerLoading" class="spinner-border spinner-border-sm mr-1"></span>
-                                Confirm
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- parent group -->
-        <div class="col-3" *ngIf="group.parentGroup">
-            <h5 class="text-center">Parent group</h5>
-            <shr-group-thumbnail [group]="group.parentGroup" class="w-100"></shr-group-thumbnail>
-        </div>
-        <!-- related project -->
-        <div class="col-3" *ngIf="group.relatedProject">
-            <h5 class="text-center">Group's project</h5>
-            <shr-project-thumbnail [project]="group.relatedProject" [canRemove]="false" class="w-100">
-            </shr-project-thumbnail>
-        </div>
-        <!-- inventory book -->
-        <div class="col-3" *ngIf="isOwner()">
-            <h5 class="text-center">Group's inventory book</h5>
-            <shr-inventory-book-thumbnail [inventoryBook]="group.inventoryBook" class="w-100"
-                *ngIf="group.inventoryBook" [canRemove]="isOwner()" (deletedEvent)="onInventoryBookDeleted()">
-            </shr-inventory-book-thumbnail>
-            <button class="btn btn-outline-success h-100 w-100" (click)="openAddInventoryBookModal()"
-                *ngIf="!group.inventoryBook">
-                <div class="row h-100">
-                    <div class="col-12 d-flex justify-content-center">
-                        <div class="align-self-center">
-                            <i class="h1 bi bi-plus-square-dotted"></i>
-                        </div>
-                    </div>
-                </div>
-            </button>
-        </div>
-    </div>
-    <div class="mt-5 row">
-        <div class="col-12">
-            <div class="row bg-dark text-light rounded py-3">
-                <div class="col-12 d-flex">
-                    <h4>Child groups</h4>
-                    <button class="ms-auto btn btn-success" *ngIf="isOwner()" (click)="openAddGroupModal()">Add new
-                        child group</button>
-                </div>
-            </div>
-            <div class="row">
+              </div>
+            }
+            @if (members) {
+              <div class="row">
                 <div class="col-12">
-                    <!-- No groups displayed -->
-                    <div class="d-flex justify-content-center mt-4">
-                        <h4 *ngIf="childGroups != undefined && childGroups.length <= 0">No child groups</h4>
-                        <div *ngIf="childGroups === undefined" class="spinner-border" role="status"></div>
-                    </div>
-                    <!-- List of groups -->
-                    <div class="row">
-                        <div *ngFor="let group of childGroups" class="col-md-3 my-3 d-flex align-items-stretch">
-                            <shr-group-thumbnail [group]="group" [canRemove]="isOwner()"
-                                (deletedEvent)="onChildGroupDeleted()" class="w-100">
-                            </shr-group-thumbnail>
-                        </div>
-                    </div>
+                  <div class="btn-group">
+                    <select id="relatedGroup" class="form-select" [(ngModel)]="newOwner">
+                      @for (volunteer of members; track volunteer) {
+                        <option [ngValue]="volunteer.id">
+                          {{volunteer.firstNames}}
+                        {{volunteer.lastName}}</option>
+                      }
+                    </select>
+                    <button class="btn btn-success" (click)="confirmEditOwnerClick()">
+                      @if (newOwnerLoading) {
+                        <span class="spinner-border spinner-border-sm mr-1"></span>
+                      }
+                      Confirm
+                    </button>
+                  </div>
                 </div>
-            </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+      <!-- parent group -->
+      @if (group.parentGroup) {
+        <div class="col-3">
+          <h5 class="text-center">Parent group</h5>
+          <shr-group-thumbnail [group]="group.parentGroup" class="w-100"></shr-group-thumbnail>
         </div>
+      }
+      <!-- related project -->
+      @if (group.relatedProject) {
+        <div class="col-3">
+          <h5 class="text-center">Group's project</h5>
+          <shr-project-thumbnail [project]="group.relatedProject" [canRemove]="false" class="w-100">
+          </shr-project-thumbnail>
+        </div>
+      }
+      <!-- inventory book -->
+      @if (isOwner()) {
+        <div class="col-3">
+          <h5 class="text-center">Group's inventory book</h5>
+          @if (group.inventoryBook) {
+            <shr-inventory-book-thumbnail [inventoryBook]="group.inventoryBook" class="w-100"
+              [canRemove]="isOwner()" (deletedEvent)="onInventoryBookDeleted()">
+            </shr-inventory-book-thumbnail>
+          }
+          @if (!group.inventoryBook) {
+            <button class="btn btn-outline-success h-100 w-100" (click)="openAddInventoryBookModal()"
+              >
+              <div class="row h-100">
+                <div class="col-12 d-flex justify-content-center">
+                  <div class="align-self-center">
+                    <i class="h1 bi bi-plus-square-dotted"></i>
+                  </div>
+                </div>
+              </div>
+            </button>
+          }
+        </div>
+      }
+    </div>
+    <div class="mt-5 row">
+      <div class="col-12">
+        <div class="row bg-dark text-light rounded py-3">
+          <div class="col-12 d-flex">
+            <h4>Child groups</h4>
+            @if (isOwner()) {
+              <button class="ms-auto btn btn-success" (click)="openAddGroupModal()">Add new
+              child group</button>
+            }
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <!-- No groups displayed -->
+            <div class="d-flex justify-content-center mt-4">
+              @if (childGroups != undefined && childGroups.length <= 0) {
+                <h4>No child groups</h4>
+              }
+              @if (childGroups === undefined) {
+                <div class="spinner-border" role="status"></div>
+              }
+            </div>
+            <!-- List of groups -->
+            <div class="row">
+              @for (group of childGroups; track group) {
+                <div class="col-md-3 my-3 d-flex align-items-stretch">
+                  <shr-group-thumbnail [group]="group" [canRemove]="isOwner()"
+                    (deletedEvent)="onChildGroupDeleted()" class="w-100">
+                  </shr-group-thumbnail>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- Members -->
     <div class="mt-5 row">
-        <div class="col-12">
-            <div class="row bg-dark text-light rounded py-3">
-                <div class="col-12">
-                    <div class="d-flex align-items-center">
-                        <h4>Members</h4>
-                        <div class="btn-group ms-5">
-                            <button class="btn btn-secondary" (click)="showMembers()" *ngIf="membersHidden"
-                                aria-controls="membersCollapse">Show</button>
-                            <button class="btn btn-secondary" *ngIf="members && !membersHidden" (click)="hideMembers()"
-                                aria-controls="membersCollapse">Hide</button>
-                            <button class="btn btn-secondary" *ngIf="members && !membersHidden"
-                                (click)="loadMembers()">Refresh</button>
-                        </div>
-                        <button class="ms-auto btn btn-success" *ngIf="isOwner()" (click)="openAddMemebersModal()">Add
-                            members</button>
-                    </div>
-                </div>
+      <div class="col-12">
+        <div class="row bg-dark text-light rounded py-3">
+          <div class="col-12">
+            <div class="d-flex align-items-center">
+              <h4>Members</h4>
+              <div class="btn-group ms-5">
+                @if (membersHidden) {
+                  <button class="btn btn-secondary" (click)="showMembers()"
+                  aria-controls="membersCollapse">Show</button>
+                }
+                @if (members && !membersHidden) {
+                  <button class="btn btn-secondary" (click)="hideMembers()"
+                  aria-controls="membersCollapse">Hide</button>
+                }
+                @if (members && !membersHidden) {
+                  <button class="btn btn-secondary"
+                  (click)="loadMembers()">Refresh</button>
+                }
+              </div>
+              @if (isOwner()) {
+                <button class="ms-auto btn btn-success" (click)="openAddMemebersModal()">Add
+                members</button>
+              }
             </div>
-            <div class="row" id="membersCollapse" [collapse]="membersHidden" [isAnimated]="true">
-                <div class="col-12">
-                    <!-- getting data from api-->
-                    <div class="d-flex justify-content-center mt-4">
-                        <h4 *ngIf="members && members.length <= 0">No members</h4>
-                        <div *ngIf="members === undefined" class="spinner-border" role="status"></div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="row" *ngIf="members && members.length > 0">
-                        <div *ngFor="let member of members" class="col-md-3 my-3 d-flex align-items-stretch">
-                            <shr-volunteer-thumbnail [volunteer]="member" [canRemove]="isOwner()" [groupId]="group.id"
-                                (onRemovedFromGroupEvent)="loadMembers()" class="w-100">
-                            </shr-volunteer-thumbnail>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+        <div class="row" id="membersCollapse" [ngbCollapse]="membersHidden">
+          <div class="col-12">
+            <!-- getting data from api-->
+            <div class="d-flex justify-content-center mt-4">
+              @if (members && members.length <= 0) {
+                <h4>No members</h4>
+              }
+              @if (members === undefined) {
+                <div class="spinner-border" role="status"></div>
+              }
+            </div>
+          </div>
+          <div class="col-12">
+            @if (members && members.length > 0) {
+              <div class="row">
+                @for (member of members; track member) {
+                  <div class="col-md-3 my-3 d-flex align-items-stretch">
+                    <shr-volunteer-thumbnail [volunteer]="member" [canRemove]="isOwner()" [groupId]="group.id"
+                      (onRemovedFromGroupEvent)="loadMembers()" class="w-100">
+                    </shr-volunteer-thumbnail>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
     </div>
     <!-- PROJECTS -->
     <div class="mt-5 row">
-        <div class="col-12">
-            <div class="row bg-dark text-light rounded py-3">
-                <div class="col-12 d-flex">
-                    <h4>Projects</h4>
-                    <div class="btn-group ms-5">
-                        <button class="btn btn-secondary" (click)="showProjects()" *ngIf="projectsHidden"
-                            aria-controls="projectsCollapse">Show</button>
-                        <button class="btn btn-secondary" *ngIf="projects && !projectsHidden" (click)="hideProjects()"
-                            aria-controls="projectsCollapse">Hide</button>
-                        <button class="btn btn-secondary" *ngIf="projects && !projectsHidden"
-                            (click)="loadProjects()">Refresh</button>
-                    </div>
-                    <button class="ms-auto btn btn-success" *ngIf="isOwner()" (click)="openAddProjectModal()">Add new
-                        project</button>
-                </div>
+      <div class="col-12">
+        <div class="row bg-dark text-light rounded py-3">
+          <div class="col-12 d-flex">
+            <h4>Projects</h4>
+            <div class="btn-group ms-5">
+              @if (projectsHidden) {
+                <button class="btn btn-secondary" (click)="showProjects()"
+                aria-controls="projectsCollapse">Show</button>
+              }
+              @if (projects && !projectsHidden) {
+                <button class="btn btn-secondary" (click)="hideProjects()"
+                aria-controls="projectsCollapse">Hide</button>
+              }
+              @if (projects && !projectsHidden) {
+                <button class="btn btn-secondary"
+                (click)="loadProjects()">Refresh</button>
+              }
             </div>
-            <div id="projectsCollapse" class="row" [collapse]="projectsHidden" [isAnimated]="true">
-                <div class="col-12">
-                    <!-- getting data from api-->
-                    <div class="d-flex justify-content-center mt-4">
-                        <h4 *ngIf="projects && projects.length <= 0 && !projectsHidden">No projects</h4>
-                        <div *ngIf="projects === undefined" class="spinner-border" role="status"></div>
-                    </div>
-                </div>
-                <div class="col-12" *ngIf="!projectsHidden">
-                    <div class="row" *ngIf="projects && projects.length > 0">
-                        <div *ngFor="let project of projects" class="col-md-3 my-3 d-flex align-items-stretch">
-                            <shr-project-thumbnail [project]="project" [canRemove]="isOwner()"
-                                (deletedEvent)="onProjectDeleted()" class="w-100">
-                            </shr-project-thumbnail>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @if (isOwner()) {
+              <button class="ms-auto btn btn-success" (click)="openAddProjectModal()">Add new
+              project</button>
+            }
+          </div>
         </div>
+        <div id="projectsCollapse" class="row" [ngbCollapse]="projectsHidden">
+          <div class="col-12">
+            <!-- getting data from api-->
+            <div class="d-flex justify-content-center mt-4">
+              @if (projects && projects.length <= 0 && !projectsHidden) {
+                <h4>No projects</h4>
+              }
+              @if (projects === undefined) {
+                <div class="spinner-border" role="status"></div>
+              }
+            </div>
+          </div>
+          @if (!projectsHidden) {
+            <div class="col-12">
+              @if (projects && projects.length > 0) {
+                <div class="row">
+                  @for (project of projects; track project) {
+                    <div class="col-md-3 my-3 d-flex align-items-stretch">
+                      <shr-project-thumbnail [project]="project" [canRemove]="isOwner()"
+                        (deletedEvent)="onProjectDeleted()" class="w-100">
+                      </shr-project-thumbnail>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
     </div>
-</div>
+  </div>
+}

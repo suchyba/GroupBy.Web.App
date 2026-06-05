@@ -4,8 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AccountingBooksRoutes } from './accounting-book.routes';
 import { AccountingBookDetailsComponent } from './accounting-book-details/accounting-book-details.component';
 import { AccountingBookDetailsResolver } from './accounting-book-details/accounting-book-details.resolver';
-import { CollapseModule } from 'ngx-bootstrap/collapse';
-import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgbCollapseModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
 
 
@@ -16,8 +15,8 @@ import { SharedModule } from '../shared/shared.module';
   ],
   imports: [
     RouterModule.forChild(AccountingBooksRoutes),
-    CollapseModule.forRoot(),
-    ModalModule.forRoot(),
+    NgbCollapseModule,
+    NgbModalModule,
     SharedModule
   ],
   providers: [

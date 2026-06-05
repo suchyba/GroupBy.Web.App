@@ -17,12 +17,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Set up Node.js version
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v6
       with:
-        node-version: '18.x'
+        node-version: '25.x'
 
     - name: npm install
       run: npm install
@@ -36,7 +36,7 @@ jobs:
       if: ${{ !inputs.ONLY_BUILD }}
       run: rm -r dist/${{ inputs.APPLICATION_NAME }}
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v7
       if: ${{ !inputs.ONLY_BUILD }}
       with:
         name: ${{ inputs.APPLICATION_NAME }}

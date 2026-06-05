@@ -1,0 +1,478 @@
+
+> group-by.web.app@0.0.0 build
+> ng build --verbose
+
+Node.js version v25.9.0 detected.
+Odd numbered Node.js versions will not enter LTS status and should not be used for production. For more information, please see https://nodejs.org/en/about/previous-releases/.
+Workspace extension with invalid name (defaultProject) found.
+[33mÔŁ»[39m Building...
+Ôľ▓ [WARNING] TypeScript compiler options 'target' and 'useDefineForClassFields' are set to 'ES2022' and 'false' respectively by the Angular CLI. [plugin angular-compiler]
+
+    tsconfig.app.json:0:0:
+      0 Ôöé 
+        ÔĽÁ ^Ôľ▓ [WARNING
+
+  To control ECMA version and features use the Browserslist configuration. For more information, see https://angular.dev/tools/cli/build#configuring-browser-compatibility
+
+] TypeScript compiler options 'target' and 'useDefineForClassFields' are set to 'ES2022' and 'false' respectively by the Angular CLI. [plugin angular-compiler]
+
+    tsconfig.app.json:0:0:
+      0 Ôöé 
+        ÔĽÁ ^
+
+  To control ECMA version and features use the Browserslist configuration. For more information, see https://angular.dev/tools/cli/build#configuring-browser-compatibility
+
+1 warning
+
+  polyfills-2HA3RVA5.js  34.2kb
+
+Done in 7247ms
+1 warning
+
+  chunk-ZTLXUJW5.js  421.4kb
+  chunk-FRBI2V55.js  139.1kb
+  main-AJIH3YCB.js    64.6kb
+  chunk-J7ACT6QT.js   28.3kb
+  chunk-VD5IPZVT.js   14.9kb
+  ...and 4 more output files...
+
+Done in 8665ms
+[32mÔťö[39m Building...
+[1mInitial chunk files[22m  [2m | [22m[1mNames[22m                 [2m | [22m [1mRaw size[22m[2m | [22m[1mEstimated transfer size[22m
+[32mstyles-HS2YGBJ5.css[39m  [2m | [22m[2mstyles[22m                [2m | [22m[36m473.46 kB[39m[2m | [22m               [36m40.38 kB[39m
+[32mchunk-ZTLXUJW5.js[39m    [2m | [22m[2m-[22m                     [2m | [22m[36m431.52 kB[39m[2m | [22m              [36m109.24 kB[39m
+[32mmain-AJIH3YCB.js[39m     [2m | [22m[2mmain[22m                  [2m | [22m [36m66.19 kB[39m[2m | [22m               [36m18.22 kB[39m
+[32mpolyfills-2HA3RVA5.js[39m[2m | [22m[2mpolyfills[22m             [2m | [22m [36m35.04 kB[39m[2m | [22m               [36m11.53 kB[39m
+
+[1m [22m                    [2m | [22m[1mInitial total[22m         [2m | [22m  [1m[91m1.01 MB[39m[22m[2m | [22m              [1m179.38 kB[22m
+
+[1mLazy chunk files[22m     [2m | [22m[1mNames[22m                 [2m | [22m [1mRaw size[22m[2m | [22m[1mEstimated transfer size[22m
+[32mchunk-FRBI2V55.js[39m    [2m | [22m[2m-[22m                     [2m | [22m[36m142.42 kB[39m[2m | [22m               [36m15.18 kB[39m
+[32mchunk-J7ACT6QT.js[39m    [2m | [22m[2mgroup-module[22m          [2m | [22m [36m28.94 kB[39m[2m | [22m                [36m6.44 kB[39m
+[32mchunk-VD5IPZVT.js[39m    [2m | [22m[2maccounting-book-module[22m[2m | [22m [36m15.30 kB[39m[2m | [22m                [36m3.57 kB[39m
+[32mchunk-4IROBZYY.js[39m    [2m | [22m[2mauthentication-module[22m [2m | [22m [36m15.12 kB[39m[2m | [22m                [36m3.13 kB[39m
+[32mchunk-H6CGANXS.js[39m    [2m | [22m[2maccount-module-module[22m [2m | [22m [36m14.94 kB[39m[2m | [22m                [36m3.85 kB[39m
+[32mchunk-PBTW2NQN.js[39m    [2m | [22m[2mproject-module[22m        [2m | [22m [36m11.44 kB[39m[2m | [22m                [36m2.91 kB[39m
+[32mchunk-K5NUV2C3.js[39m    [2m | [22m[2minventory-book-module[22m [2m | [22m  [36m9.13 kB[39m[2m | [22m                [36m2.35 kB[39m
+
+Application bundle generation failed. [10.040 seconds] - 2026-06-04T23:58:12.766Z
+
+Ôľ▓ [WARNING] TypeScript compiler options 'target' and 'useDefineForClassFields' are set to 'ES2022' and 'false' respectively by the Angular CLI. [plugin angular-compiler]
+
+    tsconfig.app.json:0:0:
+      0 Ôöé 
+        ÔĽÁ ^
+
+  To control ECMA version and features use the Browserslist configuration. For more information, see https://angular.dev/tools/cli/build#configuring-browser-compatibility
+
+
+Ôľ▓ [WARNING] TypeScript compiler options 'target' and 'useDefineForClassFields' are set to 'ES2022' and 'false' respectively by the Angular CLI. [plugin angular-compiler]
+
+    tsconfig.app.json:0:0:
+      0 Ôöé 
+        ÔĽÁ ^
+
+  To control ECMA version and features use the Browserslist configuration. For more information, see https://angular.dev/tools/cli/build#configuring-browser-compatibility
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/_functions.scss:11:29:
+      11 Ôöé     @if $prev-num == null or unit($num) == "%" or unit($prev-num) ...
+         ÔĽÁ                              ^
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use math.unit instead.
+  
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/_functions.scss:11:50:
+      11 Ôöé ...$prev-num == null or unit($num) == "%" or unit($prev-num) == "%" {
+         ÔĽÁ                                              ^
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use math.unit instead.
+  
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/_functions.scss:37:10:
+      37 Ôöé   @return red($value), green($value), blue($value);
+         ÔĽÁ           ^
+
+
+  red() is deprecated. Suggestion:
+  
+  color.channel($color, "red", $space: rgb)
+  
+  More info: https://sass-lang.com/d/color-functions
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/_functions.scss:37:23:
+      37 Ôöé   @return red($value), green($value), blue($value);
+         ÔĽÁ                        ^
+
+
+  green() is deprecated. Suggestion:
+  
+  color.channel($color, "green", $space: rgb)
+  
+  More info: https://sass-lang.com/d/color-functions
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/_functions.scss:58:29:
+      58 Ôöé       $_args: append($_args, if($arg == "$key", $key, if($arg == "...
+         ÔĽÁ                              ^
+
+
+  The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+  
+  Suggestion: if(sass($arg == "$key"): $key; else: if($arg == "$value", $value, $arg))
+  
+  More info: https://sass-lang.com/d/if-function
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/_functions.scss:58:54:
+      58 Ôöé ..._args, if($arg == "$key", $key, if($arg == "$value", $value, $a...
+         ÔĽÁ                                    ^
+
+
+  The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+  
+  Suggestion: if(sass($arg == "$value"): $value; else: $arg)
+  
+  More info: https://sass-lang.com/d/if-function
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/_functions.scss:177:10:
+      177 Ôöé   @return if($l1 > $l2, divide($l1 + .05, $l2 + .05), divide($l2 ...
+          ÔĽÁ           ^
+
+
+  The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+  
+  Suggestion: if(sass($l1 > $l2): divide($l1 + 0.05, $l2 + 0.05); else: divide($l2 + 0.05, $l1 + 0.05))
+  
+  More info: https://sass-lang.com/d/if-function
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/_functions.scss:185:9:
+      185 Ôöé     "r": red($color),
+          ÔĽÁ          ^
+
+
+  red() is deprecated. Suggestion:
+  
+  color.channel($color, "red", $space: rgb)
+  
+  More info: https://sass-lang.com/d/color-functions
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/_functions.scss:186:9:
+      186 Ôöé     "g": green($color),
+          ÔĽÁ          ^
+
+
+  green() is deprecated. Suggestion:
+  
+  color.channel($color, "green", $space: rgb)
+  
+  More info: https://sass-lang.com/d/color-functions
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/_functions.scss:187:9:
+      187 Ôöé     "b": blue($color)
+          ÔĽÁ          ^
+
+
+  blue() is deprecated. Suggestion:
+  
+  color.channel($color, "blue", $space: rgb)
+  
+  More info: https://sass-lang.com/d/color-functions
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/_functions.scss:191:12:
+      191 Ôöé     $value: if(divide($value, 255) < .04045, divide(divide($value...
+          ÔĽÁ             ^
+
+
+  The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+  
+  Suggestion: if(sass(divide($value, 255) < 0.04045): divide(divide($value, 255), 12.92); else: nth($_luminance-list, $value + 1))
+  
+  More info: https://sass-lang.com/d/if-function
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/_functions.scss:207:10:
+      207 Ôöé   @return mix(white, $color, $weight);
+          ÔĽÁ           ^
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use color.mix instead.
+  
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/_functions.scss:212:10:
+      212 Ôöé   @return mix(black, $color, $weight);
+          ÔĽÁ           ^
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use color.mix instead.
+  
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/_functions.scss:217:10:
+      217 Ôöé   @return if($weight > 0, shade-color($color, $weight), tint-colo...
+          ÔĽÁ           ^
+
+
+  The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+  
+  Suggestion: if(sass($weight > 0): shade-color($color, $weight); else: tint-color($color, -$weight))
+  
+  More info: https://sass-lang.com/d/if-function
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/_variables.scss:342:26:
+      342 Ôöé $light-bg-subtle:         mix($gray-100, $white) !default;
+          ÔĽÁ                           ^
+
+
+  Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+  Use color.mix instead.
+  
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/bootstrap.scss:1:8:
+      1 Ôöé @import "mixins/banner";
+        ÔĽÁ         ^
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/bootstrap.scss:7:8:
+      7 Ôöé @import "functions";
+        ÔĽÁ         ^
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/bootstrap.scss:8:8:
+      8 Ôöé @import "variables";
+        ÔĽÁ         ^
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/bootstrap.scss:9:8:
+      9 Ôöé @import "variables-dark";
+        ÔĽÁ         ^
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] Deprecation [plugin angular-sass]
+
+    node_modules/bootstrap/scss/bootstrap.scss:10:8:
+      10 Ôöé @import "maps";
+         ÔĽÁ         ^
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: https://sass-lang.com/d/import
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+
+Ôľ▓ [WARNING] 310 repetitive deprecation warnings omitted.
+Run in verbose mode to see all warnings. [plugin angular-sass]
+
+    angular:styles/global:styles:4:8:
+      4 Ôöé @import 'scss/custom.scss';
+        ÔĽÁ         ~~~~~~~~~~~~~~~~~~
+
+  null
+
+
+Ôľ▓ [WARNING] bundle initial exceeded maximum budget. Budget 500.00 kB was not met by 506.22 kB with a total of 1.01 MB.
+
+
+X [ERROR] bundle initial exceeded maximum budget. Budget 1.00 MB was not met by 6.22 kB with a total of 1.01 MB.
+
+

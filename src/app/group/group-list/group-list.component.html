@@ -16,12 +16,18 @@
 </div>
 <!-- No groups displayed -->
 <div class="d-flex justify-content-center mt-4">
-  <h4 *ngIf="groups != undefined && groups.length <= 0">You have no groups</h4>
-  <div *ngIf="groups === undefined" class="spinner-border" role="status"></div>
+  @if (groups != undefined && groups.length <= 0) {
+    <h4>You have no groups</h4>
+  }
+  @if (groups === undefined) {
+    <div class="spinner-border" role="status"></div>
+  }
 </div>
 <!-- List of groups -->
 <div class="row">
-  <div *ngFor="let group of groups" class="col-md-3 my-3 d-flex align-items-stretch">
-    <shr-group-thumbnail [group]="group" class="w-100"></shr-group-thumbnail>
-  </div>
+  @for (group of groups; track group) {
+    <div class="col-md-3 my-3 d-flex align-items-stretch">
+      <shr-group-thumbnail [group]="group" class="w-100"></shr-group-thumbnail>
+    </div>
+  }
 </div>

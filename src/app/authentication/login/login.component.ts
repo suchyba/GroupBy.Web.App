@@ -5,8 +5,9 @@ import { AuthService } from '../../core/auth/auth.service';
 import { first } from 'rxjs/operators';
 
 @Component({
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
+    standalone: false
 })
 export class LoginComponent implements OnInit {
   @Input() returnUrl: string = '/'

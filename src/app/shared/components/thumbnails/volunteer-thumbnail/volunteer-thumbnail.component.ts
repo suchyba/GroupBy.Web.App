@@ -1,14 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { ISimpleVolunteer } from 'src/app/shared/models/volunteer/volunteer-simple.model';
 import { GroupService } from 'src/app/shared/services/group.service';
 import { ConfirmationYesNoModalComponent } from '../../modals/confirmation-yes-no-modal/confirmation-yes-no-modal.component';
 
 @Component({
-  selector: 'shr-volunteer-thumbnail',
-  templateUrl: './volunteer-thumbnail.component.html',
-  styleUrls: ['./volunteer-thumbnail.component.css']
+    selector: 'shr-volunteer-thumbnail',
+    templateUrl: './volunteer-thumbnail.component.html',
+    styleUrls: ['./volunteer-thumbnail.component.css'],
+    standalone: false
 })
 export class VolunteerThumbnailComponent implements OnInit {
   @Input() volunteer: ISimpleVolunteer | undefined
@@ -17,7 +18,7 @@ export class VolunteerThumbnailComponent implements OnInit {
 
   @Output() onRemovedFromGroupEvent: EventEmitter<void> = new EventEmitter<void>()
   constructor(
-    private modalService: BsModalService,
+    private modalService: NgbModal,
     private toastrService: ToastrService,
     private groupService: GroupService) { }
 
@@ -25,12 +26,13 @@ export class VolunteerThumbnailComponent implements OnInit {
   }
 
   openConfirmation(action: (object: any) => void): boolean {
-    const modalRef = this.modalService.show(ConfirmationYesNoModalComponent, { initialState: { message: `You are sure you want to kick ${this.volunteer?.firstNames} ${this.volunteer?.lastName} out from the group?` } })
-    modalRef.onHidden?.subscribe(() => {
-      if (modalRef.content?.result) {
+    const modalRef = this.modalService.open(ConfirmationYesNoModalComponent)
+    
+    modalRef.componentInstance.message = `You are sure you want to kick ${this.volunteer?.firstNames} ${this.volunteer?.lastName} out from the group?`
+    
+    modalRef.result.then(() => {
         action(this)
-      }
-    })
+      })
     return false
   }
 

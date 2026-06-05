@@ -1,36 +1,44 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid py-2">
-        <a class="navbar-brand" [routerLink]="['/']">GroupBy</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse me-auto" id="navbarNavAltMarkup">
-            <ul class="navbar-nav mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" [routerLink]="['/']">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/groups']">Groups</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/projects']">Projects</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/admin']">Admin</a>
-                </li>
-            </ul>
-          
-            <div class="ms-auto">
-                <div class="btn-group mx-3">
-                    <button class="btn btn-outline-primary" type="button" *ngIf="!isLogged" [routerLink]="['/auth/login']">Sign in</button>
-                    <button class="btn btn-outline-success" type="button" *ngIf="!isLogged" [routerLink]="['/auth/register']">Sign up</button>
-                </div>
+  <div class="container-fluid py-2">
+    <a class="navbar-brand" [routerLink]="['/']">GroupBy</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse me-auto" id="navbarNavAltMarkup">
+      <ul class="navbar-nav mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" [routerLink]="['/']">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/groups']">Groups</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/projects']">Projects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin']">Admin</a>
+        </li>
+      </ul>
 
-                <a class="navbar-text" [routerLink]="['/account/manage']" *ngIf="isLogged">Hello {{nameObs | async}}</a>
-                <button class="btn btn-outline-warning mx-3" type="button" *ngIf="isLogged" (click)="logout()">Sign out</button>
-            </div>
+      <div class="ms-auto">
+        <div class="btn-group mx-3">
+          @if (!isLogged) {
+            <button class="btn btn-outline-primary" type="button" [routerLink]="['/auth/login']">Sign in</button>
+          }
+          @if (!isLogged) {
+            <button class="btn btn-outline-success" type="button" [routerLink]="['/auth/register']">Sign up</button>
+          }
         </div>
 
+        @if (isLogged) {
+          <a class="navbar-text" [routerLink]="['/account/manage']">Hello {{nameObs | async}}</a>
+        }
+        @if (isLogged) {
+          <button class="btn btn-outline-warning mx-3" type="button" (click)="logout()">Sign out</button>
+        }
+      </div>
     </div>
+
+  </div>
 </nav>

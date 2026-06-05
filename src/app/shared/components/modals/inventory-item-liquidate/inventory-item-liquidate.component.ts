@@ -1,7 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { ISimpleDocument } from 'src/app/shared/models/document/document-simple.model';
 import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
@@ -20,7 +20,8 @@ import { DocumentAddModalComponent } from '../document-add-modal/document-add-mo
 @Component({
   selector: 'app-inventory-item-liquidate',
   templateUrl: './inventory-item-liquidate.component.html',
-  styleUrls: ['./inventory-item-liquidate.component.css']
+  styleUrls: ['./inventory-item-liquidate.component.css'],
+  standalone: false
 })
 export class InventoryItemLiquidateComponent implements OnInit {
   @Input() recordToCreate: ICreateInventoryBookRecord | undefined
@@ -46,7 +47,7 @@ export class InventoryItemLiquidateComponent implements OnInit {
 
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private modalRef: BsModalRef,
+    private modalRef: NgbActiveModal,
     private toastrService: ToastrService,
     private inventoryItemSourceService: InventoryItemSourceService,
     private inventoryBookRecordService: InventoryBookRecordService,
@@ -54,12 +55,12 @@ export class InventoryItemLiquidateComponent implements OnInit {
     private inventoryItemService: InventoryItemService,
     private documentService: DocumentService,
     private groupService: GroupService,
-    private modalService: BsModalService) {
+    private modalService: NgbModal) {
     this.recordAddForm = formBuilder.group({})
   }
 
   ngOnInit(): void {
-    this.modalRef.setClass('modal-lg')
+    this.modalRef.update({ size: 'lg' })
     this.recordAddForm = this.formBuilder.group({
       inventoryBookId: [this.recordToCreate?.inventoryBookId, Validators.required],
       itemId: [this.recordToCreate?.itemId, Validators.required],
@@ -72,7 +73,7 @@ export class InventoryItemLiquidateComponent implements OnInit {
     if (this.group) {
       this.loadLists()
     }
-    else if (this.recordToCreate){
+    else if (this.recordToCreate) {
       this.inventoryBookService.getInventoryBook(this.recordToCreate.inventoryBookId).subscribe(book => {
         this.group = book.relatedGroup
         this.loadLists()
@@ -200,7 +201,7 @@ export class InventoryItemLiquidateComponent implements OnInit {
     }).subscribe({
       complete: () => {
         this.toastrService.success(`Successfully liquidated inventory item`)
-            this.modalRef.hide()
+        this.modalRef.close()
       },
       error: (error) => {
         this.error = error;
@@ -212,28 +213,26 @@ export class InventoryItemLiquidateComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.modalRef.hide()
+    this.modalRef.close()
   }
 
   openAddDocumentModal(): void {
     if (this.group) {
-      let modal = this.modalService.show(DocumentAddModalComponent, {
-        initialState: {
-          documentToCreate: {
-            name: "",
-            filePath: "null",
-            groupsId: [this.group.id],
-            relatedProjectId: undefined
-          }
+      let modal = this.modalService.open(DocumentAddModalComponent)
+
+      modal.componentInstance.documentToCreate = {
+        name: "",
+        filePath: "null",
+        groupsId: [this.group.id],
+        relatedProjectId: undefined
+      }
+
+      modal.closed.subscribe(() => {
+        if (modal.componentInstance?.createdDocument && this.documentList) {
+          this.documentList.push(modal.componentInstance.createdDocument)
+          this.fields['documentId'].setValue(modal.componentInstance.createdDocument.id)
         }
       })
-      if (modal.onHidden)
-        modal.onHidden.subscribe(() => {
-          if (modal.content?.createdDocument && this.documentList) {
-            this.documentList.push(modal.content.createdDocument)
-            this.fields['documentId'].setValue(modal.content.createdDocument.id)
-          }
-        })
     }
   }
 }

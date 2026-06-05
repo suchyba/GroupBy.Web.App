@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { InventoryBookRecordAddModalComponent } from 'src/app/shared/components/modals/inventory-book-record-add-modal/inventory-book-record-add-modal.component';
 import { InventoryBookRecordTransferModalComponent } from 'src/app/shared/components/modals/inventory-book-record-transfer-modal/inventory-book-record-transfer-modal.component';
 import { InventoryItemHistoryModalComponent } from 'src/app/shared/components/modals/inventory-item-history-modal/inventory-item-history-modal.component';
@@ -12,8 +12,9 @@ import { IInventoryItem } from 'src/app/shared/models/inventory-item/inventory-i
 import { InventoryBookService } from 'src/app/shared/services/inventory-book.service';
 
 @Component({
-  templateUrl: './inventory-book-details.component.html',
-  styleUrls: ['./inventory-book-details.component.css']
+    templateUrl: './inventory-book-details.component.html',
+    styleUrls: ['./inventory-book-details.component.css'],
+    standalone: false
 })
 export class InventoryBookDetailsComponent implements OnInit {
   @Input() inventoryBook: IInventoryBook | undefined
@@ -25,7 +26,7 @@ export class InventoryBookDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private inventoryBookService: InventoryBookService,
-    private modalService: BsModalService) { }
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.inventoryBook = this.route.snapshot.data['inventoryBook']
@@ -49,20 +50,17 @@ export class InventoryBookDetailsComponent implements OnInit {
 
   openInventoryBookRecordAddModal(): void {
     if (this.inventoryBook) {
-      let modalRef = this.modalService.show(InventoryBookRecordAddModalComponent, {
-        initialState: {
-          recordToCreate: {
-            inventoryBookId: this.inventoryBook.id,
-            date: undefined,
-            documentId: undefined,
-            income: true,
-            itemId: undefined,
-            sourceId: undefined
-          },
-          inventoryBook: this.inventoryBook
-        }
-      })
-      modalRef.onHidden?.subscribe(() => {
+      const modalRef = this.modalService.open(InventoryBookRecordAddModalComponent, { size: 'lg' })
+      modalRef.componentInstance.recordToCreate = {
+        inventoryBookId: this.inventoryBook.id,
+        date: undefined,
+        documentId: undefined,
+        income: true,
+        itemId: undefined,
+        sourceId: undefined
+      }
+      modalRef.componentInstance.inventoryBook = this.inventoryBook
+      modalRef.closed.subscribe(() => {
         this.records = undefined
         this.items = undefined
         this.reloadLists();
@@ -72,20 +70,17 @@ export class InventoryBookDetailsComponent implements OnInit {
 
   openLiquidateItemModal(): void {
     if (this.inventoryBook) {
-      let modalRef = this.modalService.show(InventoryItemLiquidateComponent, {
-        initialState: {
-          recordToCreate: {
-            inventoryBookId: this.inventoryBook.id,
-            date: undefined,
-            documentId: undefined,
-            income: false,
-            itemId: undefined,
-            sourceId: undefined
-          },
-          inventoryBook: this.inventoryBook
-        }
-      })
-      modalRef.onHidden?.subscribe(() => {
+      const modalRef = this.modalService.open(InventoryItemLiquidateComponent, { size: 'lg' })
+      modalRef.componentInstance.recordToCreate = {
+        inventoryBookId: this.inventoryBook.id,
+        date: undefined,
+        documentId: undefined,
+        income: false,
+        itemId: undefined,
+        sourceId: undefined
+      }
+      modalRef.componentInstance.inventoryBook = this.inventoryBook
+      modalRef.closed.subscribe(() => {
         this.records = undefined
         this.items = undefined
         this.reloadLists();
@@ -95,21 +90,18 @@ export class InventoryBookDetailsComponent implements OnInit {
 
   openInventoryBookRecordTransferModal(): void {
     if (this.inventoryBook) {
-      let modalRef = this.modalService.show(InventoryBookRecordTransferModalComponent, {
-        initialState: {
-          recordToCreate: {
-            inventoryBookFromId: this.inventoryBook.id,
-            date: undefined,
-            documentName: undefined,
-            itemId: undefined,
-            inventoryBookToId: undefined,
-            sourceFromId: undefined,
-            sourceToId: undefined
-          },
-          inventoryBookFrom: this.inventoryBook
-        }
-      })
-      modalRef.onHidden?.subscribe(() => {
+      const modalRef = this.modalService.open(InventoryBookRecordTransferModalComponent, { size: 'lg' })
+      modalRef.componentInstance.recordToCreate = {
+        inventoryBookFromId: this.inventoryBook.id,
+        date: undefined,
+        documentName: undefined,
+        itemId: undefined,
+        inventoryBookToId: undefined,
+        sourceFromId: undefined,
+        sourceToId: undefined
+      }
+      modalRef.componentInstance.inventoryBookFrom = this.inventoryBook
+      modalRef.closed.subscribe(() => {
         this.records = undefined
         this.items = undefined
         this.reloadLists();
@@ -123,21 +115,18 @@ export class InventoryBookDetailsComponent implements OnInit {
 
   liquidateItem(item: IInventoryItem) {
     if (this.inventoryBook) {
-      let modalRef = this.modalService.show(InventoryItemLiquidateComponent, {
-        initialState: {
-          recordToCreate: {
-            inventoryBookId: this.inventoryBook.id,
-            date: undefined,
-            documentId: undefined,
-            income: false,
-            itemId: item.id,
-            sourceId: undefined
-          },
-          inventoryBook: this.inventoryBook,
-          item: item
-        }
-      })
-      modalRef.onHidden?.subscribe(() => {
+      const modalRef = this.modalService.open(InventoryItemLiquidateComponent, { size: 'lg' })
+      modalRef.componentInstance.recordToCreate = {
+        inventoryBookId: this.inventoryBook.id,
+        date: undefined,
+        documentId: undefined,
+        income: false,
+        itemId: item.id,
+        sourceId: undefined
+      }
+      modalRef.componentInstance.inventoryBook = this.inventoryBook
+      modalRef.componentInstance.item = item
+      modalRef.closed.subscribe(() => {
         this.records = undefined
         this.items = undefined
         this.reloadLists();
@@ -147,22 +136,19 @@ export class InventoryBookDetailsComponent implements OnInit {
 
   transferItem(item: IInventoryItem) {
     if (this.inventoryBook) {
-      let modalRef = this.modalService.show(InventoryBookRecordTransferModalComponent, {
-        initialState: {
-          recordToCreate: {
-            inventoryBookFromId: this.inventoryBook.id,
-            date: undefined,
-            documentName: undefined,
-            itemId: item.id,
-            inventoryBookToId: undefined,
-            sourceFromId: undefined,
-            sourceToId: undefined
-          },
-          inventoryBookFrom: this.inventoryBook,
-          itemList: [item]
-        }
-      })
-      modalRef.onHidden?.subscribe(() => {
+      const modalRef = this.modalService.open(InventoryBookRecordTransferModalComponent, { size: 'lg' })
+      modalRef.componentInstance.recordToCreate = {
+        inventoryBookFromId: this.inventoryBook.id,
+        date: undefined,
+        documentName: undefined,
+        itemId: item.id,
+        inventoryBookToId: undefined,
+        sourceFromId: undefined,
+        sourceToId: undefined
+      }
+      modalRef.componentInstance.inventoryBookFrom = this.inventoryBook
+      modalRef.componentInstance.itemList = [item]
+      modalRef.closed.subscribe(() => {
         this.records = undefined
         this.items = undefined
         this.reloadLists();
@@ -172,11 +158,8 @@ export class InventoryBookDetailsComponent implements OnInit {
 
   showItemHistory(item: IInventoryItem) {
     if (this.inventoryBook) {
-      let modalRef = this.modalService.show(InventoryItemHistoryModalComponent, {
-        initialState: {
-          item: item
-        }
-      })
+      const modalRef = this.modalService.open(InventoryItemHistoryModalComponent, { size: 'lg' })
+      modalRef.componentInstance.item = item
     }
   }
 }

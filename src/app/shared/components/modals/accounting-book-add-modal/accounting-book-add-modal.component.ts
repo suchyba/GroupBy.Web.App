@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs';
 import { AuthService } from 'src/app/core/auth/auth.service';
@@ -11,8 +11,9 @@ import { GroupService } from 'src/app/shared/services/group.service';
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 
 @Component({
-  templateUrl: './accounting-book-add-modal.component.html',
-  styleUrls: ['./accounting-book-add-modal.component.css']
+    templateUrl: './accounting-book-add-modal.component.html',
+    styleUrls: ['./accounting-book-add-modal.component.css'],
+    standalone: false
 })
 export class AccountingBookAddModalComponent implements OnInit {
   @Input() bookToCreate: ICreateAccountingBook | undefined
@@ -25,7 +26,7 @@ export class AccountingBookAddModalComponent implements OnInit {
   public errorMessage: string = ''
 
   constructor(
-    public bsModalRef: BsModalRef,
+    public bsModalRef: NgbActiveModal,
     private accountingBookService: AccountingBookService,
     private formBuilder: UntypedFormBuilder,
     private groupService: GroupService,
@@ -37,7 +38,7 @@ export class AccountingBookAddModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bsModalRef.setClass('modal-lg')
+    this.bsModalRef.update({ size: 'lg' })
 
     this.accountingBookAddForm = this.formBuilder.group({
       book: [this.bookToCreate?.bookIdentificator, Validators.required],
@@ -94,7 +95,7 @@ export class AccountingBookAddModalComponent implements OnInit {
       .subscribe({
         complete: () => {
           this.toastrService.success(`Successfully created ${this.accountingBookAddForm.get('name')?.value} accounting book`)
-          this.bsModalRef.hide()
+          this.bsModalRef.close()
         },
         error: (error) => {
           this.error = error;

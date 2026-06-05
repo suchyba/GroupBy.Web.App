@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs';
 import { ICreateGroup } from 'src/app/shared/models/group/group-create.model';
@@ -10,8 +10,9 @@ import { GroupService } from 'src/app/shared/services/group.service';
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 
 @Component({
-  templateUrl: './group-add-modal.component.html',
-  styleUrls: ['./group-add-modal.component.css']
+    templateUrl: './group-add-modal.component.html',
+    styleUrls: ['./group-add-modal.component.css'],
+    standalone: false
 })
 export class GroupAddModalComponent implements OnInit {
   @Input() groupToCreate: ICreateGroup | undefined
@@ -25,7 +26,7 @@ export class GroupAddModalComponent implements OnInit {
   public errorMessage: string = ''
 
   constructor(
-    public bsModalRef: BsModalRef,
+    public bsModalRef: NgbActiveModal,
     private volunteerService: VolunteerService,
     private groupService: GroupService,
     private formBuilder: UntypedFormBuilder,
@@ -35,7 +36,7 @@ export class GroupAddModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bsModalRef.setClass('modal-lg')
+    this.bsModalRef.update({ size: 'lg' })
 
     this.groupAddForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -92,7 +93,7 @@ export class GroupAddModalComponent implements OnInit {
       .subscribe({
         complete: () => {
           this.toastrService.success(`Successfully created ${this.groupAddForm.get('name')?.value} group`)
-          this.bsModalRef.hide()
+          this.bsModalRef.close()
         },
         error: (error) => {
           this.error = error;

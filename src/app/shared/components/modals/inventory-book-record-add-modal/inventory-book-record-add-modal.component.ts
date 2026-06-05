@@ -1,7 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { ISimpleDocument } from 'src/app/shared/models/document/document-simple.model';
 import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
@@ -22,7 +22,8 @@ import { InventoryItemAddModalComponent } from '../inventory-item-add-modal/inve
 @Component({
   selector: 'app-inventory-book-record-add-modal',
   templateUrl: './inventory-book-record-add-modal.component.html',
-  styleUrls: ['./inventory-book-record-add-modal.component.css']
+  styleUrls: ['./inventory-book-record-add-modal.component.css'],
+  standalone: false
 })
 export class InventoryBookRecordAddModalComponent implements OnInit {
   @Input() recordToCreate: ICreateInventoryBookRecord | undefined
@@ -48,7 +49,7 @@ export class InventoryBookRecordAddModalComponent implements OnInit {
 
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private modalRef: BsModalRef,
+    private modalRef: NgbActiveModal,
     private toastrService: ToastrService,
     private inventoryItemSourceService: InventoryItemSourceService,
     private inventoryBookRecordService: InventoryBookRecordService,
@@ -56,12 +57,12 @@ export class InventoryBookRecordAddModalComponent implements OnInit {
     private inventoryItemService: InventoryItemService,
     private documentService: DocumentService,
     private groupService: GroupService,
-    private modalService: BsModalService) {
+    private modalService: NgbModal) {
     this.recordAddForm = formBuilder.group({})
   }
 
   ngOnInit(): void {
-    this.modalRef.setClass('modal-lg')
+    this.modalRef.update({ size: 'lg' })
     this.recordAddForm = this.formBuilder.group({
       inventoryBookId: [this.recordToCreate?.inventoryBookId, Validators.required],
       itemId: [this.recordToCreate?.itemId, Validators.required],
@@ -189,7 +190,7 @@ export class InventoryBookRecordAddModalComponent implements OnInit {
     }).subscribe({
       complete: () => {
         this.toastrService.success(`Successfully added inventory book record`)
-        this.modalRef.hide()
+        this.modalRef.close()
       },
       error: (error) => {
         this.error = error;
@@ -201,50 +202,48 @@ export class InventoryBookRecordAddModalComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.modalRef.hide()
+    this.modalRef.close()
   }
 
   openAddDocumentModal(): void {
     if (this.group) {
-      let modal = this.modalService.show(DocumentAddModalComponent, {
-        initialState: {
-          documentToCreate: {
-            name: "",
-            filePath: "null",
-            groupsId: [this.group.id],
-            relatedProjectId: undefined
-          }
+      let modal = this.modalService.open(DocumentAddModalComponent)
+
+      modal.componentInstance.documentToCreate = {
+        name: "",
+        filePath: "null",
+        groupsId: [this.group.id],
+        relatedProjectId: undefined
+      }
+
+      modal.closed.subscribe(() => {
+        if (modal.componentInstance?.createdDocument && this.documentList) {
+          this.documentList = [...this.documentList, modal.componentInstance.createdDocument]
+          this.fields['documentId'].setValue(modal.componentInstance.createdDocument.id)
         }
       })
-      if (modal.onHidden)
-        modal.onHidden.subscribe(() => {
-          if (modal.content?.createdDocument && this.documentList) {
-            this.documentList = [...this.documentList, modal.content.createdDocument]
-            this.fields['documentId'].setValue(modal.content.createdDocument.id)
-          }
-        })
     }
   }
 
   openAddItemModal(): void {
     if (this.group) {
-      let modal = this.modalService.show(InventoryItemAddModalComponent, {
-        initialState: {
-          itemToCreate: {
-            name: undefined,
-            description: undefined,
-            symbol: undefined,
-            value: undefined
-          }
+      let modal = this.modalService.open(InventoryItemAddModalComponent)
+
+      modal.componentInstance.itemToCreate = {
+        itemToCreate: {
+          name: undefined,
+          description: undefined,
+          symbol: undefined,
+          value: undefined
+        }
+      }
+
+      modal.closed.subscribe(() => {
+        if (modal.componentInstance?.createdItem && this.itemList) {
+          this.itemList = [...this.itemList, modal.componentInstance.createdItem]
+          this.fields['itemId'].setValue(modal.componentInstance.createdItem.id)
         }
       })
-      if (modal.onHidden)
-        modal.onHidden.subscribe(() => {
-          if (modal.content?.createdItem && this.itemList) {
-            this.itemList = [...this.itemList, modal.content.createdItem]
-            this.fields['itemId'].setValue(modal.content.createdItem.id)
-          }
-        })
     }
   }
 }

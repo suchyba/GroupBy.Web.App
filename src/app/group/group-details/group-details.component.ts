@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { AccountingBookAddModalComponent } from 'src/app/shared/components/modals/accounting-book-add-modal/accounting-book-add-modal.component';
@@ -18,8 +18,9 @@ import { AccountingBookListComponentModal } from '../group-details/accounting-bo
 import { AddMemberModalComponent } from './add-member-modal/add-member-modal.component';
 
 @Component({
-  templateUrl: './group-details.component.html',
-  styleUrls: ['./group-details.component.css']
+    templateUrl: './group-details.component.html',
+    styleUrls: ['./group-details.component.css'],
+    standalone: false
 })
 export class GroupDetailsComponent implements OnInit {
   @Input() group: IGroup | undefined
@@ -40,7 +41,7 @@ export class GroupDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private groupService: GroupService,
-    private modalService: BsModalService,
+    private modalService: NgbModal,
     private authService: AuthService,
     private volunteerService: VolunteerService,
     private toastrService: ToastrService) { }
@@ -126,25 +127,21 @@ export class GroupDetailsComponent implements OnInit {
   }
 
   openAccountingBooksModal(): void {
-    const modalRef = this.modalService.show(AccountingBookListComponentModal, { initialState: { groupId: this.group?.id } })
-
-    modalRef.onHidden?.subscribe(() => this.reloadAccountingBooks())
+    const modalRef = this.modalService.open(AccountingBookListComponentModal, { size: 'lg' })
+    modalRef.componentInstance.groupId = this.group?.id
+    modalRef.closed.subscribe(() => this.reloadAccountingBooks())
   }
 
   openAddGroupModal(): void {
     if (this.volunteerId) {
-      const modalRef = this.modalService.show(GroupAddModalComponent, {
-        initialState: {
-          groupToCreate: {
-            ownerId: this.volunteerId,
-            description: undefined,
-            name: undefined,
-            parentGroupId: this.group?.id
-          }
-        }
-      })
-
-      modalRef.onHidden?.subscribe(() => {
+      const modalRef = this.modalService.open(GroupAddModalComponent, { size: 'lg' })
+      modalRef.componentInstance.groupToCreate = {
+        ownerId: this.volunteerId,
+        description: undefined,
+        name: undefined,
+        parentGroupId: this.group?.id
+      }
+      modalRef.closed.subscribe(() => {
         if (this.group?.id)
           this.groupService.getChildGroups(this.group?.id).subscribe(groups => {
             this.childGroups = groups
@@ -155,39 +152,32 @@ export class GroupDetailsComponent implements OnInit {
 
   openAddAccountingBookModal(): void {
     if (this.volunteerId) {
-      const modalRef = this.modalService.show(AccountingBookAddModalComponent, {
-        initialState: {
-          bookToCreate: {
-            relatedGroupId: this.group?.id,
-            bookIdentificator: undefined,
-            bookOrderNumberId: undefined,
-            locked: false,
-            name: undefined
-          }
-        }
-      })
-      modalRef.onHidden?.subscribe(() => this.reloadAccountingBooks())
+      const modalRef = this.modalService.open(AccountingBookAddModalComponent, { size: 'lg' })
+      modalRef.componentInstance.bookToCreate = {
+        relatedGroupId: this.group?.id,
+        bookIdentificator: undefined,
+        bookOrderNumberId: undefined,
+        locked: false,
+        name: undefined
+      }
+      modalRef.closed.subscribe(() => this.reloadAccountingBooks())
     }
   }
 
   openAddProjectModal(): void {
     if (this.volunteerId) {
-      const modalRef = this.modalService.show(ProjectAddModalComponent, {
-        initialState: {
-          projectToCreate: {
-            parentGroupId: this.group?.id,
-            name: undefined,
-            description: undefined,
-            active: true,
-            beginDate: undefined,
-            endDate: undefined,
-            independent: false,
-            ownerId: this.volunteerId
-          }
-        }
-      })
-
-      modalRef.onHidden?.subscribe(() => {
+      const modalRef = this.modalService.open(ProjectAddModalComponent, { size: 'lg' })
+      modalRef.componentInstance.projectToCreate = {
+        parentGroupId: this.group?.id,
+        name: undefined,
+        description: undefined,
+        active: true,
+        beginDate: undefined,
+        endDate: undefined,
+        independent: false,
+        ownerId: this.volunteerId
+      }
+      modalRef.closed.subscribe(() => {
         if (this.group?.id)
           this.loadProjects()
       })
@@ -196,12 +186,9 @@ export class GroupDetailsComponent implements OnInit {
 
   openAddMemebersModal(): void {
     if (this.group) {
-      const modalRef = this.modalService.show(AddMemberModalComponent, {
-        initialState: {
-          groupId: this.group.id
-        }
-      })
-      modalRef.content?.volunteerAddedEvent.subscribe(vid => {
+      const modalRef = this.modalService.open(AddMemberModalComponent, { size: 'lg' })
+      modalRef.componentInstance.groupId = this.group.id
+      modalRef.componentInstance.volunteerAddedEvent?.subscribe((vid: string) => {
         this.loadMembers()
       })
     }
@@ -209,26 +196,21 @@ export class GroupDetailsComponent implements OnInit {
 
   openAddInventoryBookModal(): void {
     if (this.group) {
-      const modalRef = this.modalService.show(InventoryBookAddModalComponent, {
-        initialState: {
-          bookToCreate: {
-            name: '',
-            relatedGroupId: this.group.id
-          },
-          group: {
-            id: this.group.id,
-            name: this.group.name,
-            description: this.group.description,
-            hasInventoryBook: this.group.inventoryBook !== null
-          }
-        }
-      })
-
-      modalRef.content?.bookCreatedEvent.subscribe(createdBook => {
+      const modalRef = this.modalService.open(InventoryBookAddModalComponent, { size: 'lg' })
+      modalRef.componentInstance.bookToCreate = {
+        name: '',
+        relatedGroupId: this.group.id
+      }
+      modalRef.componentInstance.group = {
+        id: this.group.id,
+        name: this.group.name,
+        description: this.group.description,
+        hasInventoryBook: this.group.inventoryBook !== null
+      }
+      modalRef.componentInstance.bookCreatedEvent?.subscribe((createdBook: any) => {
         if (this.group)
           this.group.inventoryBook = createdBook
-
-        modalRef.content?.bookCreatedEvent.unsubscribe()
+        modalRef.componentInstance.bookCreatedEvent?.unsubscribe()
       })
     }
   }

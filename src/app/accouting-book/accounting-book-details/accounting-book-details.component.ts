@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationYesNoModalComponent } from 'src/app/shared/components/modals/confirmation-yes-no-modal/confirmation-yes-no-modal.component';
 import { FinancialIncomeRecordAddModalComponent } from 'src/app/shared/components/modals/financial-income-record-add-modal/financial-income-record-add-modal.component';
@@ -10,8 +10,9 @@ import { ISimpleFinancialRecord } from 'src/app/shared/models/financial-record/f
 import { AccountingBookService } from 'src/app/shared/services/accounting-book.service';
 
 @Component({
-  templateUrl: './accounting-book-details.component.html',
-  styleUrls: ['./accounting-book-details.component.css']
+    templateUrl: './accounting-book-details.component.html',
+    styleUrls: ['./accounting-book-details.component.css'],
+    standalone: false
 })
 export class AccountingBookDetailsComponent implements OnInit {
   private _accountingBook: IAccountingBook | undefined;
@@ -48,7 +49,7 @@ export class AccountingBookDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private accountingBookService: AccountingBookService,
-    private modalService: BsModalService,
+    private modalService: NgbModal,
     private router: Router,
     public toastrService: ToastrService) { }
 
@@ -200,61 +201,51 @@ export class AccountingBookDetailsComponent implements OnInit {
 
   openFinancialIncomeRecordAddModal(): void {
     if (this.accountingBook) {
-      let modal = this.modalService.show(FinancialIncomeRecordAddModalComponent, {
-        initialState: {
-          group: this.accountingBook?.relatedGroup,
-          recordToCreate: {
-            bookId: this.accountingBook?.id,
-            date: new Date(),
-            description: "",
-            dotation: 0,
-            earningAction: 0,
-            membershipFee: 0,
-            onePercent: 0,
-            other: 0,
-            programFee: 0,
-            relatedDocumentId: undefined,
-            relatedProjectId: undefined
-          }
-        }
-      })
-      if (modal.onHidden) {
-        modal.onHidden.subscribe(() => {
-          this.records = undefined
-          this.refreshFinancialRecords()
-        })
+      const modalRef = this.modalService.open(FinancialIncomeRecordAddModalComponent, { size: 'lg' })
+      modalRef.componentInstance.group = this.accountingBook?.relatedGroup
+      modalRef.componentInstance.recordToCreate = {
+        bookId: this.accountingBook?.id,
+        date: new Date(),
+        description: "",
+        dotation: 0,
+        earningAction: 0,
+        membershipFee: 0,
+        onePercent: 0,
+        other: 0,
+        programFee: 0,
+        relatedDocumentId: undefined,
+        relatedProjectId: undefined
       }
+      modalRef.closed.subscribe(() => {
+        this.records = undefined
+        this.refreshFinancialRecords()
+      })
     }
   }
   openFinancialOutcomeRecordAddModal(): void {
     if (this.accountingBook) {
-      let modal = this.modalService.show(FinancialOutcomeRecordAddModalComponent, {
-        initialState: {
-          group: this.accountingBook?.relatedGroup,
-          recordToCreate: {
-            bookId: this.accountingBook?.id,
-            date: new Date(),
-            description: "",
-            inventory: 0,
-            material: 0,
-            service: 0,
-            transport: 0,
-            insurance: 0,
-            accommodation: 0,
-            salary: 0,
-            food: 0,
-            other: 0,
-            relatedDocumentId: undefined,
-            relatedProjectId: undefined
-          }
-        }
-      })
-      if (modal.onHidden) {
-        modal.onHidden.subscribe(() => {
-          this.records = undefined
-          this.refreshFinancialRecords()
-        })
+      const modalRef = this.modalService.open(FinancialOutcomeRecordAddModalComponent, { size: 'lg' })
+      modalRef.componentInstance.group = this.accountingBook?.relatedGroup
+      modalRef.componentInstance.recordToCreate = {
+        bookId: this.accountingBook?.id,
+        date: new Date(),
+        description: "",
+        inventory: 0,
+        material: 0,
+        service: 0,
+        transport: 0,
+        insurance: 0,
+        accommodation: 0,
+        salary: 0,
+        food: 0,
+        other: 0,
+        relatedDocumentId: undefined,
+        relatedProjectId: undefined
       }
+      modalRef.closed.subscribe(() => {
+        this.records = undefined
+        this.refreshFinancialRecords()
+      })
     }
   }
   unlockBookClick(): void {
@@ -303,9 +294,10 @@ export class AccountingBookDetailsComponent implements OnInit {
   }
 
   openConfirmation(action: (object: any) => void): boolean {
-    const modalRef = this.modalService.show(ConfirmationYesNoModalComponent, { initialState: { message: 'You are sure you want to delete this accounting book?' } })
-    modalRef.onHidden?.subscribe(() => {
-      if (modalRef.content?.result) {
+    const modalRef = this.modalService.open(ConfirmationYesNoModalComponent)
+    modalRef.componentInstance.message = 'You are sure you want to delete this accounting book?'
+    modalRef.closed.subscribe(() => {
+      if (modalRef.componentInstance?.result) {
         action(this)
       }
     })

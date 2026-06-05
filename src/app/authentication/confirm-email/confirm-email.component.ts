@@ -4,8 +4,9 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Component({
-  templateUrl: './confirm-email.component.html',
-  styleUrls: ['./confirm-email.component.css']
+    templateUrl: './confirm-email.component.html',
+    styleUrls: ['./confirm-email.component.css'],
+    standalone: false
 })
 export class ConfirmEmailComponent implements OnInit {
 

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { ISimpleGroup } from 'src/app/shared/models/group/group-simple.model';
 import { ICreateInventoryBook } from 'src/app/shared/models/inventory-book/inventory-book-create.model';
@@ -10,8 +10,9 @@ import { InventoryBookService } from 'src/app/shared/services/inventory-book.ser
 import { VolunteerService } from 'src/app/shared/services/volunteer.service';
 
 @Component({
-  templateUrl: './inventory-book-add-modal.component.html',
-  styleUrls: ['./inventory-book-add-modal.component.css']
+    templateUrl: './inventory-book-add-modal.component.html',
+    styleUrls: ['./inventory-book-add-modal.component.css'],
+    standalone: false
 })
 export class InventoryBookAddModalComponent implements OnInit {
   @Input() bookToCreate: ICreateInventoryBook | undefined
@@ -37,13 +38,13 @@ export class InventoryBookAddModalComponent implements OnInit {
     private volunteerService: VolunteerService,
     private formBuilder: UntypedFormBuilder,
     private toastrService: ToastrService,
-    public modalRef: BsModalRef
+    public modalRef: NgbActiveModal
   ) {
     this.bookAddForm = formBuilder.group({});
   }
 
   ngOnInit(): void {
-    this.modalRef.setClass('modal-lg')
+    this.modalRef.update({ size: 'lg' })
     this.bookAddForm = this.formBuilder.group({
       name: [this.bookToCreate?.name, Validators.required],
       relatedGroupId: [this.bookToCreate?.relatedGroupId, Validators.required]
@@ -93,7 +94,7 @@ export class InventoryBookAddModalComponent implements OnInit {
       },
       complete: () => {
         this.toastrService.success(`Successfully created ${book.name} inventory book`)
-        this.modalRef.hide()
+        this.modalRef.close()
         this.bookCreatedEvent.emit(this.createdBook)
       },
       error: (error) => {
